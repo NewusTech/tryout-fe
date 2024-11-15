@@ -39,7 +39,7 @@ const Navbar = () => {
                         {/* <img className="h-full object-cover" src={`${scrolled ? 'Images/alin2.png' : 'Images/alin.png '
                             }`} alt="" /> */}
                     </div>
-                    <div className="wrap flex gap-7  items-center">
+                    {/* <div className="wrap flex gap-7  items-center">
                         <div className={`nav flex gap-7 text-[18px] text-white ${scrolled ? 'text-white' : ''}`}>
                             <Link
                                 href="/"
@@ -79,7 +79,7 @@ const Navbar = () => {
                             </Link>
 
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             {/* responsive */}

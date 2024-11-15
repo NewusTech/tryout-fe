@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+input[type="radio"] {
+  accent-color: purple;
+}
+
+
 /* Import Gotham font with various weights and styles */
 @font-face {
   font-family: "Gotham";
