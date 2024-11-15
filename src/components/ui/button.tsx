@@ -10,14 +10,16 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-primary text-slate-50 hover:bg-primary-hover",
-        pagination: "bg-[#3D3D3D] text-slate-50 hover:bg-[#3D3D3D]/80",
+        pagination: "bg-primary text-slate-50 hover:bg-primary-hover",
         primary: "bg-primary text-slate-50 hover:bg-primary/90",
         destructive:
           "bg-danger text-slate-50 hover:bg-danger/90",
         outline:
           "border border-[#E4E4E7] bg-white hover:bg-slate-100 hover:text-slate-900",
         outlinePrimary:
-          "border border-primary bg-white hover:bg-slate-100 hover:text-slate-900",
+          "border border-primary bg-white hover:bg-slate-100 text-primary",
+        outlineSecondary:
+          "border border-secondary bg-white hover:bg-slate-100 text-primary",
         secondary:
           "bg-secondary text-white hover:bg-secondary/90",
         ghost: "hover:bg-slate-100 hover:text-slate-900 ",

@@ -132,22 +132,53 @@ const LoginPage = () => {
                 <div className="right px-4 md:mx-0 w-full h-full flex flex-col justify-center items-center">
                     <div className="card w-full bg-white rounded-[40px] shadow dark:border md:mt-0 sm:max-w-2xl mx-3 xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                         <div className="p-6 sm:p-8">
-                            <div className="head my-3 mb-5 flex flex-col gap-3">
-                                <div className="log flex justify-center md:mb-7">
-                                    <Image
-                                        src="/assets/images/logo-login.png"
-                                        alt="logo"
-                                        width={400}
-                                        height={400}
-                                        unoptimized
-                                        className="w-[300px] object-contain"
-                                    />
-                                </div>
+                            <div className="head my-3 mb-7 flex flex-col gap-1">
+                                <div className="text-primary font-semibold text-2xl">Daftar Akun</div>
+                                <div className="text-primary text-sm">Sudah Punya Akun? Silahkan <Link className="font-semibold" href="/login">Masuk</Link></div>
                             </div>
                             <form
                                 className="flex flex-col gap-4"
                                 onSubmit={handleSubmit(onSubmit)}
                             >
+                                {/*  */}
+                                <div>
+                                    <label
+                                        htmlFor="email"
+                                        className="block mb-2 text-sm md:text-base font-medium text-primary "
+                                    >
+                                        Nama
+                                    </label>
+                                    <Input
+                                        type="text"
+                                        id="email"
+                                        {...register("email")}
+                                        className="border border-gray-300 text-gray-900 sm:text-sm rounded-full focus:primary focus:border-primary block w-full"
+                                        placeholder="Masukkan nama"
+                                    />
+                                    {errors.email && (
+                                        <HelperError>{errors.email.message}</HelperError>
+                                    )}
+                                </div>
+                                {/*  */}
+                                <div>
+                                    <label
+                                        htmlFor="email"
+                                        className="block mb-2 text-sm md:text-base font-medium text-primary "
+                                    >
+                                        Nomor Telepon
+                                    </label>
+                                    <Input
+                                        type="number"
+                                        id="email"
+                                        {...register("email")}
+                                        className="border border-gray-300 text-gray-900 sm:text-sm rounded-full focus:primary focus:border-primary block w-full"
+                                        placeholder="Masukkan nomor telepon"
+                                    />
+                                    {errors.email && (
+                                        <HelperError>{errors.email.message}</HelperError>
+                                    )}
+                                </div>
+                                {/*  */}
                                 <div>
                                     <label
                                         htmlFor="email"
@@ -161,12 +192,12 @@ const LoginPage = () => {
                                         {...register("email")}
                                         className="border border-gray-300 text-gray-900 sm:text-sm rounded-full focus:primary focus:border-primary block w-full"
                                         placeholder="name@email.com"
-                                        leftIcon={<UserIcon />}
                                     />
                                     {errors.email && (
                                         <HelperError>{errors.email.message}</HelperError>
                                     )}
                                 </div>
+                                {/*  */}
                                 <div>
                                     <label
                                         htmlFor="password"
@@ -190,41 +221,14 @@ const LoginPage = () => {
                                 {loginError && (
                                     <div className="text-red-500 mt-2 text-center">{loginError}</div>
                                 )}
-                                <div className="wrap flex md:flex-row flex-col justify-end">
-                                    <p className="text-start mb-1 text-sm md:text-base ">
-                                        <Link
-                                            href="/forgot-password"
-                                            className="text-primary text-sm font-medium hover:underline"
-                                        >
-                                            Lupa Kata Sandi?
-                                        </Link>
-                                    </p>
-                                </div>
                                 <Button
                                     type="submit"
                                     className="text-white bg-primary py-3 px-4 rounded-full w-full my-1"
                                     disabled={loading}
                                 >
-                                    {loading ? <Loading /> : "Masuk"}
+                                    {loading ? <Loading /> : "Daftar"}
                                 </Button>
-                                <Link href="/register"
-                                className="bg-white border border-primary rounded-full py-3 px-4 text-primary font-medium hover:bg-slate-100 w-full text-center duration-200 hover:text-primary transition ease-in-out delay-150 hover:-translate-y-1" 
-                                >
-                                Daftar
-                                </Link>
-                                <p className="text-center md:hidden mb-1 mt-0 text-sm md:text-base md:mb-5">
-                                    Belum punya akun? {" "}
-                                    <Link
-                                        href="/register"
-                                        className="font-medium text-primary hover:underline"
-                                    >
-                                        Daftar Perusahaan
-                                    </Link>
-                                </p>
                             </form>
-                            <div className="mt-6 md:text-base text-sm text-primary text-center">
-                                Dengan mendaftar, Kamu telah menyetujui <span onClick={() => handleOpenPopup()} className="text-primary cursor-pointer hover:underline font-medium">Syarat & Ketentuan</span> kami dan Kamu telah membaca <span onClick={() => handleOpenPopupKebijakan()} className="text-primary cursor-pointer hover:underline font-medium">Kebijakan Privasi</span> kami.
-                            </div>
                         </div>
                     </div>
                 </div>
