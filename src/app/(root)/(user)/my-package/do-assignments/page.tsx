@@ -5,6 +5,10 @@ import { Button } from '@/components/ui/button';
 
 const DoAssignments = () => {
 
+    const handleStart = () => {
+        window.location.href = '/my-package/do-assignments/start';
+    };
+
     return (
         <div>
             <div className='text-srBlack overflow-x-hidden'>
@@ -76,7 +80,11 @@ const DoAssignments = () => {
                             </div>
                             {/* button */}
                             <div className="mt-7 flex justify-center">
-                                <Button className='px-10'>Mulai</Button>
+                                <Button
+                                    onClick={handleStart}
+                                    className='px-10'>
+                                    Mulai
+                                </Button>
                             </div>
                         </div>
                     </div>

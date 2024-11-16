@@ -40,11 +40,9 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
         <div className="Table mt-3">
             <Table>
                 <TableHeader>
-                    <TableRow>
                         {headers.map((header, index) => (
                             <TableHead key={index}>{header}</TableHead>
                         ))}
-                    </TableRow>
                 </TableHeader>
                 <TableBody>
                     {data?.length > 0 ? (
@@ -53,29 +51,31 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                                 <TableCell className="text-center">
                                     {(currentPage - 1) * 10 + (index + 1)}
                                 </TableCell>
-                                <TableCell>{user.grade ?? "-"}</TableCell>
+                                <TableCell className="text-center">{user.grade ?? "-"}</TableCell>
                                 <TableCell className="text-center">{user.rank ?? "-"}</TableCell>
                                 <TableCell className="text-center">{user.skor ?? "-"}</TableCell>
-                                <TableCell className={`text-center font-medium ${user.status === "Lulus" ? "text-green-500" : "text-red-500"}`}>
-                                    {user.status === "Lulus" ? "Lulus" : "Tidak Lulus"}
+                                <TableCell >
+                                    <div className={`text-center font-medium ${user.status === "Lulus" ? "text-succes bg-succes/20 p-2 rounded-full" : "text-error bg-error/20 p-2 rounded-full"}`}>
+                                        {user.status === "Lulus" ? "Lulus" : "Tidak Lulus"}
+                                    </div>
                                 </TableCell>
                                 <TableCell className="text-center">{user.durasiPengerjaan ?? "-"}</TableCell>
                                 {/*  */}
-                                <TableCell className="text-center justify-center flex gap-2">
-                                    <div className="flex gap-2">
-                                        <LinkCustom 
-                                        className="text-white bg-secondary"
-                                        href="/my-package/history/statistik">
+                                <TableCell className="text-center">
+                                    <div className="flex gap-2 justify-center">
+                                        <LinkCustom
+                                            className="text-white bg-secondary"
+                                            href="/my-package/history/statistik">
                                             Statistik
                                         </LinkCustom>
-                                        <LinkCustom 
-                                        className="text-white"
-                                        href="/my-package/history/discussion">
+                                        <LinkCustom
+                                            className="text-white"
+                                            href="/my-package/history/discussion">
                                             Pembahasan
                                         </LinkCustom>
-                                        <LinkCustom 
-                                        className="text-primary bg-white border border-primary"
-                                        href="/my-package/history/ranking">
+                                        <LinkCustom
+                                            className="text-primary bg-white border border-primary"
+                                            href="/my-package/history/ranking">
                                             Ranking
                                         </LinkCustom>
                                     </div>

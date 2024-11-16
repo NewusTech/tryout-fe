@@ -88,7 +88,7 @@ const Ranking = () => {
             <div className="bread flex text-primary gap-3 items-center">
               <Link href="/my-package">Paket Saya</Link>
               <ArrowBread />
-              <Link href="/my-package/history">History</Link>
+              <Link href="/my-package/history">Riwayat</Link>
               <ArrowBread />
               <div className="font-medium">Ranking</div>
             </div>
