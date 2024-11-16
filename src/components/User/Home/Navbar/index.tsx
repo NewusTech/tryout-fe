@@ -30,7 +30,7 @@ const Navbar = () => {
     return (
         <div className="">
             <div
-                className={`fixed  hidden md:block w-full z-50 transition-all duration-300 ease-in-out ${scrolled ? 'bg-secondary/10' : 'bg-primary'
+                className={`fixed  hidden md:block w-full z-50 transition-all duration-300 ease-in-out ${scrolled ? 'bg-primary/10' : 'bg-primary'
                     }`}
             >
                 <div className="wrap py-2 m-auto container flex justify-between items-center">

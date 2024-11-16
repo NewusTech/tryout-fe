@@ -42,11 +42,9 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
         <div className="Table mt-3">
             <Table>
                 <TableHeader>
-                    <TableRow>
                         {headers.map((header, index) => (
                             <TableHead key={index}>{header}</TableHead>
                         ))}
-                    </TableRow>
                 </TableHeader>
                 <TableBody>
                     {data?.length > 0 ? (
