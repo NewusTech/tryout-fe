@@ -4,6 +4,16 @@ import Link from "next/link";
 import Burger from "../../../../../public/assets/icons/burger";
 import Close from "../../../../../public/assets/icons/close";
 import { usePathname } from "next/navigation";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import Image from "next/image";
+import ArrowDown from "../../../../../public/assets/icons/ArrowDown";
 
 const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
@@ -30,7 +40,7 @@ const Navbar = () => {
     return (
         <div className="">
             <div
-                className={`fixed  hidden md:block w-full z-50 transition-all duration-300 ease-in-out ${scrolled ? 'bg-primary/10' : 'bg-primary'
+                className={`fixed  hidden md:block w-full z-50 transition-all duration-300 ease-in-out ${scrolled ? 'bg-primary/50' : 'bg-primary'
                     }`}
             >
                 <div className="wrap py-2 m-auto container flex justify-between items-center">
@@ -69,7 +79,7 @@ const Navbar = () => {
                                 Paket Saya
                             </Link>
                         </div>
-
+                        {/*  */}
                         <div className="wrap ml-4 flex gap-3 items-center">
                             <Link href="/login" className="loginn bg-secondary p-2 px-12 hover:bg-secondary-hover  rounded-full text-white">
                                 Login
@@ -77,6 +87,55 @@ const Navbar = () => {
                             <Link href="/register" className="loginn bg-white p-2 px-12 hover:bg-secondary-hover  rounded-full text-primary">
                                 Daftar
                             </Link>
+                        </div>
+                        {/* profile */}
+                        <div className="wrap ml-4 flex gap-3 items-center">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger>
+                                    <div className="flex items-center gap-3 text-white">
+                                        <div className="h-[35px] w-[35px] border border-white rounded-full overflow-hidden">
+                                            <Image
+                                                src="/assets/images/Profile-nav.png"
+                                                alt="logo"
+                                                width={1000}
+                                                height={1000}
+                                                unoptimized
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </div>
+                                        <div className="">Qurrota Aini</div>
+                                        <div className="">
+                                            <ArrowDown />
+                                        </div>
+                                    </div>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="bg-white mt-2">
+                                    <DropdownMenuItem>
+                                        <Link 
+                                        className={`${pathname === "/profile"
+                                            ? "font-bold text-primary"
+                                            : "text-black"}`}
+                                        href="/profile">
+                                            Profile
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        <Link 
+                                        className={`${pathname === "/profile/forgot-password"
+                                            ? "font-bold text-primary"
+                                            : "text-black"}`}
+                                        href="/profile/forgot-password">
+                                            Ganti Kata Sandi
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        <Link 
+                                        href="/">
+                                            Keluar
+                                        </Link>
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
 
                         </div>
                     </div>
