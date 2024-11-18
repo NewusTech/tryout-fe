@@ -9,14 +9,12 @@ interface PropsLink {
 
 const LinkCustom = ({ href, className, children }: PropsLink) => {
     return (
-        <div className='transition ease-in-out delay-150 hover:-translate-y-1'>
             <Link
                 href={href}
-                className={`bg-primary py-3 px-6 rounded-full transition ease-in-out delay-150 hover:-translate-y-1 ${className || ""}`}
+                className={`bg-primary block py-2 md:text-base text-sm md:py-2.5 px-6 rounded-full transition ease-in-out delay-150 hover:-translate-y-1 text-center ${className || ""}`}
             >
                 {children}
             </Link>
-        </div>
     );
 };
 

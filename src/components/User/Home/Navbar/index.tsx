@@ -111,26 +111,26 @@ const Navbar = () => {
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className="bg-white mt-2">
                                     <DropdownMenuItem>
-                                        <Link 
-                                        className={`${pathname === "/profile"
-                                            ? "font-bold text-primary"
-                                            : "text-black"}`}
-                                        href="/profile">
+                                        <Link
+                                            className={`${pathname === "/profile"
+                                                ? "font-bold text-primary"
+                                                : "text-black"}`}
+                                            href="/profile">
                                             Profile
                                         </Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem>
-                                        <Link 
-                                        className={`${pathname === "/profile/forgot-password"
-                                            ? "font-bold text-primary"
-                                            : "text-black"}`}
-                                        href="/profile/forgot-password">
+                                        <Link
+                                            className={`${pathname === "/profile/forgot-password"
+                                                ? "font-bold text-primary"
+                                                : "text-black"}`}
+                                            href="/profile/forgot-password">
                                             Ganti Kata Sandi
                                         </Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem>
-                                        <Link 
-                                        href="/">
+                                        <Link
+                                            href="/">
                                             Keluar
                                         </Link>
                                     </DropdownMenuItem>
@@ -143,27 +143,104 @@ const Navbar = () => {
             </div>
             {/* responsive */}
             <div
-                className={`fixed w-full z-50 transition-all duration-300 ease-in-out bg-primary block md:hidden`}
+                className={`fixed w-full z-50 transition-all duration-300 ease-in-out bg-primary-hover md:hidden`}
             >
                 <div className="wrap py-2 px-2 m-auto container flex justify-between items-center">
                     <div className="nav flex items-end flex-col gap-1 text-[17px]  w-full text-white">
                         <div className="wrap-head flex  w-full items-center justify-between">
-                            <div className="logo">
-                                <img className="h-[40px]" src="/assets/images/logo-nav.png" alt="" />
-                            </div>
                             <div className="res bg-primary2 rounded-md w-[50px] h-[50px] flex justify-center items-center text-[40px] font-bold cursor-pointer" onClick={handleBurger}>
                                 {burger ? <Close /> : <Burger />}
                             </div>
-                        </div>
+                            <div className="wrap ml-4 flex gap-3 items-center">
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger>
+                                        <div className="flex items-center gap-3 text-white">
+                                            <div className="md:h-[35px] md:w-[35px] h-[28px] w-[28px] border border-white rounded-full overflow-hidden">
+                                                <Image
+                                                    src="/assets/images/Profile-nav.png"
+                                                    alt="logo"
+                                                    width={1000}
+                                                    height={1000}
+                                                    unoptimized
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            </div>
+                                            <div className="text-sm">Irsyad Abi</div>
+                                            <div className="">
+                                                <ArrowDown />
+                                            </div>
+                                        </div>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="bg-white mt-2">
+                                        <DropdownMenuItem>
+                                            <Link
+                                                className={`${pathname === "/profile"
+                                                    ? "font-bold text-primary"
+                                                    : "text-black"}`}
+                                                href="/profile">
+                                                Profile
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            <Link
+                                                className={`${pathname === "/profile/forgot-password"
+                                                    ? "font-bold text-primary"
+                                                    : "text-black"}`}
+                                                href="/profile/forgot-password">
+                                                Ganti Kata Sandi
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            <Link
+                                                href="/">
+                                                Keluar
+                                            </Link>
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
 
-                        <div className={`wrap ${burger ? "flex opacity-100" : "hidden opacity-0 "}  bg-primary w-full items-center flex-col gap-5 transition-all duration-500`}>
-                            <a href="#beranda" className="font-bold">
-                                Beranda
-                            </a>
-                            <a className="hover:font-bold transition-all duration-300" href="#layanan">Program</a>
-                            <Link href="/login" className="loginn bg-secondary p-2 px-6 hover:bg-[#c78f3b]  rounded-full text-white">
-                                Login
-                            </Link>
+                            </div>
+                        </div>
+                        {/*  */}
+                        <div className={`wrap pt-2 text-sm fixed mt-[50px] flex ${burger ? "left-0" : "left-[-100%]"}  bg-primary-hover w-full items-center flex-col gap-5 transition-all duration-500`}>
+                            <div className={`flex-col text-sm text-center nav flex gap-5 text-[18px] text-white ${scrolled ? 'text-white' : ''}`}>
+                                <Link
+                                    href="/"
+                                    className={`${pathname === "/"
+                                        ? "font-bold text-secondary"
+                                        : "text-white hover:text-secondary"} 
+            ${scrolled ? 'text-secondary' : ''}`}
+                                >
+                                    Beranda
+                                </Link>
+                                <Link
+                                    href="/program"
+                                    className={`${pathname === "/program"
+                                        ? "font-bold text-secondary"
+                                        : "text-white hover:text-secondary"} 
+            ${scrolled ? 'text-secondary' : ''}`}
+                                >
+                                    Program
+                                </Link>
+                                <Link
+                                    href="/my-package"
+                                    className={`${pathname.startsWith("/my-package")
+                                        ? "font-bold text-secondary"
+                                        : "text-white hover:text-secondary"} 
+        ${scrolled ? 'text-secondary' : ''}`}
+                                >
+                                    Paket Saya
+                                </Link>
+                            </div>
+                            {/*  */}
+                            <div className="wrap ml-4 flex flex-col pb-4 gap-3 items-center">
+                                <Link href="/login" className="loginn bg-secondary p-2 px-12 hover:bg-secondary-hover  rounded-full text-white">
+                                    Login
+                                </Link>
+                                <Link href="/register" className="loginn bg-white p-2 px-12 hover:bg-secondary-hover  rounded-full text-primary">
+                                    Daftar
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>

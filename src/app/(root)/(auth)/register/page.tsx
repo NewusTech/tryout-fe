@@ -130,10 +130,10 @@ const LoginPage = () => {
         <div>
             <section className="flex flex-col min-h-screen bg-primary justify-center items-center">
                 <div className="right px-4 md:mx-0 w-full h-full flex flex-col justify-center items-center">
-                    <div className="card w-full bg-white rounded-[40px] shadow dark:border md:mt-0 sm:max-w-2xl mx-3 xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                    <div className="card w-full bg-white md:rounded-[40px] rounded-[20px] shadow dark:border md:mt-0 sm:max-w-2xl mx-3 xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                         <div className="p-6 sm:p-8">
                             <div className="head my-3 mb-7 flex flex-col gap-1">
-                                <div className="text-primary font-semibold text-2xl">Daftar Akun</div>
+                                <div className="text-primary font-semibold md:text-2xl text-xl">Daftar Akun</div>
                                 <div className="text-primary text-sm">Sudah Punya Akun? Silahkan <Link className="font-semibold" href="/login">Masuk</Link></div>
                             </div>
                             <form
@@ -144,7 +144,7 @@ const LoginPage = () => {
                                 <div>
                                     <label
                                         htmlFor="email"
-                                        className="block mb-2 text-sm md:text-base font-medium text-primary "
+                                        className="block mb-2 text-xs md:text-base font-medium text-primary "
                                     >
                                         Nama
                                     </label>
@@ -163,7 +163,7 @@ const LoginPage = () => {
                                 <div>
                                     <label
                                         htmlFor="email"
-                                        className="block mb-2 text-sm md:text-base font-medium text-primary "
+                                        className="block mb-2 text-xs md:text-base font-medium text-primary "
                                     >
                                         Nomor Telepon
                                     </label>
@@ -182,7 +182,7 @@ const LoginPage = () => {
                                 <div>
                                     <label
                                         htmlFor="email"
-                                        className="block mb-2 text-sm md:text-base font-medium text-primary "
+                                        className="block mb-2 text-xs md:text-base font-medium text-primary "
                                     >
                                         Email
                                     </label>
@@ -201,7 +201,7 @@ const LoginPage = () => {
                                 <div>
                                     <label
                                         htmlFor="password"
-                                        className="block mb-2 text-sm md:text-base font-medium text-primary"
+                                        className="block mb-2 text-xs md:text-base font-medium text-primary"
                                     >
                                         Kata Sandi
                                     </label>

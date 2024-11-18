@@ -14,11 +14,11 @@ const Home = () => {
         <div className="wrap-alll container mx-auto">
           {/* beranda */}
           <div id='beranda' className="home flex justify-center items-center overflow-hidden relative w-full h-screen bg-primary">
-            <div className="wrap flex items-center">
-              <div className="left flex flex-col gap-8">
-                <div className="text-secondary text-4xl font-bold">MASTER <span className='text-white'>EDUCATION</span></div>
-                <div className="text-secondary font-semibold text-2xl">Transformasi Masa Depan Tanpa Batas ! ✨</div>
-                <div className="text-white text-justify">Kami hadir untuk mewujudkan mimpi semua orang bisa kuliah gratis, baik di dalam maupun luar negeri. Dapatkan bimbingan khusus Perguruan Tinggi Kedinasan dan beasiswa eksklusif hingga jenjang Master Degree. Siapkan dirimu dengan kurikulum terbaik, termasuk IELTS & TOEFL.</div>
+            <div className="wrap flex md:flex-row flex-col-reverse items-center">
+              <div className="left md: flex flex-col gap-5 md:gap-8">
+                <div className="text-center md:text-start text-secondary text-2xl md:text-4xl font-bold">MASTER <span className='text-white'>EDUCATION</span></div>
+                <div className="text-secondary font-semibold text-xl md:text-2xl">Transformasi Masa Depan Tanpa Batas ! ✨</div>
+                <div className="text-white text-sm md:text-base text-justify">Kami hadir untuk mewujudkan mimpi semua orang bisa kuliah gratis, baik di dalam maupun luar negeri. Dapatkan bimbingan khusus Perguruan Tinggi Kedinasan dan beasiswa eksklusif hingga jenjang Master Degree. Siapkan dirimu dengan kurikulum terbaik, termasuk IELTS & TOEFL.</div>
                 <Link href="/register"
                   className='text-white flex items-center gap-3 w-fit bg-secondary px-6 py-2 rounded-full hover:bg-secondary-hover'
                 >
@@ -26,7 +26,7 @@ const Home = () => {
                   <LinkIcon />
                 </Link>
               </div>
-              <div className="right w-[40%] flex-shrink-0">
+              <div className="right w-full md:w-[40%] flex-shrink-0">
                 <Image
                   src="/assets/images/logo-home.png"
                   alt="logo"

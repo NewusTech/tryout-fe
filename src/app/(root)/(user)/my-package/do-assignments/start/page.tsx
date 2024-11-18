@@ -172,48 +172,49 @@ const QuizPage: React.FC = () => {
         <div className="min-h-screen">
             <Navbar />
             {/* Header */}
-            <header className="text-white container mx-auto pt-[100px] p-4 flex justify-between items-center">
+            <header className="text-white container mx-auto pt-[100px] p-4 flex md:flex-row flex-col justify-between md:items-center">
                 <div className='text-primary'>
-                    <h1 className="text-xl font-semibold">{quizData.title}</h1>
-                    <p>{quizData.subject}</p>
+                    <h1 className="md:text-xl text-base font-semibold">{quizData.title}</h1>
                 </div>
-                <div className="flex gap-10 bg-primary rounded-xl p-3 text-sm">
-                    <div className="flex flex-col items-center">
-                        <div className="">
-                            {quizData.timer.hours}
+                <div className="flex justify-end md:justify-start">
+                    <div className="flex w-fit md:gap-10 gap-5 bg-primary rounded-lg md:rounded-xl md:p-3 p-2 md:text-sm text-xs">
+                        <div className="flex flex-col items-center">
+                            <div className="">
+                                {quizData.timer.hours}
+                            </div>
+                            <div className="">
+                                Jam
+                            </div>
                         </div>
-                        <div className="">
-                            Jam
+                        <div className="flex flex-col items-center">
+                            <div className="">
+                                {quizData.timer.minutes}
+                            </div>
+                            <div className="">
+                                Menit
+                            </div>
                         </div>
-                    </div>
-                    <div className="flex flex-col items-center">
-                        <div className="">
-                            {quizData.timer.minutes}
-                        </div>
-                        <div className="">
-                            Menit
-                        </div>
-                    </div>
-                    <div className="flex flex-col items-center">
-                        <div className="">
-                            {quizData.timer.seconds}
-                        </div>
-                        <div className="">
-                            Detik
+                        <div className="flex flex-col items-center">
+                            <div className="">
+                                {quizData.timer.seconds}
+                            </div>
+                            <div className="">
+                                Detik
+                            </div>
                         </div>
                     </div>
                 </div>
             </header>
 
             {/* Konten */}
-            <div className="flex mt-4 container mx-auto">
+            <div className="flex md:flex-row flex-col mt-4 container mx-auto">
                 {/* Sidebar dengan nomor soal */}
-                <div className="w-1/4 rounded">
+                <div className="w-full md:w-1/4 rounded">
                     <div className="flex justify-between">
-                        <h2 className="text-lg font-semibold mb-4">Nomor Soal</h2>
-                        <h2 className="text-lg mb-4">1/70</h2>
+                        <h2 className="text-base md:text-lg font-semibold mb-4">Nomor Soal</h2>
+                        <h2 className="text-base md:text-lg mb-4">1/70</h2>
                     </div>
-                    <div className="grid grid-cols-8 gap-2">
+                    <div className="grid grid-cols-8 gap-2 md:text-base text-xs">
                         {quizData.questions.map((question) => (
                             <button
                                 key={question.id}
@@ -226,7 +227,7 @@ const QuizPage: React.FC = () => {
                         ))}
                     </div>
                     {/*  */}
-                    <div className="flex justify-between mt-10">
+                    <div className="flex justify-between md:mt-10 mt-5 md:text-base text-xs">
                         <div className="bg-succes rounded-full flex flex-col items-center p-2 px-6 text-white">
                             <div className="">20</div>
                             <div className="">Sudah Terisi</div>
@@ -245,11 +246,11 @@ const QuizPage: React.FC = () => {
                 </div>
 
                 {/* Soal dan Pilihan */}
-                <div className="w-3/4 p-4 ml-4 rounded">
-                    <h2 className="text-primary text-xl font-medium mb-7">Tes Wawasan Kebangsaan - TWK</h2>
-                    <h2 className="text-primary text-lg font-semibold mb-2">Soal No {currentQuestion.id}</h2>
-                    <p className="mb-4">{currentQuestion.questionText}</p>
-                    <div className="space-y-2">
+                <div className="w-full md:w-3/4 mt-4 md:p-4 md:ml-4 rounded">
+                    <h2 className="text-primary md:text-lg text-base font-medium mb-5 md:mb-7">Tes Wawasan Kebangsaan - TWK</h2>
+                    <h2 className="text-primary md:text-lg text-base font-semibold mb-2">Soal No {currentQuestion.id}</h2>
+                    <p className="mb-4 md:text-base text-sm">{currentQuestion.questionText}</p>
+                    <div className="space-y-1 md:space-y-2 md:text-base text-sm">
                         {currentQuestion.options.map((option, index) => {
                             const optionLabel = String.fromCharCode(65 + index); // Menghasilkan 'A', 'B', 'C', dll
                             return (
@@ -268,7 +269,7 @@ const QuizPage: React.FC = () => {
                     </div>
 
                     {/* Tombol Navigasi */}
-                    <div className="mt-4 flex justify-center gap-7">
+                    <div className="mt-6 flex justify-center gap-3 md:gap-7">
                         {/* <button
                             onClick={handlePreviousQuestion}
                             className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
@@ -276,6 +277,7 @@ const QuizPage: React.FC = () => {
                             Previous
                         </button> */}
                         <Button
+                        className='md:w-fit w-full'
                             onClick={handleSaveAndContinue}
                         >
                             Simpan dan Lanjutkan
@@ -283,7 +285,7 @@ const QuizPage: React.FC = () => {
                         <Button
                             onClick={handleNextQuestion}
                             variant="outlinePrimary"
-                            className='px-10'
+                            className='px-10 md:w-fit w-full'
                         >
                             Lewatkan
                         </Button>

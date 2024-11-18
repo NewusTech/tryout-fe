@@ -76,7 +76,7 @@ const History = () => {
                             />
                         </div>
                         {/* Pagination */}
-                        <div className="pagi flex items-center justify-end mt-3 pb-5 lg:pb-0">
+                        <div className="pagi flex items-center justify-center md:justify-end mt-3 pb-5 lg:pb-0">
                             <PaginationTable
                                 currentPage={currentPage}
                                 totalPages={10}
