@@ -2,7 +2,7 @@ import React from 'react'
 
 const TkpChart = () => {
     return (
-        <div className="w-full h-full mx-auto bg-white p-4 rounded-lg shadow-md">
+        <div className="w-full h-full mx-auto bg-white border border-gray-100 p-4 rounded-lg shadow-md">
             {/* Judul */}
             <h2 className="text-center font-bold text-lg mb-4">TWK</h2>
             {/* Statistik */}

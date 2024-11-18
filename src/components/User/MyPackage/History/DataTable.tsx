@@ -38,11 +38,14 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
 
     return (
         <div className="Table mt-3">
+            <div className="md:block hidden">
             <Table>
                 <TableHeader>
+                    <TableRow>
                         {headers.map((header, index) => (
                             <TableHead key={index}>{header}</TableHead>
                         ))}
+                    </TableRow>
                 </TableHeader>
                 <TableBody>
                     {data?.length > 0 ? (
@@ -89,7 +92,49 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                     )}
                 </TableBody>
             </Table>
+            </div>
 
+            {/* mobile table */}
+            <div className="wrap-table flex-col gap-4 mt-3 flex md:hidden">
+                <div className="card-table text-sm p-4 rounded-2xl border border-gray-100 shadow-md bg-white">
+                    <div className="wrap-konten flex flex-col gap-2">
+                        <div className="flex justify-between gap-5">
+                            <div className="label w-[50%] font-medium text-primary">No</div>
+                            <div className="konten w-[50%] text-black/80 text-start">: 1</div>
+                        </div>
+                        <div className="flex justify-between gap-5">
+                            <div className="label w-[50%] font-medium text-primary">Passing Grade</div>
+                            <div className="konten w-[50%] text-black/80 text-start">: Passing Grade</div>
+                        </div>
+                        <div className="flex justify-between gap-5">
+                            <div className="label w-[50%] font-medium text-primary">Skor</div>
+                            <div className="konten w-[50%] text-black/80 text-start">: 232</div>
+                        </div>
+                        <div className="flex justify-between gap-5">
+                            <div className="label w-[50%] font-medium text-primary">Status</div>
+                            <div className="konten w-[50%] text-black/80 text-start">
+                            <p className="p-1 rounded w-fit px-3 bg-succes/10 text-succes">Lulus</p>
+                            </div>
+                        </div>
+                        <div className="flex justify-between gap-5">
+                            <div className="label w-[50%] font-medium text-primary">Durasi Pengerjaan</div>
+                            <div className="konten w-[50%] text-black/80 text-start">: 1</div>
+                        </div>
+                    </div>
+                    <div className="flex gap-3 text-white mt-5">
+                        <Link href={`/my-package/history/statistik`} className="bg-secondary rounded-full w-full py-2 text-center text-xs">
+                            Statistik
+                        </Link>
+                        <Link href={`/my-package/history/discussion`} className="bg-primary px-4 rounded-full w-full py-2 text-center text-xs">
+                            Pembahasan
+                        </Link>
+                        <Link href={`/my-package/history/ranking`} className="bg-white border border-gray-200 rounded-full w-full py-2 text-center text-xs text-primary">
+                            Ranking
+                        </Link>
+                    </div>
+                </div>
+            </div>
+            {/* mobile table */}
         </div>
     );
 };

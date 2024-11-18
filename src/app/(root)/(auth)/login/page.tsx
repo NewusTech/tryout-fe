@@ -130,7 +130,7 @@ const LoginPage = () => {
         <div>
             <section className="flex flex-col min-h-screen bg-primary justify-center items-center">
                 <div className="right px-4 md:mx-0 w-full h-full flex flex-col justify-center items-center">
-                    <div className="card w-full bg-white rounded-[40px] shadow dark:border md:mt-0 sm:max-w-2xl mx-3 xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                    <div className="card w-full bg-white rounded-[20px] md:rounded-[40px] shadow dark:border md:mt-0 sm:max-w-2xl mx-3 xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                         <div className="p-6 sm:p-8">
                             <div className="head my-3 mb-5 flex flex-col gap-3">
                                 <div className="log flex justify-center md:mb-7">
@@ -151,7 +151,7 @@ const LoginPage = () => {
                                 <div>
                                     <label
                                         htmlFor="email"
-                                        className="block mb-2 text-sm md:text-base font-medium text-primary "
+                                        className="block mb-2 md:text-base text-xs font-medium text-primary "
                                     >
                                         Email
                                     </label>
@@ -170,7 +170,7 @@ const LoginPage = () => {
                                 <div>
                                     <label
                                         htmlFor="password"
-                                        className="block mb-2 text-sm md:text-base font-medium text-primary"
+                                        className="block mb-2 md:text-base text-xs font-medium text-primary"
                                     >
                                         Kata Sandi
                                     </label>
@@ -194,7 +194,7 @@ const LoginPage = () => {
                                     <p className="text-start mb-1 text-sm md:text-base ">
                                         <Link
                                             href="/forgot-password"
-                                            className="text-primary text-sm font-medium hover:underline"
+                                            className="text-primary text-xs md:text-sm font-medium hover:underline"
                                         >
                                             Lupa Kata Sandi?
                                         </Link>
@@ -208,11 +208,11 @@ const LoginPage = () => {
                                     {loading ? <Loading /> : "Masuk"}
                                 </Button>
                                 <Link href="/register"
-                                className="bg-white border border-primary rounded-full py-3 px-4 text-primary font-medium hover:bg-slate-100 w-full text-center duration-200 hover:text-primary transition ease-in-out delay-150 hover:-translate-y-1" 
+                                className="bg-white border md:text-base text-xs border-primary rounded-full py-3 px-4 text-primary font-medium hover:bg-slate-100 w-full text-center duration-200 hover:text-primary transition ease-in-out delay-150 hover:-translate-y-1" 
                                 >
                                 Daftar
                                 </Link>
-                                <p className="text-center md:hidden mb-1 mt-0 text-sm md:text-base md:mb-5">
+                                <p className="text-center md:hidden mb-1 mt-0 text-xs md:text-base md:mb-5">
                                     Belum punya akun? {" "}
                                     <Link
                                         href="/register"
@@ -222,7 +222,7 @@ const LoginPage = () => {
                                     </Link>
                                 </p>
                             </form>
-                            <div className="mt-6 md:text-base text-sm text-primary text-center">
+                            <div className="mt-6 md:text-base text-xs text-primary text-center">
                                 Dengan mendaftar, Kamu telah menyetujui <span onClick={() => handleOpenPopup()} className="text-primary cursor-pointer hover:underline font-medium">Syarat & Ketentuan</span> kami dan Kamu telah membaca <span onClick={() => handleOpenPopupKebijakan()} className="text-primary cursor-pointer hover:underline font-medium">Kebijakan Privasi</span> kami.
                             </div>
                         </div>

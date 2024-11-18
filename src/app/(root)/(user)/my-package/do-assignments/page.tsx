@@ -14,17 +14,17 @@ const DoAssignments = () => {
             <div className='text-srBlack overflow-x-hidden'>
                 <Navbar />
                 <div className="wrap-alll container mx-auto min-h-screen">
-                    <div className="text-primary font-semibold text-2xl pt-[120px]">
+                    <div className="text-primary font-semibold text-xl md:text-2xl pt-[120px]">
                         Try Out SKD CASN 2024
                     </div>
-                    <div className="text-primary px-5 py-2 rounded-full bg-[#DCC080] w-fit mt-3">
+                    <div className="text-primary px-5 md:text-base text-sm py-2 rounded-full bg-[#DCC080] w-fit mt-3">
                         07 September 2024
                     </div>
                     {/*  */}
-                    <div className="wrap flex gap-5 mt-7">
-                        <div className="left w-[80%] bg-white p-5 shadow-md rounded-2xl">
+                    <div className="wrap flex md:flex-row flex-col-reverse gap-5 mt-7 pb-6">
+                        <div className="left w-full md:w-[80%] bg-white p-5 border border-gray-100 shadow-md rounded-2xl">
                             <div className="font-semibold text-xl mb-2">Persiapan Tryout</div>
-                            <div className="">
+                            <div className="md:text-base text-sm text-justify">
                                 1. Pilih Waktu dan Tempat yang Kondusif
                                 Mengerjakan tryout di waktu senggang dengan suasana yang tenang dan nyaman akan membantumu lebih fokus dan maksimal.
                                 <br />
@@ -38,7 +38,7 @@ const DoAssignments = () => {
                                 Jika menggunakan perangkat elektronik, pastikan baterai penuh. Jangan lupa menyediakan charger jika diperlukan.
                             </div>
                         </div>
-                        <div className="right w-[20%] bg-white p-5 shadow-md rounded-2xl">
+                        <div className="right w-full md:w-[20%] bg-white p-5 border border-gray-100 shadow-md rounded-2xl">
                             <div className="flex flex-col gap-3">
                                 <div className="flex flex-col gap-1">
                                     <div className="font-medium">Jumlah Soal</div>
