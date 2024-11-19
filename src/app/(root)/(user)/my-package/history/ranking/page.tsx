@@ -85,7 +85,7 @@ const Ranking = () => {
         <div className="wrap-alll container mx-auto">
           <div className="pt-[120px]">
             {/* Breadcrumb */}
-            <div className="bread flex text-primary gap-3 items-center">
+            <div className="bread md:text-base text-sm flex text-primary gap-3 items-center">
               <Link href="/my-package">Paket Saya</Link>
               <ArrowBread />
               <Link href="/my-package/history">Riwayat</Link>
@@ -103,7 +103,7 @@ const Ranking = () => {
               />
             </div>
             {/* Pagination */}
-            <div className="pagi flex items-center justify-end mt-3 pb-5 lg:pb-0">
+            <div className="pagi flex items-center md:justify-end justify-center mt-3 pb-5 lg:pb-0">
               <PaginationTable
                 currentPage={currentPage}
                 totalPages={10}

@@ -23,11 +23,11 @@ const Profile = () => {
             <div className="text-srBlack overflow-x-hidden min-h-screen">
                 <Navbar />
                 <div className="wrap-alll container mx-auto pt-[120px]">
-                    <div className="text-2xl font-semibold my-4 text-primary">
+                    <div className="md:text-2xl text-xl font-semibold my-4 text-primary">
                         Profile
                     </div>
                     {/* Profile Section */}
-                    <div className="wrap rounded-[20px] border border-gray-100 p-7 shadow-md mb-10 bg-white flex flex-col gap-5">
+                    <div className="wrap rounded-[20px] border border-gray-100 md:p-7 p-4 shadow-md mb-10 bg-white flex flex-col gap-5">
                         <div className="profile flex justify-center">
                             <div className="h-[125px] w-[125px] rounded-full overflow-hidden relative border border-primary">
                                 <Image
@@ -52,58 +52,61 @@ const Profile = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="px-7 text-xl font-medium text-primary">
+                        <div className="md:px-7 text-lg md:text-xl font-medium text-primary">
                             Data Diri
                         </div>
-                        <div className="form px-7 flex flex-col gap-5">
+                        <div className="form md:px-7 flex flex-col md:gap-5 gap-4">
                             {/* Form Fields */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
-                                <div className="flex flex-col gap-3">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-7">
+                                <div className="flex flex-col md:gap-3 gap-2">
                                     <Label>Nama</Label>
                                     <Input placeholder="Nama" />
                                 </div>
-                                <div className="flex flex-col gap-3">
+                                <div className="flex flex-col md:gap-3 gap-2">
                                     <Label>Jenis Kelamin</Label>
                                     <Input placeholder="Jenis Kelamin" />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
-                                <div className="flex flex-col gap-3">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-7">
+                                <div className="flex flex-col md:gap-3 gap-2">
                                     <Label>Email</Label>
                                     <Input placeholder="Email" />
                                 </div>
-                                <div className="flex flex-col gap-3">
+                                <div className="flex flex-col md:gap-3 gap-2">
                                     <Label>Nomer Telepon</Label>
                                     <Input placeholder="Nomer Telepon" />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
-                                <div className="flex flex-col gap-3">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-7">
+                                <div className="flex flex-col md:gap-3 gap-2">
                                     <Label>Asal Sekolah</Label>
                                     <Input placeholder="Asal Sekolah" />
                                 </div>
-                                <div className="flex flex-col gap-3">
+                                <div className="flex flex-col md:gap-3 gap-2">
                                     <Label>Provinsi</Label>
                                     <Input placeholder="Provinsi" />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
-                                <div className="flex flex-col gap-3">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-7">
+                                <div className="flex flex-col md:gap-3 gap-2">
                                     <Label>Kabupaten / Kota</Label>
                                     <Input placeholder="Kabupaten / Kota" />
                                 </div>
-                                <div className="flex flex-col gap-3">
+                                <div className="flex flex-col md:gap-3 gap-2">
                                     <Label>Kecamatan</Label>
                                     <Input placeholder="Kecamatan" />
                                 </div>
                             </div>
-                            <div className="flex flex-col gap-3">
+                            <div className="flex flex-col md:gap-3 gap-2">
                                 <Label>Alamat</Label>
                                 <Textarea placeholder="Alamat" />
                             </div>
                             {/* Submit Button */}
-                            <div className="flex justify-center my-5">
-                                <Button className="px-10">Simpan</Button>
+                            <div className="flex justify-center md:my-5 my-3">
+                                <Button
+                                    className="px-10 w-full md:w-[180px]">
+                                    Simpan
+                                </Button>
                             </div>
                         </div>
                     </div>

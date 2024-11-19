@@ -58,7 +58,7 @@ const History = () => {
                 <div className="wrap-alll container mx-auto">
                     <div className="pt-[120px]">
                         {/* Breadcrumb */}
-                        <div className="bread flex text-primary gap-3 items-center">
+                        <div className="bread md:text-base text-sm flex text-primary gap-3 items-center">
                             <Link href="/my-package">Paket Saya</Link>
                             <div>
                                 <ArrowBread />
