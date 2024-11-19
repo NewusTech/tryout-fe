@@ -216,7 +216,7 @@ const PembahasanPage: React.FC = () => {
       {/* Header */}
       {/* Main Content */}
       {/* Breadcrumb */}
-      <div className="bread flex text-primary gap-3 items-center pt-[120px] container mx-auto">
+      <div className="bread md:text-base text-sm flex text-primary gap-3 items-center md:pt-[120px] pt-[100px] container mx-auto">
         <Link href="/my-package">Paket Saya</Link>
         <ArrowBread />
         <Link href="/my-package/history">Riwayat</Link>
@@ -224,13 +224,13 @@ const PembahasanPage: React.FC = () => {
         <div className="font-medium">Pembahasan</div>
       </div>
       {/* Breadcrumb */}
-      <main className="py-4 grid grid-cols-12 container mx-auto">
+      <main className="py-4 grid md:grid-cols-12 container mx-auto">
         {/* Soal Section */}
-        <div className="col-span-9 flex flex-col gap-4 pr-10">
-          <h1 className="text-2xl text-primary font-medium">Soal No {soal.nomor}</h1>
-          <p>{soal.pertanyaan}</p>
+        <div className="md:col-span-9 order-2 md:order-1 flex flex-col md:gap-4 gap-3  md:pr-10">
+          <h1 className="md:text-2xl text-lg text-primary font-medium">Soal No {soal.nomor}</h1>
+          <p className="md:text-base text-xs">{soal.pertanyaan}</p>
 
-          <div className="space-y-2">
+          <div className="space-y-2 md:text-base text-xs">
             {soal.pilihanJawaban.map((jawaban, index) => {
               const label = String.fromCharCode(65 + index); // A, B, C, D
               return (
@@ -258,7 +258,7 @@ const PembahasanPage: React.FC = () => {
             })}
           </div>
           {/* jawaban kamu */}
-          <div className="my-6 flex flex-col gap-2">
+          <div className="my-6 flex flex-col gap-2  md:text-base text-xs">
             <p
               className={`font-medium ${soal.jawabanKamu
                 ? "text-primary"
@@ -281,17 +281,19 @@ const PembahasanPage: React.FC = () => {
           </div>
 
           <div>
-            <h2 className="font-medium text-2xl mb-4">Pembahasan</h2>
-            <p className="text-justify">{soal.pembahasan}</p>
+            <h2 className="font-medium md:text-2xl text-lg md:mb-4 mb-2">Pembahasan</h2>
+            <p className="text-justify md:text-base text-xs">{soal.pembahasan}</p>
           </div>
           {/* Navigation */}
-          <div className="flex gap-5 justify-center mt-8">
+          <div className="flex md:gap-5 gap-3 justify-center mt-8">
             <Button
+              className="w-full md:w-fit"
               onClick={handlePrevious}
             >
               Sebelumnya
             </Button>
             <Button
+              className="w-full md:w-fit"
               variant="outlinePrimary"
               onClick={handleNext}
             >
@@ -300,8 +302,22 @@ const PembahasanPage: React.FC = () => {
           </div>
         </div>
         {/* Sidebar */}
-        <aside className="p-4 col-span-3">
-          <div className="mb-4 flex justify-between">
+        <aside className="mb-4 md:mb-0 order-1 md:order-2 md:col-span-3 ">
+          <div className="grid text-sm md:text-base grid-cols-3 gap-3 mb-6">
+            <div className="flex flex-col gap-1 bg-succes rounded-md shadow p-1 items-center text-white">
+              <div className="">1</div>
+              <div className="">Benar</div>
+            </div>
+            <div className="flex flex-col gap-1 bg-error rounded-md shadow p-1 items-center text-white">
+              <div className="">1</div>
+              <div className="">Benar</div>
+            </div>
+            <div className="flex flex-col gap-1 bg-white border border-gray-100 text-black rounded-md shadow p-1 items-center">
+              <div className="">1</div>
+              <div className="">Benar</div>
+            </div>
+          </div>
+          <div className="mb-4 flex justify-between text-sm md:text-base">
             <h2 className="font-medium">Nomor Soal</h2>
             <h2 className="font-medium text-secondary">1/72</h2>
           </div>
@@ -309,7 +325,7 @@ const PembahasanPage: React.FC = () => {
             {soalData.map((item) => (
               <button
                 key={item.nomor}
-                className={`w-8 h-8 rounded shadow ${item.nomor === currentNomor
+                className={`w-8 h-8 text-xs md:text-base rounded shadow ${item.nomor === currentNomor
                   ? "bg-primary text-white"
                   : item.jawabanKamu === item.kunciJawaban
                     ? "bg-succes text-white"

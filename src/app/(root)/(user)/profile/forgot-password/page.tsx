@@ -23,12 +23,12 @@ const ForgotPassword = () => {
             <div className="text-srBlack overflow-x-hidden min-h-screen">
                 <Navbar />
                 <div className="wrap-alll container mx-auto pt-[120px]">
-                    <div className="text-2xl font-semibold my-4 text-primary">
+                    <div className="md:text-2xl text-xl font-semibold my-4 text-primary">
                         Ganti Kata Sandi
                     </div>
                     {/* Profile Section */}
-                    <div className="wrap  w-[80%] rounded-[20px] p-7 border border-gray-100 shadow-md mb-10 bg-white flex flex-col gap-5">
-                        <div className="form px-7 flex flex-col gap-5">
+                    <div className="wrap  md:w-[80%] rounded-[20px] md:p-7 p-4 border border-gray-100 shadow-md mb-10 bg-white flex flex-col gap-5">
+                        <div className="form md:px-7 flex flex-col gap-5">
                             {/* Form Fields */}
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-col gap-3">
@@ -45,8 +45,8 @@ const ForgotPassword = () => {
                                 </div>
                             </div>
                             {/* Submit Button */}
-                            <div className="flex justify-end mt-5">
-                                <Button className="px-10">Simpan</Button>
+                            <div className="flex justify-end md:mt-5 mt-3">
+                                <Button className="px-10 w-full md:w-[160px]">Simpan</Button>
                             </div>
                         </div>
                     </div>
