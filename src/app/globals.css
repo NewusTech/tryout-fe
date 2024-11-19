@@ -6,7 +6,6 @@ input[type="radio"] {
   accent-color: purple;
 }
 
-
 /* Import Gotham font with various weights and styles */
 @font-face {
   font-family: "Gotham";
@@ -40,3 +39,27 @@ input[type="radio"] {
 * {
   font-family: "Gotham", sans-serif;
 }
+
+/* scrollbar */
+/* Menyesuaikan warna latar belakang dan lebar scrollbar */
+::-webkit-scrollbar {
+  width: 3px;
+  height: 5px;
+  margin-left: 10px;
+}
+
+/* Warna track scrollbar */
+::-webkit-scrollbar-track {
+  background: #d9d9d9;
+}
+
+/* Warna thumb scrollbar */
+::-webkit-scrollbar-thumb {
+  background: #b8860e;
+}
+
+/* Menghilangkan tombol panah scrollbar */
+::-webkit-scrollbar-button {
+  display: none;
+}
+/* scrollbar */

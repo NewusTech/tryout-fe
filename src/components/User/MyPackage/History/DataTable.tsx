@@ -50,7 +50,7 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                 <TableBody>
                     {data?.length > 0 ? (
                         data.map((user, index) => (
-                            <TableRow key={user.no}>
+                            <TableRow key={user.no} index={index}>
                                 <TableCell className="text-center">
                                     {(currentPage - 1) * 10 + (index + 1)}
                                 </TableCell>
