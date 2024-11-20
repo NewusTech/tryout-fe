@@ -101,7 +101,7 @@ const Schedule = () => {
           />
         </div>
         <LinkCustom
-          href="/"
+          href="/tryout/schedule/add"
           className="flex gap-3 text-white items-center"
         >
           <PlusIcon />
