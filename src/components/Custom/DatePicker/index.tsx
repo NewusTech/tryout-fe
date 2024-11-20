@@ -43,15 +43,15 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         <Button
           variant={"outlinePrimary"}
           className={cn(
-            "w-[280px] justify-start text-left font-normal",
+            "w-[280px] justify-between text-left font-normal",
             !selectedDate && "text-muted-foreground",
             buttonClassName
           )}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          <p className="text-primary text-sm">
+          <p className="text-primary">
             {selectedDate ? format(selectedDate, "dd/MM/yyyy") : <span>{placeholder}</span>}
           </p>
+          <CalendarIcon className="mr-2 text-primary h-4 w-4" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className={cn("w-auto p-0 bg-white", calendarClassName)}>

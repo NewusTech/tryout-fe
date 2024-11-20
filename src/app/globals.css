@@ -40,6 +40,16 @@ input[type="radio"] {
   font-family: "Gotham", sans-serif;
 }
 
+/* hilang jam icon */
+input[type="time"]::-webkit-calendar-picker-indicator {
+  position: absolute; /* Posisi relatif terhadap elemen input */
+  right: 20px;           /* Pindahkan ke kanan */
+  color: purple;      /* Warna ungu */
+  filter: invert(35%) sepia(100%) saturate(500%) hue-rotate(270deg) brightness(45%) contrast(100%);
+  cursor: pointer;    /* Ganti kursor untuk interaksi */
+}
+/* hilang jam icon */
+
 /* scrollbar */
 /* Menyesuaikan warna latar belakang dan lebar scrollbar */
 ::-webkit-scrollbar {

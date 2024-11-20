@@ -75,7 +75,7 @@ const LiveMonitoring = () => {
         <Input
           placeholder='Cari Paket'
           leftIcon={<SearchIcon />}
-          className='border-primary'
+          className='border-primary placeholder:text-primary'
           value={search}
           onChange={handleSearchChange}
         />

@@ -97,7 +97,7 @@ const SelectSearch: React.FC<SelectSearchProps> = ({
           <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-0 bg-white">
+      <PopoverContent className="w-full md:max-w-[400px] max-w-[250px] p-0 bg-white">
         <Command>
           <CommandInput placeholder={`Cari ${placeholder}`} />
           <CommandList>
@@ -105,6 +105,7 @@ const SelectSearch: React.FC<SelectSearchProps> = ({
             <CommandGroup>
               {data?.map((v: any) => (
                 <CommandItem
+                  className="hover:bg-primary/10"
                   key={v.id}
                   value={v.label}
                   onSelect={() => {
