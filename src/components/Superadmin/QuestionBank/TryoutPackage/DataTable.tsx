@@ -19,12 +19,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import TitikIcon from "../../../../../public/assets/icons/TitikIcon";
 import { Checkbox } from "@/components/ui/checkbox"
+import DeletePopupTitik from "@/components/Custom/PopupDelete";
 
 interface History {
     no: number;
-    namaSoal: string,
-    kategori: string,
-    jumlah: string,
+    paketTryout: string,
+    harga: string,
 }
 interface ApiResponse {
     headers: string[];
@@ -47,14 +47,9 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead >
-                                <Checkbox />
-                            </TableHead>
-                            <TableHead >No</TableHead>
-                            <TableHead >Nama Bank Soal</TableHead>
-                            <TableHead >Kategori Soal</TableHead>
-                            <TableHead >Jumlah</TableHead>
-                            <TableHead >Aksi</TableHead>
+                        {headers.map((header, index) => (
+                                <TableHead key={index}>{header}</TableHead>
+                            ))}
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -62,14 +57,10 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                             data.map((user, index) => (
                                 <TableRow key={user.no} index={index}>
                                     <TableCell className="text-center">
-                                        <Checkbox />
-                                    </TableCell>
-                                    <TableCell className="text-center">
                                         {(currentPage - 1) * 10 + (index + 1)}
                                     </TableCell>
-                                    <TableCell className="text-center text-primary">{user.namaSoal ?? "-"}</TableCell>
-                                    <TableCell className="text-center text-primary">{user.kategori ?? "-"}</TableCell>
-                                    <TableCell className="text-center text-primary">{user.jumlah ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user.paketTryout ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user.harga ?? "-"}</TableCell>
                                     {/*  */}
                                     <TableCell className="text-center justify-center items-center flex gap-2">
                                         <div className="aksi flex-shrink-0">
@@ -86,18 +77,21 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                                                     <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                                     <DropdownMenuGroup>
                                                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                            <Link className="w-full" href={`/question-bank/question-answer/detail`}>
+                                                            <Link className="w-full" href={`/question-bank/tryout-package/detail`}>
                                                                 <div className="flex items-center gap-2 text-primary">
                                                                     Detail
                                                                 </div>
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                            <Link className="w-full" href={`/question-bank/question-answer/edit`}>
+                                                            <Link className="w-full" href={`/question-bank/tryout-package/edit`}>
                                                                 <div className="flex items-center gap-2 text-primary">
                                                                     Edit
                                                                 </div>
                                                             </Link>
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                            <DeletePopupTitik onDelete={async () => { }} />
                                                         </DropdownMenuItem>
                                                     </DropdownMenuGroup>
                                                 </DropdownMenuContent>

@@ -6,56 +6,58 @@ import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import PaginationTable from "@/components/Custom/PaginationTable";
 import { DatePicker } from "@/components/Custom/DatePicker";
-import SearchIcon from "../../../../../public/assets/icons/SearchIcon";
+import SearchIcon from "../../../../../../public/assets/icons/SearchIcon";
 import LinkCustom from "@/components/ui/LinkCustom";
-import PlusIcon from "../../../../../public/assets/icons/PlusIcon";
-import DataTable from "@/components/Superadmin/Payment/DataTable";
+import PlusIcon from "../../../../../../public/assets/icons/PlusIcon";
+import { Button } from "@/components/ui/button";
+import ExportIcon from "../../../../../../public/assets/icons/ExportIcon";
+import ImportIcon from "../../../../../../public/assets/icons/ImportIcon";
+import DataTable from "@/components/Superadmin/User/User/DataTable";
 
-const History = () => {
+const UserUser = () => {
     const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
-
-    // Define table headers
-    const tableHeaders = ["No", "Nama", "Nama Paket", "Metode Pembayaran", "Status", "Aksi"];
-
+    const [selectedValue, setSelectedValue] = useState<
+        { id: string | number; label: string } | undefined
+    >(undefined);
     // Dummy data
     const dummyDataa = [
+        { value: 1, label: "Option 1" },
+        { value: 2, label: "Option 2" },
+        { value: 3, label: "Option 3" },
+        { value: 4, label: "Option 4" },
+    ];
+
+    // Define table headers
+    const tableHeaders = ["No", "Nama", "Email", "Aksi"];
+
+    // Dummy data
+    const dummyData = [
         {
             no: 1,
             nama: "John Doe",
-            namaPaket: "Paket A",
-            metodePembayaran: "Transfer Bank",
-            status: "Lunas",
+            email: "johndoe@example.com",
         },
         {
             no: 2,
             nama: "Jane Smith",
-            namaPaket: "Paket B",
-            metodePembayaran: "Kartu Kredit",
-            status: "Belum Lunas",
+            email: "janesmith@example.com",
         },
         {
             no: 3,
-            nama: "Alice Johnson",
-            namaPaket: "Paket C",
-            metodePembayaran: "Cash",
-            status: "Lunas",
+            nama: "Robert Johnson",
+            email: "robertjohnson@example.com",
         },
         {
             no: 4,
-            nama: "Bob Brown",
-            namaPaket: "Paket D",
-            metodePembayaran: "QR Code",
-            status: "Belum Lunas",
+            nama: "Emily Davis",
+            email: "emilydavis@example.com",
         },
         {
             no: 5,
-            nama: "Charlie Davis",
-            namaPaket: "Paket E",
-            metodePembayaran: "E-Wallet",
-            status: "Lunas",
+            nama: "Michael Brown",
+            email: "michaelbrown@example.com",
         },
     ];
-
 
 
     // Pagination state
@@ -74,8 +76,17 @@ const History = () => {
 
     return (
         <div className="">
-            <TitleAdmin title="Pembayaran Offline" />
-            <div className="head flex gap-3 items-center">
+            <TitleAdmin title="User" />
+            <div className="head flex gap-3">
+                <Button>
+                    Semua
+                </Button>
+                <SelectSearch
+                    data={dummyDataa}
+                    placeholder="Option"
+                    valueId={selectedValue}
+                    setValueId={setSelectedValue}
+                />
                 <Input
                     placeholder='Cari'
                     leftIcon={<SearchIcon />}
@@ -83,30 +94,19 @@ const History = () => {
                     value={search}
                     onChange={handleSearchChange}
                 />
-                <DatePicker
-                    value={selectedDate}
-                    onChange={(date) => setSelectedDate(date)}
-                    placeholder="Tanggal Awal"
-                />
-                <div className="">to</div>
-                <DatePicker
-                    value={selectedDate}
-                    onChange={(date) => setSelectedDate(date)}
-                    placeholder="Tanggal Akhir"
-                />
                 <LinkCustom
-                    href="/payment/add"
-                    className="flex gap-3 text-white items-center flex-shrink-0 w-[160px] justify-center"
+                    href="/question-bank/tryout-package/add"
+                    className="flex gap-3 text-white items-center flex-shrink-0"
                 >
                     <PlusIcon />
-                    Tambah
+                    Tambah Pengguna
                 </LinkCustom>
             </div>
             {/* Table */}
             <div className="Table mt-6">
                 <DataTable
                     headers={tableHeaders}
-                    data={dummyDataa}
+                    data={dummyData}
                     currentPage={currentPage}
                     search={search}
                 />
@@ -123,4 +123,4 @@ const History = () => {
     );
 };
 
-export default History;
+export default UserUser;

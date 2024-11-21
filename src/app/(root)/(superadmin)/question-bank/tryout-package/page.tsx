@@ -6,58 +6,49 @@ import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import PaginationTable from "@/components/Custom/PaginationTable";
 import { DatePicker } from "@/components/Custom/DatePicker";
-import SearchIcon from "../../../../../public/assets/icons/SearchIcon";
+import SearchIcon from "../../../../../../public/assets/icons/SearchIcon";
 import LinkCustom from "@/components/ui/LinkCustom";
-import PlusIcon from "../../../../../public/assets/icons/PlusIcon";
-import DataTable from "@/components/Superadmin/Payment/DataTable";
+import PlusIcon from "../../../../../../public/assets/icons/PlusIcon";
+import { Button } from "@/components/ui/button";
+import ExportIcon from "../../../../../../public/assets/icons/ExportIcon";
+import ImportIcon from "../../../../../../public/assets/icons/ImportIcon";
+import DataTable from "@/components/Superadmin/QuestionBank/TryoutPackage/DataTable";
 
-const History = () => {
+const TryoutPackage = () => {
     const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
 
     // Define table headers
-    const tableHeaders = ["No", "Nama", "Nama Paket", "Metode Pembayaran", "Status", "Aksi"];
+    const tableHeaders = ["No", "Paket Tryout", "Harga", "Aksi"];
 
     // Dummy data
-    const dummyDataa = [
+    const dummyData = [
         {
             no: 1,
-            nama: "John Doe",
-            namaPaket: "Paket A",
-            metodePembayaran: "Transfer Bank",
-            status: "Lunas",
+            paketTryout: "Tryout 1",
+            harga: "45000",
         },
         {
             no: 2,
-            nama: "Jane Smith",
-            namaPaket: "Paket B",
-            metodePembayaran: "Kartu Kredit",
-            status: "Belum Lunas",
+            paketTryout: "Tryout 2",
+            harga: "50000",
         },
         {
             no: 3,
-            nama: "Alice Johnson",
-            namaPaket: "Paket C",
-            metodePembayaran: "Cash",
-            status: "Lunas",
+            paketTryout: "Tryout 3",
+            harga: "40000",
         },
         {
             no: 4,
-            nama: "Bob Brown",
-            namaPaket: "Paket D",
-            metodePembayaran: "QR Code",
-            status: "Belum Lunas",
+            paketTryout: "Tryout 4",
+            harga: "55000",
         },
         {
             no: 5,
-            nama: "Charlie Davis",
-            namaPaket: "Paket E",
-            metodePembayaran: "E-Wallet",
-            status: "Lunas",
+            paketTryout: "Tryout 5",
+            harga: "60000",
         },
     ];
-
-
-
+    
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const onPageChange = (page: number) => {
@@ -74,29 +65,18 @@ const History = () => {
 
     return (
         <div className="">
-            <TitleAdmin title="Pembayaran Offline" />
-            <div className="head flex gap-3 items-center">
+            <TitleAdmin title="Paket Tryout" />
+            <div className="head flex gap-3">
                 <Input
                     placeholder='Cari'
                     leftIcon={<SearchIcon />}
-                    className='border-primary placeholder:text-primary'
+                    className='border-primary placeholder:text-primary w-[50%]'
                     value={search}
                     onChange={handleSearchChange}
                 />
-                <DatePicker
-                    value={selectedDate}
-                    onChange={(date) => setSelectedDate(date)}
-                    placeholder="Tanggal Awal"
-                />
-                <div className="">to</div>
-                <DatePicker
-                    value={selectedDate}
-                    onChange={(date) => setSelectedDate(date)}
-                    placeholder="Tanggal Akhir"
-                />
                 <LinkCustom
-                    href="/payment/add"
-                    className="flex gap-3 text-white items-center flex-shrink-0 w-[160px] justify-center"
+                    href="/question-bank/tryout-package/add"
+                    className="flex gap-3 text-white items-center"
                 >
                     <PlusIcon />
                     Tambah
@@ -106,7 +86,7 @@ const History = () => {
             <div className="Table mt-6">
                 <DataTable
                     headers={tableHeaders}
-                    data={dummyDataa}
+                    data={dummyData}
                     currentPage={currentPage}
                     search={search}
                 />
@@ -123,4 +103,4 @@ const History = () => {
     );
 };
 
-export default History;
+export default TryoutPackage;
