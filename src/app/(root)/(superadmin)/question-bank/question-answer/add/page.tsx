@@ -5,9 +5,9 @@ import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import ElipseIcon from "../../../../../../../public/assets/icons/ElipseIcon";
 import { CustomSelect } from "@/components/Custom/SelectCustom";
-import "react-quill/dist/quill.snow.css";
 import DeleteIcon from "../../../../../../../public/assets/icons/DeleteIcon";
-
+import TitleBack from "@/components/Superadmin/TitleBack";
+import "react-quill/dist/quill.snow.css";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const AddQuestion = () => {
@@ -175,6 +175,7 @@ const AddQuestion = () => {
 
     return (
         <div className="form flex flex-col gap-5">
+            <TitleBack href="/question-bank/question-answer" title="Tambah Bank Soal" />
             {/* Pilih Kategori Soal */}
             <div className="shadow-md flex flex-col gap-5 rounded-xl bg-[#FAFAFA] border border-gray-100 p-6">
                 <div className="flex flex-col gap-2">
