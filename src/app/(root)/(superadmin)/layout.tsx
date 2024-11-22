@@ -261,36 +261,21 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                     </AccordionContent>
                                 </AccordionItem>
                                 {/* Pengguna */}
-                                {/* FeedBack */}
-                                <AccordionItem className="" value="item-6">
-                                    <AccordionTrigger
-                                        className={`nav font-medium flex gap-2 mb-2 rounded-[8px] py-[12px] overflow-hidden px-[25px] ${pathname.startsWith(
-                                            "/feedback"
-                                        )
+                                {/* feedback */}
+                                <AccordionItem className="" value="item-3">
+                                    <Link
+                                        href="/feedback"
+                                        className={`nav font-medium hover:pl-10 duration-200 transition-all flex pr-4 text-sm md:text-base items-center gap-[12px] mb-2 rounded-[8px] py-[12px] px-[24px] ${pathname.startsWith("/feedback")
                                             ? "bg-primary text-white"
                                             : "bg-transparent text-primary"
-                                            }`}>
-                                        <div className="flex gap-3 items-center text-sm md:text-base">
-                                            <div className="w-[35px]">
-                                                <FeedBackIcon />
-                                            </div>
-                                            FeedBack
+                                            }`} >
+                                        <div className="w-[35px]">
+                                            <FeedBackIcon />
                                         </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent className="bg-primary-600/25 flex flex-col gap-2 mb-2 rounded-md">
-                                        <Menu link="/feedback/question">
-                                            <span className="text-sm md:text-base">
-                                                Pertanyaan
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/feedback/results">
-                                            <span className="text-sm md:text-base">
-                                                Hasil Feedback
-                                            </span>
-                                        </Menu>
-                                    </AccordionContent>
+                                        Feedback
+                                    </Link>
                                 </AccordionItem>
-                                {/* FeedBack */}
+                                {/* feedback */}
                                 {/* Laporan */}
                                 <AccordionItem className="" value="item-7">
                                     <Link
