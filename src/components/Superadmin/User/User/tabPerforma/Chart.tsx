@@ -36,7 +36,7 @@ const PerformaChart = () => {
       if (elements.length > 0) {
         const index = elements[0].index; // Mendapatkan index bar yang diklik
         const tryOutId = tryOutIds[index]; // Mengambil ID yang sesuai
-        window.location.href = `/tryout/detail/${tryOutId}`; // Navigasi ke URL
+        window.location.href = `/user/user/detail/statistik/${tryOutId}`; // Navigasi ke URL
       }
     },
     plugins: {

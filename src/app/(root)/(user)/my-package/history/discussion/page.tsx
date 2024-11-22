@@ -288,13 +288,13 @@ const PembahasanPage: React.FC = () => {
           <div className="flex md:gap-5 gap-3 justify-center mt-8">
             <Button
               className="w-full md:w-fit"
+              variant="outlinePrimary"
               onClick={handlePrevious}
             >
               Sebelumnya
             </Button>
             <Button
               className="w-full md:w-fit"
-              variant="outlinePrimary"
               onClick={handleNext}
             >
               Selanjutnya
