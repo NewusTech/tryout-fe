@@ -14,7 +14,9 @@ import FeedBackIcon from "../../../../public/assets/icons/FeedBackIcon";
 import ReportIcon from "../../../../public/assets/icons/ReportIcon";
 import MasterDataIcon from "../../../../public/assets/icons/MasterDataIcon";
 import LogoutIcon from "../../../../public/assets/icons/LogoutIcon";
-
+import ComponentWithAccess from "@/components/Auth/componentWithAccess";
+import Cookies from "js-cookie";
+import Swal from "sweetalert2"; // Make sure to import SweetAlert2
 
 
 interface LayoutPerusahaanProps {
@@ -59,19 +61,24 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
     const handleLogout = () => {
         // Menghapus semua item di localStorage
         localStorage.clear();
+        // Menghapus semua cookie
+        document.cookie.split(';').forEach(cookie => {
+            const cookieName = cookie.split('=')[0].trim();
+            Cookies.remove(cookieName);
+        });
 
         // Tampilkan pop-up sukses tanpa tombol OK, otomatis menghilang setelah 2 detik
-        // Swal.fire({
-        //     title: 'Logout Berhasil',
-        //     text: 'Anda akan diarahkan ke halaman login.',
-        //     icon: 'success',
-        //     timer: 2000,  // Pop-up akan otomatis tertutup setelah 2 detik
-        //     timerProgressBar: true,  // Menampilkan progress bar waktu
-        //     showConfirmButton: false,  // Tidak menampilkan tombol OK
-        // }).then(() => {
-        //     // Arahkan ke halaman login setelah pop-up ditutup otomatis
-        //     router.push('/login');
-        // });
+        Swal.fire({
+            title: 'Logout Berhasil',
+            text: 'Anda akan diarahkan ke halaman login.',
+            icon: 'success',
+            timer: 2000,  // Pop-up akan otomatis tertutup setelah 2 detik
+            timerProgressBar: true,  // Menampilkan progress bar waktu
+            showConfirmButton: false,  // Tidak menampilkan tombol OK
+        }).then(() => {
+            // Arahkan ke halaman login setelah pop-up ditutup otomatis
+            router.push('/login');
+        });
         router.push('/login');
     };
 
@@ -135,188 +142,200 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                     <div className="wrap flex flex-col gap-1 ">
                         <div className=" overflow-auto flex flex-col justify-between">
                             {/* accordion */}
-                            <Accordion className="" type="single" collapsible>
-                                {/* dashboard */}
-                                <AccordionItem className="" value="item-1">
-                                    <Link
-                                        href="/dashboard"
-                                        className={`nav font-medium hover:pl-10 duration-200 transition-all flex pr-4 text-sm md:text-base items-center gap-[12px] mb-2 rounded-[8px] py-[12px] px-[24px] ${pathname.startsWith("/dashboard")
-                                            ? "bg-primary text-white"
-                                            : "bg-transparent text-primary"
-                                            }`} >
-                                        <div className="w-[35px]">
-                                            <DashboardIcon />
-                                        </div>
-                                        Dashboard
-                                    </Link>
-                                </AccordionItem>
-                                {/* dashboard */}
-                                {/* Tryout */}
-                                <AccordionItem className="" value="item-2">
-                                    <AccordionTrigger
-                                        className={`nav font-medium flex gap-2 mb-2 rounded-[8px] py-[12px] overflow-hidden px-[25px] ${pathname.startsWith(
-                                            "/tryout"
-                                        )
-                                            ? "bg-primary text-white"
-                                            : "bg-transparent text-primary"
-                                            }`}>
-                                        <div className="flex gap-3 items-center text-sm md:text-base">
+                            <ComponentWithAccess toLogin>
+                                <Accordion className="" type="single" collapsible>
+                                    {/* dashboard */}
+                                    <AccordionItem className="" value="item-1">
+                                        <Link
+                                            href="/dashboard"
+                                            className={`nav font-medium hover:pl-10 duration-200 transition-all flex pr-4 text-sm md:text-base items-center gap-[12px] mb-2 rounded-[8px] py-[12px] px-[24px] ${pathname.startsWith("/dashboard")
+                                                ? "bg-primary text-white"
+                                                : "bg-transparent text-primary"
+                                                }`} >
                                             <div className="w-[35px]">
-                                                <TryoutIcon />
+                                                <DashboardIcon />
                                             </div>
-                                            Tryout
-                                        </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent className="bg-primary-600/25 flex flex-col gap-2 mb-2 rounded-md">
-                                        <Menu link="/tryout/live-monitoring">
-                                            <span className="text-sm md:text-base">
-                                                Live Monitoring
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/tryout/schedule">
-                                            <span className="text-sm md:text-base">
-                                                Jadwal
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/tryout/history">
-                                            <span className="text-sm md:text-base">
-                                                Riwayat
-                                            </span>
-                                        </Menu>
-                                    </AccordionContent>
-                                </AccordionItem>
-                                {/* Tryout */}
-                                {/* pembayaran */}
-                                <AccordionItem className="" value="item-3">
-                                    <Link
-                                        href="/payment"
-                                        className={`nav font-medium hover:pl-10 duration-200 transition-all flex pr-4 text-sm md:text-base items-center gap-[12px] mb-2 rounded-[8px] py-[12px] px-[24px] ${pathname.startsWith("/payment")
-                                            ? "bg-primary text-white"
-                                            : "bg-transparent text-primary"
-                                            }`} >
-                                        <div className="w-[35px]">
-                                            <PaymentIcon />
-                                        </div>
-                                        Pembayaran
-                                    </Link>
-                                </AccordionItem>
-                                {/* pembayaran */}
-                                {/* Bank Soal */}
-                                <AccordionItem className="" value="item-4">
-                                    <AccordionTrigger
-                                        className={`nav font-medium flex gap-2 mb-2 rounded-[8px] py-[12px] overflow-hidden px-[25px] ${pathname.startsWith(
-                                            "/question-bank"
-                                        )
-                                            ? "bg-primary text-white"
-                                            : "bg-transparent text-primary"
-                                            }`}>
-                                        <div className="flex gap-3 items-center text-sm md:text-base">
+                                            Dashboard
+                                        </Link>
+                                    </AccordionItem>
+                                    {/* dashboard */}
+                                    {/* Tryout */}
+                                    <AccordionItem className="" value="item-2">
+                                        <AccordionTrigger
+                                            className={`nav font-medium flex gap-2 mb-2 rounded-[8px] py-[12px] overflow-hidden px-[25px] ${pathname.startsWith(
+                                                "/tryout"
+                                            )
+                                                ? "bg-primary text-white"
+                                                : "bg-transparent text-primary"
+                                                }`}>
+                                            <div className="flex gap-3 items-center text-sm md:text-base">
+                                                <div className="w-[35px]">
+                                                    <TryoutIcon />
+                                                </div>
+                                                Tryout
+                                            </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="bg-primary-600/25 flex flex-col gap-2 mb-2 rounded-md">
+                                            <Menu link="/tryout/live-monitoring">
+                                                <span className="text-sm md:text-base">
+                                                    Live Monitoring
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/tryout/schedule">
+                                                <span className="text-sm md:text-base">
+                                                    Jadwal
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/tryout/history">
+                                                <span className="text-sm md:text-base">
+                                                    Riwayat
+                                                </span>
+                                            </Menu>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                    {/* Tryout */}
+                                    {/* pembayaran */}
+                                    <AccordionItem className="" value="item-3">
+                                        <Link
+                                            href="/payment"
+                                            className={`nav font-medium hover:pl-10 duration-200 transition-all flex pr-4 text-sm md:text-base items-center gap-[12px] mb-2 rounded-[8px] py-[12px] px-[24px] ${pathname.startsWith("/payment")
+                                                ? "bg-primary text-white"
+                                                : "bg-transparent text-primary"
+                                                }`} >
                                             <div className="w-[35px]">
-                                                <QuestionIcon />
+                                                <PaymentIcon />
                                             </div>
-                                            Bank Soal
-                                        </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent className="bg-primary-600/25 flex flex-col gap-2 mb-2 rounded-md">
-                                        <Menu link="/question-bank/question-answer">
-                                            <span className="text-sm md:text-base">
-                                                Soal & Jawaban
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/question-bank/tryout-package">
-                                            <span className="text-sm md:text-base">
-                                                Paket Tryout
-                                            </span>
-                                        </Menu>
-                                    </AccordionContent>
-                                </AccordionItem>
-                                {/* Bank Soal */}
-                                {/* Pengguna */}
-                                <AccordionItem className="" value="item-5">
-                                    <AccordionTrigger
-                                        className={`nav font-medium flex gap-2 mb-2 rounded-[8px] py-[12px] overflow-hidden px-[25px] ${pathname.startsWith(
-                                            "/user"
-                                        )
-                                            ? "bg-primary text-white"
-                                            : "bg-transparent text-primary"
-                                            }`}>
-                                        <div className="flex gap-3 items-center text-sm md:text-base">
+                                            Pembayaran
+                                        </Link>
+                                    </AccordionItem>
+                                    {/* pembayaran */}
+                                    {/* Bank Soal */}
+                                    <AccordionItem className="" value="item-4">
+                                        <AccordionTrigger
+                                            className={`nav font-medium flex gap-2 mb-2 rounded-[8px] py-[12px] overflow-hidden px-[25px] ${pathname.startsWith(
+                                                "/question-bank"
+                                            )
+                                                ? "bg-primary text-white"
+                                                : "bg-transparent text-primary"
+                                                }`}>
+                                            <div className="flex gap-3 items-center text-sm md:text-base">
+                                                <div className="w-[35px]">
+                                                    <QuestionIcon />
+                                                </div>
+                                                Bank Soal
+                                            </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="bg-primary-600/25 flex flex-col gap-2 mb-2 rounded-md">
+                                            <Menu link="/question-bank/question-answer">
+                                                <span className="text-sm md:text-base">
+                                                    Soal & Jawaban
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/question-bank/tryout-package">
+                                                <span className="text-sm md:text-base">
+                                                    Paket Tryout
+                                                </span>
+                                            </Menu>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                    {/* Bank Soal */}
+                                    {/* Pengguna */}
+                                    <AccordionItem className="" value="item-5">
+                                        <AccordionTrigger
+                                            className={`nav font-medium flex gap-2 mb-2 rounded-[8px] py-[12px] overflow-hidden px-[25px] ${pathname.startsWith(
+                                                "/user"
+                                            )
+                                                ? "bg-primary text-white"
+                                                : "bg-transparent text-primary"
+                                                }`}>
+                                            <div className="flex gap-3 items-center text-sm md:text-base">
+                                                <div className="w-[35px]">
+                                                    <UserAdminIcon />
+                                                </div>
+                                                Pengguna
+                                            </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="bg-primary-600/25 flex flex-col gap-2 mb-2 rounded-md">
+                                            <Menu link="/user/admin">
+                                                <span className="text-sm md:text-base">
+                                                    Admin
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/user/user">
+                                                <span className="text-sm md:text-base">
+                                                    User
+                                                </span>
+                                            </Menu>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                    {/* Pengguna */}
+                                    {/* feedback */}
+                                    <AccordionItem className="" value="item-3">
+                                        <Link
+                                            href="/feedback"
+                                            className={`nav font-medium hover:pl-10 duration-200 transition-all flex pr-4 text-sm md:text-base items-center gap-[12px] mb-2 rounded-[8px] py-[12px] px-[24px] ${pathname.startsWith("/feedback")
+                                                ? "bg-primary text-white"
+                                                : "bg-transparent text-primary"
+                                                }`} >
                                             <div className="w-[35px]">
-                                                <UserAdminIcon />
+                                                <FeedBackIcon />
                                             </div>
-                                            Pengguna
-                                        </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent className="bg-primary-600/25 flex flex-col gap-2 mb-2 rounded-md">
-                                        <Menu link="/user/admin">
-                                            <span className="text-sm md:text-base">
-                                                Admin
-                                            </span>
-                                        </Menu>
-                                        <Menu link="/user/user">
-                                            <span className="text-sm md:text-base">
-                                                User
-                                            </span>
-                                        </Menu>
-                                    </AccordionContent>
-                                </AccordionItem>
-                                {/* Pengguna */}
-                                {/* feedback */}
-                                <AccordionItem className="" value="item-3">
-                                    <Link
-                                        href="/feedback"
-                                        className={`nav font-medium hover:pl-10 duration-200 transition-all flex pr-4 text-sm md:text-base items-center gap-[12px] mb-2 rounded-[8px] py-[12px] px-[24px] ${pathname.startsWith("/feedback")
-                                            ? "bg-primary text-white"
-                                            : "bg-transparent text-primary"
-                                            }`} >
-                                        <div className="w-[35px]">
-                                            <FeedBackIcon />
-                                        </div>
-                                        Feedback
-                                    </Link>
-                                </AccordionItem>
-                                {/* feedback */}
-                                {/* Laporan */}
-                                <AccordionItem className="" value="item-7">
-                                    <Link
-                                        href="/report"
-                                        className={`nav font-medium hover:pl-10 duration-200 transition-all flex pr-4 text-sm md:text-base items-center gap-[12px] mb-2 rounded-[8px] py-[12px] px-[24px] ${pathname.startsWith("/report")
-                                            ? "bg-primary text-white"
-                                            : "bg-transparent text-primary"
-                                            }`} >
-                                        <div className="w-[35px]">
-                                            <ReportIcon />
-                                        </div>
-                                        Laporan
-                                    </Link>
-                                </AccordionItem>
-                                {/* Laporan */}
-                                {/* Data Master */}
-                                <AccordionItem className="" value="item-8">
-                                    <AccordionTrigger
-                                        className={`nav font-medium flex gap-2 mb-2 rounded-[8px] py-[12px] overflow-hidden px-[25px] ${pathname.startsWith(
-                                            "/data-master"
-                                        )
-                                            ? "bg-primary text-white"
-                                            : "bg-transparent text-primary"
-                                            }`}>
-                                        <div className="flex gap-3 items-center text-sm md:text-base">
+                                            Feedback
+                                        </Link>
+                                    </AccordionItem>
+                                    {/* feedback */}
+                                    {/* Laporan */}
+                                    <AccordionItem className="" value="item-7">
+                                        <Link
+                                            href="/report"
+                                            className={`nav font-medium hover:pl-10 duration-200 transition-all flex pr-4 text-sm md:text-base items-center gap-[12px] mb-2 rounded-[8px] py-[12px] px-[24px] ${pathname.startsWith("/report")
+                                                ? "bg-primary text-white"
+                                                : "bg-transparent text-primary"
+                                                }`} >
                                             <div className="w-[35px]">
-                                                <MasterDataIcon />
+                                                <ReportIcon />
                                             </div>
-                                            Data Master
-                                        </div>
-                                    </AccordionTrigger>
-                                    <AccordionContent className="bg-primary-600/25 flex flex-col gap-2 mb-2 rounded-md">
-                                        <Menu link="/data-master/snk">
-                                            <span className="text-sm md:text-base">
-                                                Syarat dan Ketentuan
-                                            </span>
-                                        </Menu>
-                                    </AccordionContent>
-                                </AccordionItem>
-                                {/* Data Master */}
-                            </Accordion>
+                                            Laporan
+                                        </Link>
+                                    </AccordionItem>
+                                    {/* Laporan */}
+                                    {/* Data Master */}
+                                    <AccordionItem className="" value="item-8">
+                                        <AccordionTrigger
+                                            className={`nav font-medium flex gap-2 mb-2 rounded-[8px] py-[12px] overflow-hidden px-[25px] ${pathname.startsWith(
+                                                "/data-master"
+                                            )
+                                                ? "bg-primary text-white"
+                                                : "bg-transparent text-primary"
+                                                }`}>
+                                            <div className="flex gap-3 items-center text-sm md:text-base">
+                                                <div className="w-[35px]">
+                                                    <MasterDataIcon />
+                                                </div>
+                                                Data Master
+                                            </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="bg-primary-600/25 flex flex-col gap-2 mb-2 rounded-md">
+                                            <Menu link="/data-master/package-type">
+                                                <span className="text-sm md:text-base">
+                                                    Tipe Paket
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/data-master/payment-type">
+                                                <span className="text-sm md:text-base">
+                                                    Tipe Pembayaran
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/data-master/snk">
+                                                <span className="text-sm md:text-base">
+                                                    Syarat dan Ketentuan
+                                                </span>
+                                            </Menu>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                    {/* Data Master */}
+                                </Accordion>
+                            </ComponentWithAccess>
                             {/* accordion */}
                             {/* profile */}
                             <div className="wrap mt-10 flex flex-col gap-3">
@@ -338,6 +357,7 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                 </div>
                                 {/*  */}
                                 <div
+                                    onClick={handleLogout}
                                     className={`nav cursor-pointer font-medium hover:pl-10 duration-200 transition-all flex pr-4 text-sm md:text-base items-center gap-[12px] mb-2 rounded-[8px] py-[12px] px-[24px] bg-transparent text-primary`} >
                                     <div className="w-[35px]">
                                         <LogoutIcon />

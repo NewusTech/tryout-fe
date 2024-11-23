@@ -11,6 +11,9 @@ import { useForm } from "react-hook-form";
 import Loading from "@/components/ui/Loading";
 import HelperError from "@/components/ui/HelperError";
 import UserIcon from "../../../../../public/assets/icons/UserIcon";
+import { axiosInstance } from "@/utils/axios";
+import Swal from "sweetalert2"; // Make sure to import SweetAlert2
+import Cookies from "js-cookie"; // Import js-cookie
 
 
 const formSchema = z.object({
@@ -59,71 +62,75 @@ const LoginPage = () => {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
+    const setAccessToken = (token: string) => {
+        // Store token in cookies (with 7 days expiry, you can adjust as needed)
+        Cookies.set("accessToken", token,);
+    };
+
     const onSubmit = async (data: FormSchemaType) => {
         setLoading(true);
         setLoginError(null); // Reset previous errors
 
-        // try {
-        //     const response = await axiosInstance.post("/login", {
-        //         email: data.email,
-        //         password: data.password,
-        //     });
+        try {
+            const response = await axiosInstance.post("/login", {
+                email: data.email,
+                password: data.password,
+            });
 
-        //     if (response.status === 200) {
-        //         // alert
-        //         Swal.fire({
-        //             icon: "success",
-        //             title: "Berhasil Login!",
-        //             text: "Selamat Datang ✅",
-        //             timer: 3000,
-        //             timerProgressBar: true,
-        //             showConfirmButton: false,
-        //             showClass: {
-        //                 popup: "animate__animated animate__fadeInDown",
-        //             },
-        //             hideClass: {
-        //                 popup: "animate__animated animate__fadeOutUp",
-        //             },
-        //             customClass: {
-        //                 title: "text-2xl font-semibold text-green-600",
-        //                 icon: "text-green-500 animate-bounce",
-        //                 timerProgressBar:
-        //                     "bg-gradient-to-r from-indigo-400 to-blue-400", // Gradasi warna yang lembut
-        //             },
-        //             backdrop: `rgba(0, 0, 0, 0.4)`,
-        //         });
-        //         // alert
-        //         setAccessToken(response?.data?.data?.token);
-        //         setPermissions(response?.data?.data?.permission);
-        //         // reset();
-        //         router.push("/dashboard");
-        //     }
-        // } catch (error: any) {
-        //     // alert
-        //     // Extract error message from API response
-        //     const errorMessage =
-        //         error.response?.data?.data?.[0]?.message || "Login gagal. Silakan coba lagi!";
-        //     Swal.fire({
-        //         icon: "error",
-        //         title: "Terjadi kesalahan!",
-        //         text: errorMessage,
-        //         showConfirmButton: true,
-        //         showClass: { popup: "animate__animated animate__fadeInDown" },
-        //         hideClass: { popup: "animate__animated animate__fadeOutUp" },
-        //         customClass: {
-        //             popup: "rounded-xl",
-        //             title: "text-2xl font-semibold text-red-600",
-        //             icon: "text-red-500 animate-bounce",
-        //             confirmButton: "bg-primary" // Warna biru untuk tombol konfirmasi
-        //         },
-        //         backdrop: "rgba(0, 0, 0, 0.4)",
-        //     });
-        //     console.error("Failed to create user:", error);
-        //     // alert
-        //     setLoginError(errorMessage);
-        // } finally {
-        //     setLoading(false);
-        // }
+            if (response.status === 200) {
+                // alert
+                Swal.fire({
+                    icon: "success",
+                    title: "Berhasil Login!",
+                    text: "Selamat Datang ✅",
+                    timer: 3000,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                    showClass: {
+                        popup: "animate__animated animate__fadeInDown",
+                    },
+                    hideClass: {
+                        popup: "animate__animated animate__fadeOutUp",
+                    },
+                    customClass: {
+                        title: "text-2xl font-semibold text-green-600",
+                        icon: "text-green-500 animate-bounce",
+                        timerProgressBar:
+                            "bg-gradient-to-r from-indigo-400 to-blue-400", // Gradasi warna yang lembut
+                    },
+                    backdrop: `rgba(0, 0, 0, 0.4)`,
+                });
+                // alert
+                setAccessToken(response?.data?.data?.token);
+                // reset();
+                router.push("/dashboard");
+            }
+        } catch (error: any) {
+            // alert
+            // Extract error message from API response
+            const errorMessage =
+                error.response?.data?.data?.[0]?.message || "Login gagal. Silakan coba lagi!";
+            Swal.fire({
+                icon: "error",
+                title: "Terjadi kesalahan!",
+                text: errorMessage,
+                showConfirmButton: true,
+                showClass: { popup: "animate__animated animate__fadeInDown" },
+                hideClass: { popup: "animate__animated animate__fadeOutUp" },
+                customClass: {
+                    popup: "rounded-xl",
+                    title: "text-2xl font-semibold text-red-600",
+                    icon: "text-red-500 animate-bounce",
+                    confirmButton: "bg-primary" // Warna biru untuk tombol konfirmasi
+                },
+                backdrop: "rgba(0, 0, 0, 0.4)",
+            });
+            console.error("Failed to create user:", error);
+            // alert
+            setLoginError(errorMessage);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
