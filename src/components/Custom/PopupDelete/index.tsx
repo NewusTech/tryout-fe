@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 import React, { FC, useState } from 'react';
 import {
@@ -11,6 +12,8 @@ import {
 // import HapusIcon from '../../../../public/icons/HapusIcon';
 import { Button } from '@/components/ui/button';
 import Loading from '@/components/ui/Loading';
+import WarningIcon from '../../../../public/assets/icons/WarningIcon';
+import TrashIcon from '../../../../public/assets/icons/TrashIcon';
 
 interface DeletePopupTitikProps {
     onDelete: () => Promise<void>; // onDelete should return a promise
@@ -39,34 +42,52 @@ const DeletePopupTitik: FC<DeletePopupTitikProps> = ({ onDelete, className }) =>
                 <DialogTrigger asChild>
                     <div className={`text-primary w-full text-start cursor-pointer ${className}`}>Hapus</div>
                 </DialogTrigger>
-                <DialogContent className='bg-white '>
-                    <DialogHeader>
-                        <DialogTitle className='text-start text-sm md:text-base'>
-                            Apakah kamu yakin menghapus ini?
-                        </DialogTitle>
-                        <DialogDescription className='text-start text-sm md:text-base'>
-                            Tindakan ini akan membuat data hilang permanen dan akan dihapus di server
-                            <div className="wrap flex gap-3 justify-end mt-3">
+                <DialogContent className='bg-white w-[600px]'>
+                    <div onClick={() => setIsOpen(false)} className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+                        <div
+                            onClick={(e) => e.stopPropagation()} // Prevents click from closing pop-up when interacting inside
+                            className="bg-white overflow-hidden rounded-[20px] relative w-[600px] md:mx-0 mx-4"
+                        >
+                            <div className="px-7 flex bg-[#FFC3C3] justify-between p-4">
+                                <div className="text-[#B11D1D] font-medium">Hapus</div>
+                                <button onClick={() => setIsOpen(false)} className="flex justify-center items-center text-white w-6 h-6 rounded-full bg-[#B11D1D]">x</button>
+                            </div>
+                            <div className="flex px-7 gap-4 items-center border-b border-slate-300 p-4">
+                                <div className="left">
+                                    <TrashIcon />
+                                </div>
+                                <div className="right">
+                                    <div className="text-[#D32F2F] font-semibold mb-2">
+                                        Apakah Anda yakin ingin menghapus data ini?
+                                    </div>
+                                    <div className="text-justify text-sm">
+                                        Jika Anda memilih "Ya," data ini akan dihapus secara permanen dan tidak dapat dikembalikan.
+                                        Jika Anda memilih "Tidak," data akan tetap tersimpan seperti sebelumnya.
+                                    </div>
+                                </div>
+                            </div>
+                            {/* button */}
+                            <div className="p-4 px-7 flex gap-3 justify-end">
                                 <Button
-                                    type='button'
-                                    variant="outlinePrimary"
-                                    className='w-[100px]  rounded-full py-2'
-                                    onClick={() => setIsOpen(false)} // Menutup dialog
+                                    onClick={() => setIsOpen(false)}
+                                    variant="outline"
+                                    className='w-[130px]'
                                 >
-                                    Batal
+                                    Tidak
                                 </Button>
                                 <Button
-                                    className={`w-[100px]  rounded-full py-2 ${loading ? 'bg-gray-500' : 'bg-red-500 hover:bg-red-700'}`}
+                                    className={`w-[130px]  rounded-full py-2 ${loading ? 'bg-gray-500' : 'bg-[#D32F2F] hover:bg-red-700'}`}
                                     onClick={handleDelete} // Menambahkan fungsi onClick
                                     disabled={loading} // Disable button while loading
                                 >
-                                    {loading ? <Loading /> : "Hapus"}
+                                    {loading ? <Loading /> : "Iya"}
                                 </Button>
                             </div>
-                        </DialogDescription>
-                    </DialogHeader>
+                        </div>
+                    </div>
                 </DialogContent>
             </Dialog>
+            {/*  */}
         </div>
     );
 }

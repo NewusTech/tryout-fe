@@ -32,7 +32,7 @@ const LoadingPage = () => {
                     width: 13.33333px;
                     height: 13.33333px;
                     border-radius: 50%;
-                    background: #2F55D4;
+                    background: #4A055B;
                     animation-timing-function: cubic-bezier(0, 1, 1, 0);
                 }
                 .lds-ellipsis div:nth-child(1) {
