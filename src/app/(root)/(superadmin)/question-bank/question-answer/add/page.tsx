@@ -8,6 +8,10 @@ import { CustomSelect } from "@/components/Custom/SelectCustom";
 import DeleteIcon from "../../../../../../../public/assets/icons/DeleteIcon";
 import TitleBack from "@/components/Superadmin/TitleBack";
 import "react-quill/dist/quill.snow.css";
+import { showAlert } from "@/lib/swalAlert";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import Loading from "@/components/ui/Loading";
+import { useRouter } from "next/navigation";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const AddQuestion = () => {
@@ -57,8 +61,8 @@ const AddQuestion = () => {
     }, [title, questions, selectedValue, isLoaded]);
 
     const statusOptions = [
-        { label: "TIU", value: 1 },
-        { label: "TWK", value: 2 },
+        { label: "TWK", value: 1 },
+        { label: "TIU", value: 2 },
         { label: "TKP", value: 3 },
     ];
 
@@ -146,7 +150,11 @@ const AddQuestion = () => {
         );
     };
 
-    const saveBankSoal = () => {
+    const [loading, setLoading] = useState(false);
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useRouter();
+
+    const saveBankSoal = async () => {
         if (!title || !selectedValue || questions.some((q) => !q.question)) {
             alert("Harap isi semua field yang wajib!");
             return;
@@ -169,9 +177,24 @@ const AddQuestion = () => {
             })),
         };
 
+        try {
+            setLoading(true);
+            await axiosPrivate.post("/user/question/form/createmulti", formattedData);
+            showAlert("success", "Data berhasil dibuat!");
+            navigate.push("/question-bank/question-answer");
+        } catch (error: any) {
+            const errorMessage =
+                error?.response?.data?.data?.[0]?.message ||
+                error?.response?.data?.message ||
+                "Gagal membuat data!";
+            showAlert("error", errorMessage);
+        } finally {
+            setLoading(false);
+        }
+
         console.log("Saved Bank Soal:", formattedData);
-        // Replace this with an API call
     };
+
 
     return (
         <div className="form flex flex-col gap-5">
@@ -224,6 +247,7 @@ const AddQuestion = () => {
                             <div className="flex items-center gap-3 w-full">
                                 <ElipseIcon />
                                 <input
+                                    required
                                     type="text"
                                     placeholder="Jawaban"
                                     className="bg-[#FAFAFA] pb-1 border-b border-gray-900/20 focus-visible:outline-none w-1/2"
@@ -234,7 +258,7 @@ const AddQuestion = () => {
                                 />
                             </div>
                             {selectedValue === 3 && (
-                                <div className="w-full">
+                                <div className="w-full mr-3">
                                     <CustomSelect
                                         label="Pilih Point"
                                         options={pointOptions}
@@ -312,7 +336,10 @@ const AddQuestion = () => {
             <div className="">
                 <Button onClick={addNewQuestion}>Tambah Pertanyaan</Button>
             </div>
-            <Button className="bg-secondary hover:bg-secondary-hover" onClick={saveBankSoal}>Simpan Bank Soal</Button>
+            <Button className="bg-secondary hover:bg-secondary-hover"
+                onClick={saveBankSoal}>
+                {loading ? <Loading /> : "Simpan Bank Soal"}
+            </Button>
         </div>
     );
 };

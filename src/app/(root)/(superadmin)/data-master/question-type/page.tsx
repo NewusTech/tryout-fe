@@ -3,16 +3,16 @@
 import TitleAdmin from "@/components/Superadmin/Title";
 import React, { useState } from "react";
 import PaginationTable from "@/components/Custom/PaginationTable";
+import DataTable from "@/components/Superadmin/DataMaster/QuestionType/DataTable";
 import { Input } from "@/components/ui/input";
 import SearchIcon from "../../../../../../public/assets/icons/SearchIcon";
 import PlusIcon from "../../../../../../public/assets/icons/PlusIcon";
-import { useGetTypePayment } from "@/services/api";
+import { useGetTypeQuestion } from "@/services/api";
 import LinkCustom from "@/components/ui/LinkCustom";
-import DataTable from "@/components/Superadmin/DataMaster/PaymaentType/DataTable";
 
-const PaymentTypePage = () => {
+const QuestionTypePage = () => {
   // Define table headers
-  const tableHeaders = ["No", "Nama Pembayaran", "Aksi"];
+  const tableHeaders = ["No", "Nama Tipe Pertanyaan", "Aksi"];
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,16 +29,16 @@ const PaymentTypePage = () => {
   // serach
 
   // INTEGRASI
-  const { data } = useGetTypePayment(currentPage, search,);
+  const { data } = useGetTypeQuestion(currentPage, search,);
   // INTEGRASI
 
   return (
     <div className="">
-      <TitleAdmin title="Tipe Pembayaran" />
+      <TitleAdmin title="Tipe Pertanyaan" />
       <div className="head flex gap-3 justify-between">
         <div className="w-[50%]">
           <Input
-            placeholder='Cari Tipe Pembayaran'
+            placeholder='Cari Tipe Pertanyaan'
             leftIcon={<SearchIcon />}
             className='border-primary placeholder:text-primary/40'
             value={search}
@@ -46,7 +46,7 @@ const PaymentTypePage = () => {
           />
         </div>
         <LinkCustom
-          href="/data-master/payment-type/add"
+          href="/data-master/question-type/add"
           className="flex gap-3 text-white items-center flex-shrink-0 w-[160px] justify-center"
         >
           <PlusIcon />
@@ -76,4 +76,4 @@ const PaymentTypePage = () => {
   );
 };
 
-export default PaymentTypePage;
+export default QuestionTypePage;

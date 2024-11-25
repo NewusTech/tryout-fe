@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import Image from "next/image";
 import ArrowDown from "../../../../../public/assets/icons/ArrowDown";
+import { useGetAboutCompany } from "@/services/api";
 
 const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
@@ -37,6 +38,10 @@ const Navbar = () => {
         };
     }, []);
 
+     // INTEGRASI
+  const { data } = useGetAboutCompany();
+  // INTEGRASI
+
     return (
         <div className="">
             <div
@@ -45,7 +50,7 @@ const Navbar = () => {
             >
                 <div className="wrap py-2 m-auto container flex justify-between items-center">
                     <div className="logo h-[63px]">
-                        <img className="h-full object-cover" src={`../../assets/images/logo-nav.png`} alt="" />
+                        <img className="h-full object-cover" src={data?.data?.main_logo ?? "-"} alt="" />
                         {/* <img className="h-full object-cover" src={`${scrolled ? 'Images/alin2.png' : 'Images/alin.png '
                             }`} alt="" /> */}
                     </div>
