@@ -6,8 +6,8 @@ import HelperError from "@/components/ui/HelperError";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Loading from "@/components/ui/Loading";
-import { putSubmitTypePackage, useGetTypePackageId, } from "@/services/api";
-import { typePackage, typePackageFormData } from "@/validations";
+import { putSubmitTypePayment, useGetTypePaymentId, } from "@/services/api";
+import { typePayment, typePaymentFormData } from "@/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -22,20 +22,20 @@ const EditPackageType = () => {
         handleSubmit,
         setValue,
         formState: { errors },
-    } = useForm<typePackageFormData>({
-        resolver: zodResolver(typePackage),
+    } = useForm<typePaymentFormData>({
+        resolver: zodResolver(typePayment),
     });
     // intergasi
 
     // GET ONE SLUG
     // Integrasi API
     const { id } = useParams();
-    const { data: dataUser } = useGetTypePackageId(id as string);
+    const { data: dataUser } = useGetTypePaymentId(id as string);
 
     useEffect(() => {
         if (dataUser?.data) {
             const timer = setTimeout(() => {
-                setValue("name", dataUser?.data?.name ?? '');
+                setValue("title", dataUser?.data?.title ?? '');
                 // 
             }, 1000); // Set the delay in milliseconds (1000 ms = 1 second)
 
@@ -46,28 +46,28 @@ const EditPackageType = () => {
     // GET ONE SLUG
 
     // 
-    const { handlePostSubmit } = putSubmitTypePackage(id as string);
+    const { handlePostSubmit } = putSubmitTypePayment(id as string);
 
-    const onSubmit: SubmitHandler<typePackageFormData> = (data) => {
+    const onSubmit: SubmitHandler<typePaymentFormData> = (data) => {
         handlePostSubmit(data, setLoading);
     };
     // 
     return (
         <div className="">
-            <TitleBack href="/data-master/package-type" title="Edit Tipe Paket" />
+            <TitleBack href="/data-master/payment-type" title="Edit Tipe Pembayaran" />
             {/* form */}
             <form onSubmit={handleSubmit(onSubmit)} className="form shadow-lg flex flex-col gap-5 rounded-xl bg-[#FAFAFA] border border-gray-100 p-6">
                 {/*  */}
                 <div className="grid grid-cols-1 gap-3 md:gap-7">
                     <div className="flex flex-col md:gap-3 gap-2">
-                        <Label className="text-primary">Nama Tipe Paket</Label>
+                        <Label className="text-primary">Nama Tipe Pembayaran</Label>
                         <Input
                             type="text"
-                            placeholder="Nama Tipe Paket"
-                            {...register('name')}
-                            className={`${errors.name ? 'border-red-500' : ''}`}
+                            placeholder="Nama Tipe Pembayaran"
+                            {...register('title')}
+                            className={`${errors.title ? 'border-red-500' : ''}`}
                         />
-                        <HelperError>{errors?.name?.message}</HelperError>
+                        <HelperError>{errors?.title?.message}</HelperError>
                     </div>
                 </div>
                 {/* button */}

@@ -326,9 +326,24 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                                     Tipe Pembayaran
                                                 </span>
                                             </Menu>
-                                            <Menu link="/data-master/snk">
+                                            <Menu link="/data-master/question-type">
                                                 <span className="text-sm md:text-base">
-                                                    Syarat dan Ketentuan
+                                                    Tipe Pertanyaan
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/data-master/term-policies">
+                                                <span className="text-sm md:text-base">
+                                                    Ketentuan & Kebijakan
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/data-master/about-company">
+                                                <span className="text-sm md:text-base">
+                                                    Tentang Perusahaan
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/data-master/banner">
+                                                <span className="text-sm md:text-base">
+                                                    Banner Beranda
                                                 </span>
                                             </Menu>
                                         </AccordionContent>

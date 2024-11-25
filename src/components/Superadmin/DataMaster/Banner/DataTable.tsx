@@ -19,19 +19,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import DeletePopupTitik from "@/components/Custom/PopupDelete";
 import TitikIcon from "../../../../../public/assets/icons/TitikIcon";
-import { PackageResponse } from "@/types/interface";
+import { BannerResponse } from "@/types/interface";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import Cookies from "js-cookie";
 import { showAlert } from "@/lib/swalAlert";
 import { mutate } from "swr";
+import Image from "next/image";
 
 
-const DataTable: React.FC<PackageResponse> = ({ headers, data, currentPage, search, }) => {
+const DataTable: React.FC<BannerResponse> = ({ headers, data, currentPage, }) => {
     const accessToken = Cookies.get("accessToken"); // Ambil token langsung
     const axiosPrivate = useAxiosPrivate();
     const handleDelete = async (id: number) => {
         try {
-            await axiosPrivate.delete(`/user/type/package/delete/${id}`, {
+            await axiosPrivate.delete(`/user/banner/delete/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -45,7 +46,7 @@ const DataTable: React.FC<PackageResponse> = ({ headers, data, currentPage, sear
             const errorMessage = error.response?.data?.data?.[0]?.message || error.response?.data?.message || 'Gagal menghapus data!';
             showAlert('error', errorMessage);
             //   alert
-        } mutate(`/user/type/package/get?page=${currentPage}&limit=10&search=${search}`);;
+        } mutate(`/user/banner/get?page=${currentPage}&limit=10`);
     };
 
     return (
@@ -66,9 +67,18 @@ const DataTable: React.FC<PackageResponse> = ({ headers, data, currentPage, sear
                                     <TableCell className="text-center">
                                         {(currentPage - 1) * 10 + (index + 1)}
                                     </TableCell>
-                                    <TableCell className="text-center text-primary">{item?.name ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">
+                                        <Image
+                                            src={item?.image ?? "-"}
+                                            alt="logo"
+                                            width={500}
+                                            height={500}
+                                            unoptimized
+                                            className="h-[300px] object-contain"
+                                        />
+                                    </TableCell>
                                     {/*  */}
-                                    <TableCell className="text-center justify-center items-center flex gap-2">
+                                    <TableCell className="text-center justify-center h-[300px] items-center flex gap-2">
                                         <div className="aksi flex-shrink-0">
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
@@ -83,7 +93,7 @@ const DataTable: React.FC<PackageResponse> = ({ headers, data, currentPage, sear
                                                     <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                                     <DropdownMenuGroup>
                                                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                            <Link className="w-full" href={`/data-master/package-type/edit/${item?.id}`}>
+                                                            <Link className="w-full" href={`/data-master/banner/edit/${item?.id}`}>
                                                                 <div className="flex items-center gap-2 text-primary">
                                                                     Edit
                                                                 </div>

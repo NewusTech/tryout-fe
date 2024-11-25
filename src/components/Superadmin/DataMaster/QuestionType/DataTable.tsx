@@ -19,19 +19,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import DeletePopupTitik from "@/components/Custom/PopupDelete";
 import TitikIcon from "../../../../../public/assets/icons/TitikIcon";
-import { PackageResponse } from "@/types/interface";
+import { QuestionResponse } from "@/types/interface";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import Cookies from "js-cookie";
 import { showAlert } from "@/lib/swalAlert";
 import { mutate } from "swr";
 
 
-const DataTable: React.FC<PackageResponse> = ({ headers, data, currentPage, search, }) => {
+const DataTable: React.FC<QuestionResponse> = ({ headers, data, currentPage, search, }) => {
     const accessToken = Cookies.get("accessToken"); // Ambil token langsung
     const axiosPrivate = useAxiosPrivate();
     const handleDelete = async (id: number) => {
         try {
-            await axiosPrivate.delete(`/user/type/package/delete/${id}`, {
+            await axiosPrivate.delete(`/user/type/question/delete/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -45,7 +45,7 @@ const DataTable: React.FC<PackageResponse> = ({ headers, data, currentPage, sear
             const errorMessage = error.response?.data?.data?.[0]?.message || error.response?.data?.message || 'Gagal menghapus data!';
             showAlert('error', errorMessage);
             //   alert
-        } mutate(`/user/type/package/get?page=${currentPage}&limit=10&search=${search}`);;
+        } mutate(`/user/type/question/get?page=${currentPage}&limit=10&search=${search}`);
     };
 
     return (
@@ -83,7 +83,7 @@ const DataTable: React.FC<PackageResponse> = ({ headers, data, currentPage, sear
                                                     <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                                     <DropdownMenuGroup>
                                                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                            <Link className="w-full" href={`/data-master/package-type/edit/${item?.id}`}>
+                                                            <Link className="w-full" href={`/data-master/question-type/edit/${item?.id}`}>
                                                                 <div className="flex items-center gap-2 text-primary">
                                                                     Edit
                                                                 </div>
