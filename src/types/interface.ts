@@ -149,3 +149,50 @@ export interface BannerResponseOne {
   message?: string;
 }
 
+// bankquestion
+export interface BankSoalResponse {
+  data: BankSoal[];
+  headers: string[];
+  currentPage: number;
+  search: string;
+  pagination?: Pagination;
+  status?: number;
+  message?: string;
+}
+
+interface BankSoal {
+  id: number;
+  title: string;
+  typequestion_id: number;
+  createdAt: string; // ISO 8601 date string
+  updatedAt: string; // ISO 8601 date string
+  Type_question_name: string;
+}
+
+// paket tryout
+export interface PackageTryoutResponse {
+  data: PackageTryout[];
+  headers: string[];
+  currentPage: number;
+  search: string;
+  pagination?: Pagination;
+  status?: number;
+  message?: string;
+}
+
+interface PackageTryout {
+  id: number;
+  user_id: number | null;
+  title: string;
+  slug: string;
+  description: string;
+  duration: string; // Menyimpan durasi sebagai string (dari API)
+  price: string; // Menyimpan harga sebagai string (dari API)
+  typepackage_id: number;
+  total_question: string; // Menyimpan total pertanyaan sebagai string (dari API)
+  Type_package_name: string; // Nama tipe paket
+}
+
+
+
+

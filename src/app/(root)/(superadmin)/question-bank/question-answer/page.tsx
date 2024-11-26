@@ -13,6 +13,7 @@ import DataTable from "@/components/Superadmin/QuestionBank/QuestionAnswer/DataT
 import { Button } from "@/components/ui/button";
 import ExportIcon from "../../../../../../public/assets/icons/ExportIcon";
 import ImportIcon from "../../../../../../public/assets/icons/ImportIcon";
+import { useGetBankQuestion } from "@/services/api";
 
 const QuestionBank = () => {
     const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
@@ -20,40 +21,6 @@ const QuestionBank = () => {
     // Define table headers
     const tableHeaders = ["No", "Nama Bank Soal", "Kategori Soal", "Jumlah", "Aksi"];
 
-    // Dummy data
-    const dummyData = [
-        {
-            no: 1,
-            namaSoal: "Tryout 1",
-            kategori: "TIU",
-            jumlah: "45",
-        },
-        {
-            no: 2,
-            namaSoal: "Tryout 2",
-            kategori: "TKA",
-            jumlah: "50",
-        },
-        {
-            no: 3,
-            namaSoal: "Tryout 3",
-            kategori: "TKP",
-            jumlah: "40",
-        },
-        {
-            no: 4,
-            namaSoal: "Tryout 4",
-            kategori: "TIU",
-            jumlah: "55",
-        },
-        {
-            no: 5,
-            namaSoal: "Tryout 5",
-            kategori: "TKA",
-            jumlah: "60",
-        },
-    ];
-    
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const onPageChange = (page: number) => {
@@ -67,6 +34,10 @@ const QuestionBank = () => {
         setCurrentPage(1); // Reset to page 1
     };
     // serach
+
+    // INTEGRASI
+    const { data } = useGetBankQuestion(currentPage, search,);
+    // INTEGRASI
 
     return (
         <div className="">
@@ -87,15 +58,15 @@ const QuestionBank = () => {
                     Tambah
                 </LinkCustom>
                 <Button
-                variant="outlinePrimary"
-                className="flex gap-3"
+                    variant="outlinePrimary"
+                    className="flex gap-3"
                 >
                     <ExportIcon />
                     Export
                 </Button>
                 <Button
-                variant="outlinePrimary"
-                className="flex gap-3"
+                    variant="outlinePrimary"
+                    className="flex gap-3"
                 >
                     <ImportIcon />
                     Import
@@ -103,26 +74,26 @@ const QuestionBank = () => {
             </div>
             <div className="mt-3 flex gap-3">
                 <Button
-                variant="default"
-                className="py-2 w-[140px]"
+                    variant="default"
+                    className="py-2 w-[140px]"
                 >
                     Semua
                 </Button>
                 <Button
-                variant="outlinePrimary"
-                className="py-2 w-[140px]"
+                    variant="outlinePrimary"
+                    className="py-2 w-[140px]"
                 >
                     TWK
                 </Button>
                 <Button
-                variant="outlinePrimary"
-                className="py-2 w-[140px]"
+                    variant="outlinePrimary"
+                    className="py-2 w-[140px]"
                 >
                     TIU
                 </Button>
                 <Button
-                variant="outlinePrimary"
-                className="py-2 w-[140px]"
+                    variant="outlinePrimary"
+                    className="py-2 w-[140px]"
                 >
                     TKP
                 </Button>
@@ -131,7 +102,7 @@ const QuestionBank = () => {
             <div className="Table mt-6">
                 <DataTable
                     headers={tableHeaders}
-                    data={dummyData}
+                    data={data?.data}
                     currentPage={currentPage}
                     search={search}
                 />
@@ -140,7 +111,7 @@ const QuestionBank = () => {
             <div className="pagi flex items-center justify-center md:justify-end mt-3 pb-5 lg:pb-0">
                 <PaginationTable
                     currentPage={currentPage}
-                    totalPages={10}
+                    totalPages={data?.pagination?.totalPages as number}
                     onPageChange={onPageChange}
                 />
             </div>

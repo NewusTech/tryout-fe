@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import ExportIcon from "../../../../../../public/assets/icons/ExportIcon";
 import ImportIcon from "../../../../../../public/assets/icons/ImportIcon";
 import DataTable from "@/components/Superadmin/QuestionBank/TryoutPackage/DataTable";
+import { useGetTryoutPackage } from "@/services/api";
 
 const TryoutPackage = () => {
     const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
@@ -20,35 +21,6 @@ const TryoutPackage = () => {
     // Define table headers
     const tableHeaders = ["No", "Paket Tryout", "Harga", "Aksi"];
 
-    // Dummy data
-    const dummyData = [
-        {
-            no: 1,
-            paketTryout: "Tryout 1",
-            harga: "45000",
-        },
-        {
-            no: 2,
-            paketTryout: "Tryout 2",
-            harga: "50000",
-        },
-        {
-            no: 3,
-            paketTryout: "Tryout 3",
-            harga: "40000",
-        },
-        {
-            no: 4,
-            paketTryout: "Tryout 4",
-            harga: "55000",
-        },
-        {
-            no: 5,
-            paketTryout: "Tryout 5",
-            harga: "60000",
-        },
-    ];
-    
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const onPageChange = (page: number) => {
@@ -62,6 +34,10 @@ const TryoutPackage = () => {
         setCurrentPage(1); // Reset to page 1
     };
     // serach
+
+    // INTEGRASI
+    const { data } = useGetTryoutPackage(currentPage, search,);
+    // INTEGRASI
 
     return (
         <div className="">
@@ -86,7 +62,7 @@ const TryoutPackage = () => {
             <div className="Table mt-6">
                 <DataTable
                     headers={tableHeaders}
-                    data={dummyData}
+                    data={data?.data}
                     currentPage={currentPage}
                     search={search}
                 />
@@ -95,7 +71,7 @@ const TryoutPackage = () => {
             <div className="pagi flex items-center justify-center md:justify-end mt-3 pb-5 lg:pb-0">
                 <PaginationTable
                     currentPage={currentPage}
-                    totalPages={10}
+                    totalPages={data?.pagination?.totalPages as number}
                     onPageChange={onPageChange}
                 />
             </div>

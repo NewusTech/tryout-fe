@@ -58,4 +58,51 @@ export const bannerEdit = z.object({
       message: "Gambar wajib diisi!",
     }),
 });
-export type bannerEditFormData = z.infer<typeof banner>;
+export type bannerEditFormData = z.infer<typeof bannerEdit>;
+
+// Master Data edit about
+export const aboutEdit = z.object({
+  title: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+  sub_title: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+  description: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+  main_logo: z
+    .instanceof(File)
+    .optional()
+    .refine((file) => !file || file.size > 0, {
+      message: "Gambar wajib diisi!",
+    }),
+  sub_logo: z
+    .instanceof(File)
+    .optional()
+    .refine((file) => !file || file.size > 0, {
+      message: "Gambar wajib diisi!",
+    }),
+});
+export type aboutEditFormData = z.infer<typeof aboutEdit>;
+
+// paket tryout
+export const packageTryout = z
+  .object({
+    title: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    description: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    duration: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    price: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    typepackage_id: z
+    .preprocess(
+        (val) => Number(val),
+        z.number().min(1, { message: "Jawaban tidak boleh kosong!" })
+      ),
+    total_question: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+  })
+  .required();
+export type packageTryoutFormData = z.infer<typeof packageTryout>;
