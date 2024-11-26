@@ -191,8 +191,6 @@ const AddQuestion = () => {
         } finally {
             setLoading(false);
         }
-
-        console.log("Saved Bank Soal:", formattedData);
     };
 
 

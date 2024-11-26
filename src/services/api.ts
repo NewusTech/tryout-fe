@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import { showAlert } from "@/lib/swalAlert";
 import { bannerEditFormData, tncFormData, typePackageFormData, typePaymentFormData, typeQuestionFormData } from "@/validations";
 import { useRouter } from "next/navigation";
-import { BannerResponse, BannerResponseOne, CompanyProfileResponse, PackageResponseOne, PaymentResponseOne, QuestionResponseOne, SnkResponse } from "@/types/interface";
+import { BankSoalResponse, BannerResponse, BannerResponseOne, CompanyProfileResponse, PackageResponse, PackageResponseOne, PaymentResponseOne, QuestionResponseOne, SnkResponse } from "@/types/interface";
 
 // Hook to fetch master data tipe paket
 const useGetTypePackage = (currentPage: number, search: string) => {
@@ -444,7 +444,106 @@ const useGetBannerHome = () => {
   return { data, error, mutate, isValidating, isLoading };
 };
 
-export { 
+// get bank soal
+const useGetBankQuestion = (currentPage: number, search: string, ) => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/user/bank/question/get?page=${currentPage}&limit=10&search=${search}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/user/bank/question/get?page=${currentPage}&limit=10&search=${search}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// get paket tryot
+const useGetTryoutPackage = (currentPage: number, search: string, ) => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/user/package/tryout/get?page=${currentPage}&limit=10&search=${search}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/user/package/tryout/get?page=${currentPage}&limit=10&search=${search}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// filter tipe paket
+const useGetTypePackageFilter = () => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<PackageResponse>(
+    `/user/type/package/get?limit=9999`,
+    () =>
+      axiosPrivate
+        .get(
+          `/user/type/package/get?limit=9999`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// get bank soal tipe
+const useGetBankQuestionType = (id: number, ) => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<BankSoalResponse>(
+    `/user/bank/question/get/${id}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/user/bank/question/get/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+export {
+  useGetBankQuestionType,
+  useGetTypePackageFilter, 
+  useGetTryoutPackage,
+  useGetBankQuestion,
   useGetBannerHome,
   useGetBannerId,
   useGetBanner,

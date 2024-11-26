@@ -19,10 +19,10 @@ const DetailAbout = () => {
 
   return (
     <div className="">
-      <TitleAdmin title="Detail Jadwal" />
+      <TitleAdmin title="Tentang Perusahaan" />
       {/* button */}
       <div className="flex gap-4 items-center justify-end mb-4 text-white">
-        <LinkCustom href="/about-company/edit" className="">
+        <LinkCustom href="/data-master/about-company/edit" className="">
           Edit Tentang
         </LinkCustom>
       </div>

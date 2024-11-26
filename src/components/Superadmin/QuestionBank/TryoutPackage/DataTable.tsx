@@ -18,28 +18,34 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import TitikIcon from "../../../../../public/assets/icons/TitikIcon";
-import { Checkbox } from "@/components/ui/checkbox"
 import DeletePopupTitik from "@/components/Custom/PopupDelete";
+import { PackageTryoutResponse } from "@/types/interface";
+import { showAlert } from "@/lib/swalAlert";
+import { mutate } from "swr";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import Cookies from "js-cookie";
 
-interface History {
-    no: number;
-    paketTryout: string,
-    harga: string,
-}
-interface ApiResponse {
-    headers: string[];
-    data: History[];
-    currentPage: number;
-    search: string;
-}
-
-
-const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, }) => {
-
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedUser, setSelectedUser] = useState<any | null>(null); // Store the currently selected user for status update
-    const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
-    const [isLoading, setIsLoading] = useState(false); // Loading state
+const DataTable: React.FC<PackageTryoutResponse> = ({ headers, data, currentPage, search, }) => {
+    const accessToken = Cookies.get("accessToken"); // Ambil token langsung
+    const axiosPrivate = useAxiosPrivate();
+    const handleDelete = async (id: number) => {
+        try {
+            await axiosPrivate.delete(`/user/package/tryout/delete/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            // alert
+            showAlert('success', 'Data berhasil dihapus!');
+            // alert
+            // Update the local data after successful deletion
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || error.response?.data?.message || 'Gagal menghapus data!';
+            showAlert('error', errorMessage);
+            //   alert
+        } mutate(`/user/bank/question/get?page=${currentPage}&limit=10&search=${search}`);;
+    };
 
     return (
         <div className="Table mt-3">
@@ -47,7 +53,7 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                 <Table>
                     <TableHeader>
                         <TableRow>
-                        {headers.map((header, index) => (
+                            {headers.map((header, index) => (
                                 <TableHead key={index}>{header}</TableHead>
                             ))}
                         </TableRow>
@@ -55,12 +61,12 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                     <TableBody>
                         {data?.length > 0 ? (
                             data.map((user, index) => (
-                                <TableRow key={user.no} index={index}>
+                                <TableRow key={user?.id} index={index}>
                                     <TableCell className="text-center">
                                         {(currentPage - 1) * 10 + (index + 1)}
                                     </TableCell>
-                                    <TableCell className="text-center text-primary">{user.paketTryout ?? "-"}</TableCell>
-                                    <TableCell className="text-center text-primary">{user.harga ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.title ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.price ?? "-"}</TableCell>
                                     {/*  */}
                                     <TableCell className="text-center justify-center items-center flex gap-2">
                                         <div className="aksi flex-shrink-0">
@@ -77,21 +83,21 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                                                     <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                                     <DropdownMenuGroup>
                                                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                            <Link className="w-full" href={`/question-bank/tryout-package/detail`}>
+                                                            <Link className="w-full" href={`/question-bank/tryout-package/detail/${user?.id}`}>
                                                                 <div className="flex items-center gap-2 text-primary">
                                                                     Detail
                                                                 </div>
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                            <Link className="w-full" href={`/question-bank/tryout-package/edit`}>
+                                                            <Link className="w-full" href={`/question-bank/tryout-package/edit/${user?.id}`}>
                                                                 <div className="flex items-center gap-2 text-primary">
                                                                     Edit
                                                                 </div>
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                            <DeletePopupTitik onDelete={async () => { }} />
+                                                            <DeletePopupTitik onDelete={() => handleDelete(user?.id)} />
                                                         </DropdownMenuItem>
                                                     </DropdownMenuGroup>
                                                 </DropdownMenuContent>
