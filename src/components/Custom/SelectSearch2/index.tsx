@@ -23,7 +23,7 @@ interface SelectSearchProps {
     label?: string;
     placeholder?: string;
     value: any;
-    onChange: (value: string ) => void;
+    onChange: (value: string) => void;
 }
 
 const SelectSearch: React.FC<SelectSearchProps> = ({
@@ -88,7 +88,7 @@ const SelectSearch: React.FC<SelectSearchProps> = ({
                     {/* Menampilkan hasil pencarian atau pesan "data tidak ada" */}
                     {filteredItems.length > 0 ? (
                         filteredItems.map((item) => (
-                            <SelectItem key={item.id} value={item.id}>
+                            <SelectItem key={item.id} value={String(item.id)}>
                                 {item.value}
                             </SelectItem>
                         ))
