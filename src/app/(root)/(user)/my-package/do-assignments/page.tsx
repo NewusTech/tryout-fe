@@ -2,6 +2,9 @@
 import Navbar from '@/components/User/Home/Navbar';
 import VerifIcon from '../../../../../../public/assets/icons/VerifIcon';
 import { Button } from '@/components/ui/button';
+import { useGetUserTryoutPackageId } from '@/services/api';
+import Cookies from "js-cookie";
+
 
 const DoAssignments = () => {
 
@@ -9,17 +12,20 @@ const DoAssignments = () => {
         window.location.href = '/my-package/do-assignments/start';
     };
 
+    const id = Cookies.get("package");
+    const { data: dataUser } = useGetUserTryoutPackageId(id as string);
+
     return (
         <div>
             <div className='text-srBlack overflow-x-hidden'>
                 <Navbar />
                 <div className="wrap-alll container mx-auto min-h-screen">
                     <div className="text-primary font-semibold text-xl md:text-2xl pt-[120px]">
-                        Try Out SKD CASN 2024
+                        {dataUser?.data?.title ?? "-"}
                     </div>
-                    <div className="text-primary px-5 md:text-base text-sm py-2 rounded-full bg-[#DCC080] w-fit mt-3">
+                    {/* <div className="text-primary px-5 md:text-base text-sm py-2 rounded-full bg-[#DCC080] w-fit mt-3">
                         07 September 2024
-                    </div>
+                    </div> */}
                     {/*  */}
                     <div className="wrap flex md:flex-row flex-col-reverse gap-5 mt-7 pb-6">
                         <div className="left w-full md:w-[80%] bg-white p-5 border border-gray-100 shadow-md rounded-2xl">
@@ -42,11 +48,11 @@ const DoAssignments = () => {
                             <div className="flex flex-col gap-3">
                                 <div className="flex flex-col gap-1">
                                     <div className="font-medium">Jumlah Soal</div>
-                                    <div className="text-primary">110</div>
+                                    <div className="text-primary">{dataUser?.data?.total_question ?? "-"}</div>
                                 </div>
                                 <div className="flex flex-col gap-1">
                                     <div className="font-medium">Durasi Pengerjaan</div>
-                                    <div className="text-primary">110</div>
+                                    <div className="text-primary">{dataUser?.data?.duration ?? "-"}</div>
                                 </div>
                                 <div className="flex flex-col gap-1">
                                     <div className="font-medium">Passing Grade</div>

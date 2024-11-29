@@ -11,6 +11,7 @@ import { mutate } from 'swr';
 import Loading from '@/components/ui/Loading';
 import WarningIcon from '../../../../../../../public/assets/icons/WarningIcon';
 import LoadingPage from '@/components/ui/LoadingPage';
+import Cookies from "js-cookie";
 
 type QuestionForm = {
     id: number;
@@ -73,7 +74,8 @@ const QuizPage: React.FC = () => {
 
 
     // INTEGRASI API
-    const { data, isLoading, error } = useGetQuestionPackageId();
+    const id = Cookies.get("package");
+    const { data, isLoading, error } = useGetQuestionPackageId(id as string);
 
     useEffect(() => {
         if (data?.data) {
@@ -152,7 +154,7 @@ const QuizPage: React.FC = () => {
 
             try {
                 setLoading(true);
-                await axiosPrivate.post("/user/input/answer/create/1", requestData);
+                await axiosPrivate.post(`/user/input/answer/create/${id}`, requestData);
                 // console.log("Berhasil simpan")
                 // showAlert("success", "Data berhasil dibuat!");
                 setCurrentQuestionIndex((prev) => Math.min(prev + 1, quizData.Bank_packages.length - 1));
@@ -164,7 +166,7 @@ const QuizPage: React.FC = () => {
                 showAlert("error", errorMessage);
             } finally {
                 setLoading(false);
-            } mutate(`/user/question/form/1`);
+            } mutate(`/user/question/form/${id}`);
         } else {
             handleOpenPopupSimpan();
         }

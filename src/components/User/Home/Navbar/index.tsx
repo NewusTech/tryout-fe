@@ -3,18 +3,19 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Burger from "../../../../../public/assets/icons/burger";
 import Close from "../../../../../public/assets/icons/close";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Image from "next/image";
 import ArrowDown from "../../../../../public/assets/icons/ArrowDown";
 import { useGetAboutCompany } from "@/services/api";
+import Cookies from "js-cookie";
+import Swal from "sweetalert2"; // Make sure to import SweetAlert2
+
 
 const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
@@ -38,11 +39,39 @@ const Navbar = () => {
         };
     }, []);
 
-     // INTEGRASI
-  const { data } = useGetAboutCompany();
-  // INTEGRASI
+    // INTEGRASI
+    const { data } = useGetAboutCompany();
+    // INTEGRASI
 
-  
+    const router = useRouter();
+    const handleLogout = () => {
+        // Menghapus semua item di localStorage
+        localStorage.clear();
+        // Menghapus semua cookie
+        document.cookie.split(';').forEach(cookie => {
+            const cookieName = cookie.split('=')[0].trim();
+            Cookies.remove(cookieName);
+        });
+        // Cookies.remove("accessToken");
+        // Cookies.remove("username");
+
+        // Tampilkan pop-up sukses tanpa tombol OK, otomatis menghilang setelah 2 detik
+        Swal.fire({
+            title: 'Logout Berhasil',
+            icon: 'success',
+            timer: 1500,  // Pop-up akan otomatis tertutup setelah 2 detik
+            showConfirmButton: false,  // Tidak menampilkan tombol OK
+        })
+    };
+
+    // nav
+    const [accessToken, setAccessToken] = useState<string | undefined>(undefined);
+    const [username, setUsername] = useState<string | undefined>(undefined);
+
+    useEffect(() => {
+        setAccessToken(Cookies.get("accessToken"));
+        setUsername(Cookies.get("username"));
+    }, []);
 
     return (
         <div className="">
@@ -87,64 +116,65 @@ const Navbar = () => {
                             </Link>
                         </div>
                         {/*  */}
-                        <div className="wrap ml-4 flex gap-3 items-center">
-                            <Link href="/login" className="loginn bg-secondary p-2 px-12 hover:bg-secondary-hover  rounded-full text-white">
-                                Login
-                            </Link>
-                            <Link href="/register" className="loginn bg-white p-2 px-12 hover:bg-secondary-hover  rounded-full text-primary">
-                                Daftar
-                            </Link>
-                        </div>
-                        {/* profile */}
-                        <div className="wrap ml-4 flex gap-3 items-center">
-                            <DropdownMenu>
-                                <DropdownMenuTrigger>
-                                    <div className="flex items-center gap-3 text-white">
-                                        <div className="h-[35px] w-[35px] border border-white rounded-full overflow-hidden">
-                                            <Image
-                                                src="/assets/images/Profile-nav.png"
-                                                alt="logo"
-                                                width={1000}
-                                                height={1000}
-                                                unoptimized
-                                                className="w-full h-full object-cover"
-                                            />
+                        {!accessToken ? (
+                            // Jika tidak ada accessToken, tampilkan Login dan Daftar
+                            <div className="wrap ml-4 flex gap-3 items-center">
+                                <Link href="/login" className="loginn bg-secondary p-2 px-12 hover:bg-secondary-hover  rounded-full text-white">
+                                    Login
+                                </Link>
+                                <Link href="/register" className="loginn bg-white p-2 px-12 hover:bg-gray-100  rounded-full text-primary">
+                                    Daftar
+                                </Link>
+                            </div>
+                        ) : (
+                            // Jika ada accessToken, tampilkan profile
+                            <div className="wrap ml-4 flex gap-3 items-center cursor-pointer">
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <div className="flex items-center gap-3 text-white">
+                                            <div className="h-[35px] w-[35px] border border-white rounded-full overflow-hidden">
+                                                <Image
+                                                    src="/assets/images/Profile-nav.png"
+                                                    alt="logo"
+                                                    width={1000}
+                                                    height={1000}
+                                                    unoptimized
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            </div>
+                                            <div>{username}</div>
+                                            <div>
+                                                <ArrowDown />
+                                            </div>
                                         </div>
-                                        <div className="">Qurrota Aini</div>
-                                        <div className="">
-                                            <ArrowDown />
-                                        </div>
-                                    </div>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className="bg-white mt-2">
-                                    <DropdownMenuItem>
-                                        <Link
-                                            className={`${pathname === "/profile"
-                                                ? "font-bold text-primary"
-                                                : "text-black"}`}
-                                            href="/profile">
-                                            Profile
-                                        </Link>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem>
-                                        <Link
-                                            className={`${pathname === "/profile/forgot-password"
-                                                ? "font-bold text-primary"
-                                                : "text-black"}`}
-                                            href="/profile/forgot-password">
-                                            Ganti Kata Sandi
-                                        </Link>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem>
-                                        <Link
-                                            href="/">
-                                            Keluar
-                                        </Link>
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-
-                        </div>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="bg-white mt-2">
+                                        <DropdownMenuItem>
+                                            <Link
+                                                className={`w-full cursor-pointer ${pathname === "/profile" ? "font-bold text-primary" : "text-black"}`}
+                                                href="/profile"
+                                            >
+                                                Profile
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            <Link
+                                                className={`w-full cursor-pointer ${pathname === "/profile/forgot-password" ? "font-bold text-primary" : "text-black"}`}
+                                                href="/profile/forgot-password"
+                                            >
+                                                Ganti Kata Sandi
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            <div className="w-full cursor-pointer" onClick={handleLogout}>
+                                                Keluar
+                                            </div>
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            </div>
+                        )}
+                        {/*  */}
                     </div>
                 </div>
             </div>
