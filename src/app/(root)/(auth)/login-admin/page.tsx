@@ -103,7 +103,7 @@ const LoginPage = () => {
                 // alert
                 setAccessToken(response?.data?.data?.token);
                 // reset();
-                router.push("/");
+                router.push("/dashboard");
             }
         } catch (error: any) {
             // alert

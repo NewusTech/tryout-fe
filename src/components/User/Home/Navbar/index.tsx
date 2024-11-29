@@ -42,6 +42,8 @@ const Navbar = () => {
   const { data } = useGetAboutCompany();
   // INTEGRASI
 
+  
+
     return (
         <div className="">
             <div
