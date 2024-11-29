@@ -30,8 +30,8 @@ export interface PackageResponse {
   data: {
     id: number;
     name: string;
-    createdAt: string; 
-    updatedAt: string; 
+    createdAt: string;
+    updatedAt: string;
   }[];
   status?: number;
   message?: string;
@@ -55,8 +55,8 @@ export interface QuestionResponse {
   data: {
     id: number;
     name: string;
-    createdAt: string; 
-    updatedAt: string; 
+    createdAt: string;
+    updatedAt: string;
   }[];
   status?: number;
   message?: string;
@@ -80,8 +80,8 @@ export interface PaymentResponse {
   data: {
     id: number;
     title: string;
-    createdAt: string; 
-    updatedAt: string; 
+    createdAt: string;
+    updatedAt: string;
   }[];
   status?: number;
   message?: string;
@@ -239,7 +239,43 @@ interface DataJson {
   key: string;
 }
 
+//paket user tryout id
+export interface PackageTryoutResponseOne {
+  status: number;
+  message: string;
+  data: PackageTryoutData;
+}
 
+interface PackageTryoutData {
+  id: number;
+  user_id: number | null;
+  title: string;
+  slug: string;
+  description: string;
+  duration: string;
+  price: string;
+  typepackage_id: number;
+  total_question: string;
+  deletedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+  Bank_packages: BankPackage[];
+}
 
+interface BankPackage {
+  id: number;
+  packagetryout_id: number;
+  banksoal_id: number;
+  Bank_soal: BankSoal;
+}
 
+interface BankSoal {
+  id: number;
+  title: string;
+  typequestion_id: number;
+  Type_question: TypeQuestion;
+}
 
+interface TypeQuestion {
+  name: string;
+}

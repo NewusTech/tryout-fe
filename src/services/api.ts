@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import { showAlert } from "@/lib/swalAlert";
 import { bannerEditFormData, tncFormData, typePackageFormData, typePaymentFormData, typeQuestionFormData } from "@/validations";
 import { useRouter } from "next/navigation";
-import { BankSoalResponse, BannerResponse, BannerResponseOne, CompanyProfileResponse, PackageResponse, PackageResponseOne, PaymentResponseOne, QuestionResponseOne, ResponseQuestionPackage, SnkResponse } from "@/types/interface";
+import { BankSoalResponse, BannerResponse, BannerResponseOne, CompanyProfileResponse, PackageResponse, PackageResponseOne, PackageTryoutResponse, PackageTryoutResponseOne, PaymentResponseOne, QuestionResponseOne, ResponseQuestionPackage, SnkResponse } from "@/types/interface";
 
 // Hook to fetch master data tipe paket
 const useGetTypePackage = (currentPage: number, search: string) => {
@@ -541,16 +541,60 @@ const useGetBankQuestionType = (id: number, ) => {
 };
 
 // get paket soal (user)
-// edit banner home
 const useGetQuestionPackageId = (id?: string) => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
   const { data, error, mutate, isValidating, isLoading } = useSWR<ResponseQuestionPackage>(
-    `/user/question/form/1`,
+    `/user/question/form/${id}`,
     () =>
       axiosPrivate
-        .get(`/user/question/form/1`, {
+        .get(`/user/question/form/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading,
+  };
+};
+
+// user get paket tryout
+const useGetUserTryoutPackage = (currentPage: number, search: string, ) => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<PackageTryoutResponse>(
+    `/user/package/tryout/get?page=${currentPage}&limit=10&search=${search}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/user/package/tryout/get?page=${currentPage}&limit=10&search=${search}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// user get paket tryout id
+const useGetUserTryoutPackageId = (id?: string) => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<PackageTryoutResponseOne>(
+    `/user/package/tryout/get/${id}`,
+    () =>
+      axiosPrivate
+        .get(`/user/package/tryout/get/${id}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -563,6 +607,8 @@ const useGetQuestionPackageId = (id?: string) => {
 };
 
 export {
+  useGetUserTryoutPackageId,
+  useGetUserTryoutPackage,
   useGetQuestionPackageId,
   useGetBankQuestionType,
   useGetTypePackageFilter, 

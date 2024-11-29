@@ -66,6 +66,11 @@ const LoginPage = () => {
         // Store token in cookies (with 7 days expiry, you can adjust as needed)
         Cookies.set("accessToken", token,);
     };
+    
+    const setUsername = (username: string) => {
+        // Store username in cookies (with 7 days expiry, you can adjust as needed)
+        Cookies.set("username", username,);
+    };
 
     const onSubmit = async (data: FormSchemaType) => {
         setLoading(true);
@@ -83,7 +88,7 @@ const LoginPage = () => {
                     icon: "success",
                     title: "Berhasil Login!",
                     text: "Selamat Datang ✅",
-                    timer: 3000,
+                    timer: 1500,
                     timerProgressBar: true,
                     showConfirmButton: false,
                     showClass: {
@@ -102,6 +107,7 @@ const LoginPage = () => {
                 });
                 // alert
                 setAccessToken(response?.data?.data?.token);
+                setUsername(response?.data?.data?.username);
                 // reset();
                 router.push("/");
             }
