@@ -25,10 +25,10 @@ const formSchema = z.object({
         .min(6, { message: "Password wajib diisi minimal harus 6 karakter" }),
     name: z
         .string()
-        .min(6, { message: "Nama wajib diisi" }),
+        .min(1, { message: "Nama wajib diisi" }),
     telepon: z
         .string()
-        .min(6, { message: "Telepon wajib diisi" }),
+        .min(1, { message: "Telepon wajib diisi" }),
 });
 
 type FormSchemaType = z.infer<typeof formSchema>;

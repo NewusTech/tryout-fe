@@ -1,110 +1,107 @@
 /* eslint-disable react/no-unescaped-entities */
-"use client"
+"use client";
+
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/User/MyPackage/Start/Navbar';
 import React, { useState, useEffect } from 'react';
+import { useGetQuestionPackageId } from '@/services/api';
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import { showAlert } from '@/lib/swalAlert';
+import { mutate } from 'swr';
+import Loading from '@/components/ui/Loading';
 import WarningIcon from '../../../../../../../public/assets/icons/WarningIcon';
+import LoadingPage from '@/components/ui/LoadingPage';
 
-type Question = {
+type QuestionForm = {
     id: number;
-    questionText: string;
-    options: { text: string }[]; // Pilihan jawaban
-    selectedOption: string | undefined;
+    field: string;
+    tipedata: string;
+    datajson: { id: number; key: string }[];
+    answer: string | null;
+};
+
+type BankSoal = {
+    id: number;
+    title: string;
+    Question_forms: QuestionForm[];
+};
+
+type QuizData = {
+    id: number;
+    title: string;
+    Bank_packages: {
+        id: number;
+        Bank_soal: BankSoal;
+    }[];
 };
 
 const QuizPage: React.FC = () => {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-
-    // Data quiz dummy
-    const quizData = {
-        title: "Tryout 1",
-        subject: "Pengetahuan Umum",
-        totalQuestions: 5,
-        timer: {
-            hours: 0,
-            minutes: 30,
-            seconds: 0,
-        },
-        questions: [
-            {
-                id: 1,
-                questionText: "Siapa penemu lampu pijar?",
-                options: [
-                    { text: "Thomas Edison" },
-                    { text: "Nikola Tesla" },
-                    { text: "Alexander Graham Bell" },
-                    { text: "Albert Einstein" },
-                ],
-                selectedOption: 'A', // opsi yang dipilih
-            },
-            {
-                id: 2,
-                questionText: "Apa ibu kota Indonesia?",
-                options: [
-                    { text: "Jakarta" },
-                    { text: "Bali" },
-                    { text: "Bandung" },
-                    { text: "Surabaya" },
-                ],
-                selectedOption: 'A', // opsi yang dipilih
-            },
-            {
-                id: 3,
-                questionText: "Berapa jumlah planet di sistem tata surya?",
-                options: [
-                    { text: "7" },
-                    { text: "8" },
-                    { text: "9" },
-                    { text: "10" },
-                ],
-                selectedOption: 'B', // opsi yang dipilih
-            },
-            {
-                id: 4,
-                questionText: "Siapa yang menulis buku 'Harry Potter'?",
-                options: [
-                    { text: "J.R.R. Tolkien" },
-                    { text: "J.K. Rowling" },
-                    { text: "George R.R. Martin" },
-                    { text: "Suzanne Collins" },
-                ],
-                selectedOption: undefined, // belum ada pilihan
-            },
-            {
-                id: 5,
-                questionText: "Apa nama planet terbesar di tata surya?",
-                options: [
-                    { text: "Jupiter" },
-                    { text: "Saturnus" },
-                    { text: "Mars" },
-                    { text: "Venus" },
-                ],
-                selectedOption: undefined, // belum ada pilihan
-            },
-        ],
-    };
-
-    // 
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-
-
+    const [quizData, setQuizData] = useState<QuizData | null>(null);
     // Inisialisasi state untuk menyimpan pilihan jawaban
     const [selectedOptions, setSelectedOptions] = useState<Record<number, string | undefined>>({});
+    const [loading, setLoading] = useState(false);
+    const axiosPrivate = useAxiosPrivate();
+
+    // Modal
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    // Open pop-up
+    const handleOpenPopup = () => setIsPopupOpen(true);
+    // Close pop-up
+    const handleClosePopup = () => {
+        setIsPopupOpen(false);
+    };
+
+    // Lewatkan
+    const [isPopupOpenLewatkan, setIsPopupOpenLewatkan] = useState(false);
+    // Open pop-up
+    const handleOpenPopupLewatkan = () => setIsPopupOpenLewatkan(true);
+    // Close pop-up
+    const handleClosePopupLewatkan = () => {
+        setIsPopupOpenLewatkan(false);
+    };
+
+    // Simpan
+    const [isPopupOpenSimpan, setIsPopupOpenSimpan] = useState(false);
+    // Open pop-up
+    const handleOpenPopupSimpan = () => setIsPopupOpenSimpan(true);
+    // Close pop-up
+    const handleClosePopupSimpan = () => {
+        setIsPopupOpenSimpan(false);
+    };
+
+
+
+    // INTEGRASI API
+    const { data, isLoading, error } = useGetQuestionPackageId();
+
+    useEffect(() => {
+        if (data?.data) {
+            setQuizData(data.data);
+        }
+    }, [data]);
 
     // Inisialisasi selectedOptions saat pertama kali render
     useEffect(() => {
-        const initialSelectedOptions = quizData.questions.reduce((acc, question) => {
-            acc[question.id] = question.selectedOption;
-            return acc;
-        }, {} as Record<number, string | undefined>);
+        if (quizData) {
+            const initialSelectedOptions = quizData.Bank_packages.reduce((acc, packageData) => {
+                packageData.Bank_soal.Question_forms.forEach((question) => {
+                    acc[question.id] = question.answer || ""; // Menyimpan jawaban yang sudah ada
+                });
+                return acc;
+            }, {} as Record<number, string | undefined>);
 
-        setSelectedOptions(initialSelectedOptions);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+            setSelectedOptions(initialSelectedOptions);
+        }
+    }, [quizData]); // Pastikan effect ini hanya dipanggil jika quizData berubah
 
-    const currentQuestion = quizData.questions[currentQuestionIndex];
+    if (isLoading) return <div><LoadingPage /></div>;
+    if (error) return <p>Error loading data</p>;
+    if (!quizData) return <p>No data available</p>;
 
-    // Fungsi untuk menangani pemilihan opsi
+    const currentPackage = quizData.Bank_packages[currentQuestionIndex];
+    const currentQuestion = currentPackage?.Bank_soal.Question_forms[0];
+
     const handleOptionSelect = (optionLabel: string) => {
         setSelectedOptions((prev) => ({
             ...prev,
@@ -113,120 +110,117 @@ const QuizPage: React.FC = () => {
     };
 
     const handlePreviousQuestion = () => {
+        const currentAnswer = selectedOptions[currentQuestion?.id ?? 0];
+        const savedAnswer = currentQuestion?.answer;
+
+        if (currentAnswer && currentAnswer !== savedAnswer) {
+            handleOpenPopupLewatkan();
+            return;
+        }
+
         setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0));
     };
 
     const handleNextQuestion = () => {
-        setCurrentQuestionIndex((prev) => Math.min(prev + 1, quizData.totalQuestions - 1));
+        const currentAnswer = selectedOptions[currentQuestion?.id ?? 0];
+        const savedAnswer = currentQuestion?.answer;
+
+        if (currentAnswer && currentAnswer !== savedAnswer) {
+            handleOpenPopupLewatkan();
+            return;
+        }
+
+        setCurrentQuestionIndex((prev) => Math.min(prev + 1, quizData.Bank_packages.length - 1));
     };
 
-    // Fungsi untuk menyimpan dan melanjutkan ke soal berikutnya
+
     const handleSaveAndContinue = async () => {
-        // Simulasikan pengiriman data ke API
-        const selectedAnswer = selectedOptions[currentQuestion.id];
+        const selectedAnswer = selectedOptions[currentQuestion?.id ?? 0];
 
         if (selectedAnswer) {
-            // Kirim data ke API
+            const requestData = {
+                datainput: [
+                    {
+                        questionform_id: currentQuestion.id,
+                        data: Number(selectedAnswer), // Pass the selected option's id
+                    },
+                ],
+            };
+
+            // console.log("Struktur data yang dikirim:", JSON.stringify(requestData, null, 2));
+            // setCurrentQuestionIndex((prev) => Math.min(prev + 1, quizData.Bank_packages.length - 1));
+
             try {
-                // const response = await fetch('/api/update-question', {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //     },
-                //     body: JSON.stringify({
-                //         questionId: currentQuestion.id,
-                //         selectedOption: selectedAnswer,
-                //     }),
-                // });
-
-                // if (!response.ok) {
-                //     throw new Error('Failed to save answer');
-                // }
-
-                console.log('Jawaban = ', selectedAnswer, "id soal = ", currentQuestion.id);
-
-                // Pindah ke soal berikutnya setelah menyimpan jawaban
-                setCurrentQuestionIndex((prev) => Math.min(prev + 1, quizData.totalQuestions - 1));
-            } catch (error) {
-                console.error('Error saving answer:', error);
-            }
+                setLoading(true);
+                await axiosPrivate.post("/user/input/answer/create/1", requestData);
+                // console.log("Berhasil simpan")
+                // showAlert("success", "Data berhasil dibuat!");
+                setCurrentQuestionIndex((prev) => Math.min(prev + 1, quizData.Bank_packages.length - 1));
+            } catch (error: any) {
+                const errorMessage =
+                    error?.response?.data?.data?.[0]?.message ||
+                    error?.response?.data?.message ||
+                    "Gagal menyimpan jawaban!";
+                showAlert("error", errorMessage);
+            } finally {
+                setLoading(false);
+            } mutate(`/user/question/form/1`);
         } else {
-            alert('Harap pilih jawaban terlebih dahulu!');
+            handleOpenPopupSimpan();
         }
     };
 
-    // pop up
-    // Open pop-up
-    const handleOpenPopup = () => setIsPopupOpen(true);
-
-    // Close pop-up
-    const handleClosePopup = () => {
-        setIsPopupOpen(false);
-    };
-    // pop up
-
-    // Pastikan currentQuestion terdefinisi sebelum rendering
     if (!currentQuestion) return null;
 
     return (
         <div className="min-h-screen">
             <Navbar />
-            {/* Header */}
-            <header className="text-white container mx-auto pt-[100px] p-4 flex md:flex-row flex-col justify-between md:items-center">
-                <div className='text-primary'>
+            <header className="text-white container mx-auto pt-[100px] flex md:flex-row flex-col justify-between md:items-center">
+                <div className="text-primary">
                     <h1 className="md:text-xl text-base font-semibold">{quizData.title}</h1>
                 </div>
                 <div className="flex justify-end md:justify-start">
                     <div className="flex w-fit md:gap-10 gap-5 bg-primary rounded-lg md:rounded-xl md:p-3 p-2 md:text-sm text-xs">
                         <div className="flex flex-col items-center">
-                            <div className="">
-                                {quizData.timer.hours}
-                            </div>
-                            <div className="">
-                                Jam
-                            </div>
+                            <div>0</div>
+                            <div>Jam</div>
                         </div>
                         <div className="flex flex-col items-center">
-                            <div className="">
-                                {quizData.timer.minutes}
-                            </div>
-                            <div className="">
-                                Menit
-                            </div>
+                            <div>30</div>
+                            <div>Menit</div>
                         </div>
                         <div className="flex flex-col items-center">
-                            <div className="">
-                                {quizData.timer.seconds}
-                            </div>
-                            <div className="">
-                                Detik
-                            </div>
+                            <div>0</div>
+                            <div>Detik</div>
                         </div>
                     </div>
                 </div>
             </header>
 
-            {/* Konten */}
             <div className="flex md:flex-row flex-col mt-4 container mx-auto">
-                {/* Sidebar dengan nomor soal */}
-                <div className="w-full md:w-1/4 rounded">
+                <div className="w-full md:w-1/4 rounded ">
                     <div className="flex justify-between">
                         <h2 className="text-base md:text-lg font-semibold mb-4">Nomor Soal</h2>
-                        <h2 className="text-base md:text-lg mb-4">1/70</h2>
+                        <h2 className="text-base md:text-lg mb-4">
+                            {currentQuestionIndex + 1}/{quizData.Bank_packages.length}
+                        </h2>
                     </div>
                     <div className="grid grid-cols-8 gap-2 md:text-base text-xs">
-                        {quizData.questions.map((question) => (
-                            <button
-                                key={question.id}
-                                className={`p-1.5 rounded ${selectedOptions[question.id] ? 'bg-succes text-white' : 'bg-error text-white'} 
-                                ${currentQuestion.id === question.id ? 'border-2 border-primary' : ''}`}
-                                onClick={() => setCurrentQuestionIndex(question.id - 1)}
-                            >
-                                {question.id}
-                            </button>
-                        ))}
+                        {quizData.Bank_packages.map((_, index) => {
+                            const currentQuestion = quizData.Bank_packages[index]?.Bank_soal.Question_forms[0];
+                            const isAnswered = currentQuestion?.answer ? true : false;
+
+                            return (
+                                <button
+                                    key={index}
+                                    className={`p-1.5 rounded ${isAnswered ? 'bg-succes text-white' : 'bg-error text-white'} ${currentQuestionIndex === index ? 'border-2 border-primary' : ''}`}
+                                    onClick={() => setCurrentQuestionIndex(index)}
+                                >
+                                    {index + 1}
+                                </button>
+                            );
+                        })}
                     </div>
-                    {/*  */}
                     <div className="flex justify-between md:mt-10 mt-5 md:text-base text-xs">
                         <div className="bg-succes rounded-full flex flex-col items-center p-2 px-6 text-white">
                             <div className="">20</div>
@@ -239,60 +233,68 @@ const QuizPage: React.FC = () => {
                     </div>
                     <Button
                         onClick={handleOpenPopup}
-                        className='bg-succes w-full mt-5 hover:bg-succes/80'
-                    >
+                        className="bg-succes w-full mt-5 hover:bg-succes/80">
                         Selesai
                     </Button>
                 </div>
 
-                {/* Soal dan Pilihan */}
-                <div className="w-full md:w-3/4 mt-4 md:p-4 md:ml-4 rounded">
-                    <h2 className="text-primary md:text-lg text-base font-medium mb-5 md:mb-7">Tes Wawasan Kebangsaan - TWK</h2>
-                    <h2 className="text-primary md:text-lg text-base font-semibold mb-2">Soal No {currentQuestion.id}</h2>
-                    <p className="mb-4 md:text-base text-sm">{currentQuestion.questionText}</p>
+                <div className="w-full md:w-3/4 md:px-4 md:ml-4 rounded">
+                    <h2 className="text-primary md:text-xl text-base font-medium mb-5 md:mb-7">
+                        {currentPackage.Bank_soal.title}
+                    </h2>
+                    <h2 className="text-primary md:text-lg text-base font-semibold mb-2">
+                        Soal No {currentQuestionIndex + 1}
+                    </h2>
+                    <p
+                        className="mb-4 md:text-base text-sm"
+                        dangerouslySetInnerHTML={{ __html: currentQuestion.field }}
+                    ></p>
                     <div className="space-y-1 md:space-y-2 md:text-base text-sm">
-                        {currentQuestion.options.map((option, index) => {
-                            const optionLabel = String.fromCharCode(65 + index); // Menghasilkan 'A', 'B', 'C', dll
+                        {currentQuestion.datajson.map((option, index) => {
+                            const optionLabel = String.fromCharCode(65 + index); // 'A', 'B', 'C', dll
+
                             return (
-                                <label key={optionLabel} className="flex items-center space-x-2 p-2 cursor-pointer">
+                                <label key={option.id} className="flex items-center space-x-2 p-2 cursor-pointer">
                                     <input
                                         type="radio"
                                         name={`question-${currentQuestion.id}`}
-                                        checked={selectedOptions[currentQuestion.id] === optionLabel}
-                                        onChange={() => handleOptionSelect(optionLabel)}
-                                        className="h-5 w-5 text-purple-600 focus:ring-purple-500"
+                                        checked={selectedOptions[currentQuestion.id] === String(option.id)} // Memastikan jawaban yang benar tercentang
+                                        onChange={() => handleOptionSelect(String(option.id))} // Pilih ID opsi
+                                        className="h-5 w-5 text-purple-600 focus:ring-purple-500 cursor-pointer"
                                     />
-                                    <span>{optionLabel}. {option.text}</span>
+                                    <span>{optionLabel}. {option.key}</span>
                                 </label>
                             );
                         })}
                     </div>
-
-                    {/* Tombol Navigasi */}
-                    <div className="mt-6 flex justify-center gap-3 md:gap-7">
-                        {/* <button
-                            onClick={handlePreviousQuestion}
-                            className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-                        >
-                            Previous
-                        </button> */}
-                        <Button
-                        className='md:w-fit w-full'
-                            onClick={handleSaveAndContinue}
-                        >
-                            Simpan dan Lanjutkan
+                    <div className="mt-8 hidden md:flex justify-center gap-3 md:gap-7">
+                        <Button onClick={handlePreviousQuestion} variant="outlinePrimary" className="md:w-[180px]">
+                            Sebelumnya
                         </Button>
-                        <Button
-                            onClick={handleNextQuestion}
-                            variant="outlinePrimary"
-                            className='px-10 md:w-fit w-full'
-                        >
+                        <Button className="md:w-[250px] w-full" onClick={handleSaveAndContinue}>
+                            {loading ? <Loading /> : "Simpan dan Lanjutkan"}
+                        </Button>
+                        <Button onClick={handleNextQuestion} variant="outlinePrimary" className="px-10 md:w-[180px] w-full">
                             Lewatkan
                         </Button>
                     </div>
+                    {/* mobile */}
+                    <div className="mt-8 md:hidden flex flex-col justify-center gap-3 md:gap-7">
+                        <Button className="md:w-[250px] w-full" onClick={handleSaveAndContinue}>
+                            {loading ? <Loading /> : "Simpan dan Lanjutkan"}
+                        </Button>
+                        <div className="flex gap-3">
+                            <Button onClick={handlePreviousQuestion} variant="outlinePrimary" className="w-full">
+                                Sebelumnya
+                            </Button>
+                            <Button onClick={handleNextQuestion} variant="outlinePrimary" className="px-10 w-full">
+                                Lewatkan
+                            </Button>
+                        </div>
+                    </div>
                 </div>
             </div>
-
+            {/*  */}
             {/* pop up modal */}
             {isPopupOpen && (
                 <div onClick={handleClosePopup} className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
@@ -336,6 +338,75 @@ const QuizPage: React.FC = () => {
                 </div>
             )}
             {/* pop up modal */}
+            {/* Lewatkan Modal */}
+            {isPopupOpenLewatkan && (
+                <div onClick={handleClosePopupLewatkan} className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+                    <div
+                        onClick={(e) => e.stopPropagation()} // Prevents click from closing pop-up when interacting inside
+                        className="bg-white rounded-lg relative w-[600px] md:mx-0 mx-4"
+                    >
+                        <div className="px-7 flex justify-between border-b border-slate-300 p-4">
+                            <div className="text-primary font-medium">PERHATIAN</div>
+                            <button onClick={handleClosePopupLewatkan} className="flex justify-center items-center text-white w-6 h-6 rounded-full bg-primary">x</button>
+                        </div>
+                        <div className="flex px-7 gap-4 items-center border-b border-slate-300 p-4">
+                            <div className="left">
+                                <WarningIcon />
+                            </div>
+                            <div className="right">
+                                <div className="text-primary font-semibold md:text-xl mb-2">
+                                    Simpan Jawaban Terlebih Dahulu!
+                                </div>
+                            </div>
+                        </div>
+                        {/* button */}
+                        <div className="p-4 px-7 flex gap-3 justify-end">
+                            <Button
+                                onClick={handleClosePopupLewatkan}
+                                // variant="outlinePrimary"
+                                className='w-[130px]'
+                            >
+                                Tutup
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {/* Simpan Modal */}
+            {isPopupOpenSimpan && (
+                <div onClick={handleClosePopupSimpan} className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+                    <div
+                        onClick={(e) => e.stopPropagation()} // Prevents click from closing pop-up when interacting inside
+                        className="bg-white rounded-lg relative w-[600px] md:mx-0 mx-4"
+                    >
+                        <div className="px-7 flex justify-between border-b border-slate-300 p-4">
+                            <div className="text-primary font-medium">PERHATIAN</div>
+                            <button onClick={handleClosePopupSimpan} className="flex justify-center items-center text-white w-6 h-6 rounded-full bg-primary">x</button>
+                        </div>
+                        <div className="flex px-7 gap-4 items-center border-b border-slate-300 p-4">
+                            <div className="left">
+                                <WarningIcon />
+                            </div>
+                            <div className="right">
+                                <div className="text-primary font-semibold md:text-xl mb-2">
+                                    Harap pilih jawaban terlebih dahulu!
+                                </div>
+                            </div>
+                        </div>
+                        {/* button */}
+                        <div className="p-4 px-7 flex gap-3 justify-end">
+                            <Button
+                                onClick={handleClosePopupSimpan}
+                                // variant="outlinePrimary"
+                                className='w-[130px]'
+                            >
+                                Tutup
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {/*  */}
         </div>
     );
 };

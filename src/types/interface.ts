@@ -193,6 +193,53 @@ interface PackageTryout {
   Type_package_name: string; // Nama tipe paket
 }
 
+// soal paket (user)
+export interface ResponseQuestionPackage {
+  code: number;
+  message: string;
+  data: QuestionFormData;
+}
+
+interface QuestionFormData {
+  id: number;
+  title: string;
+  slug: string;
+  Bank_packages: BankPackage[];
+}
+
+interface BankPackage {
+  id: number;
+  packagetryout_id: number;
+  banksoal_id: number;
+  Bank_soal: BankSoal;
+}
+
+interface BankSoal {
+  id: number;
+  title: string;
+  typequestion_id: number;
+  Type_question: TypeQuestion;
+  Question_forms: QuestionForm[];
+}
+
+interface TypeQuestion {
+  name: string;
+}
+
+interface QuestionForm {
+  id: number;
+  field: string;
+  tipedata: string;
+  datajson: DataJson[];
+  answer: string | null;
+}
+
+interface DataJson {
+  id: number;
+  key: string;
+}
+
+
 
 
 
