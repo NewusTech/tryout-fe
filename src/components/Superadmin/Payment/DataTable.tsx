@@ -18,28 +18,9 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import TitikIcon from "../../../../public/assets/icons/TitikIcon";
+import { PaymentHistoryResponse } from "@/types/interface";
 
-interface History {
-    no: number;
-    nama: string,
-    namaPaket: string,
-    metodePembayaran: string,
-    status: string,
-}
-interface ApiResponse {
-    headers: string[];
-    data: History[];
-    currentPage: number;
-    search: string;
-}
-
-
-const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, }) => {
-
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedUser, setSelectedUser] = useState<any | null>(null); // Store the currently selected user for status update
-    const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
-    const [isLoading, setIsLoading] = useState(false); // Loading state
+const DataTable: React.FC<PaymentHistoryResponse> = ({ headers, data, currentPage, search, }) => {
 
     return (
         <div className="Table mt-3">
@@ -55,14 +36,20 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                     <TableBody>
                         {data?.length > 0 ? (
                             data.map((user, index) => (
-                                <TableRow key={user.no} index={index}>
+                                <TableRow key={user?.id} index={index}>
                                     <TableCell className="text-center">
                                         {(currentPage - 1) * 10 + (index + 1)}
                                     </TableCell>
-                                    <TableCell className="text-center text-primary">{user.nama ?? "-"}</TableCell>
-                                    <TableCell className="text-center text-primary">{user.namaPaket ?? "-"}</TableCell>
-                                    <TableCell className="text-center text-primary">{user.metodePembayaran ?? "-"}</TableCell>
-                                    <TableCell className="text-center text-primary">{user.status ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.name ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.type_package ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.metode_payment ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">
+                                        {user?.price
+                                            ? `Rp. ${Number(user.price).toLocaleString(
+                                                "id-ID"
+                                            )}`
+                                            : "-"}
+                                    </TableCell>
                                     {/*  */}
                                     <TableCell className="text-center justify-center items-center flex gap-2">
                                         <div className="aksi flex-shrink-0">
@@ -79,7 +66,7 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                                                     <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                                     <DropdownMenuGroup>
                                                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                            <Link className="w-full" href={`/payment/detail`}>
+                                                            <Link className="w-full" href={`/payment/detail/${user?.slug}`}>
                                                                 <div className="flex items-center gap-2 text-primary">
                                                                     Detail
                                                                 </div>

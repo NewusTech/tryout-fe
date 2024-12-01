@@ -17,25 +17,12 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import DeletePopupTitik from "@/components/Custom/PopupDelete";
 import TitikIcon from "../../../../public/assets/icons/TitikIcon";
+import { PaymentHistoryResponse } from "@/types/interface";
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
 
-interface History {
-    no: number;
-    nama: string,
-    tanggal: string,
-    jenisPembayaran: string,
-    harga: string,
-}
-interface ApiResponse {
-    headers: string[];
-    data: History[];
-    currentPage: number;
-    search: string;
-}
-
-
-const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, }) => {
+const DataTable: React.FC<PaymentHistoryResponse> = ({ headers, data, currentPage, search, }) => {
 
     return (
         <div className="Table mt-3">
@@ -43,7 +30,7 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                 <Table>
                     <TableHeader>
                         <TableRow>
-                        {headers.map((header, index) => (
+                            {headers.map((header, index) => (
                                 <TableHead key={index}>{header}</TableHead>
                             ))}
                         </TableRow>
@@ -51,14 +38,18 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                     <TableBody>
                         {data?.length > 0 ? (
                             data.map((user, index) => (
-                                <TableRow key={user.no} index={index}>
+                                <TableRow key={user?.id} index={index}>
                                     <TableCell className="text-center">
                                         {(currentPage - 1) * 10 + (index + 1)}
                                     </TableCell>
-                                    <TableCell className="text-center text-primary">{user.tanggal ?? "-"}</TableCell>
-                                    <TableCell className="text-center text-primary">{user.nama ?? "-"}</TableCell>
-                                    <TableCell className="text-center text-primary">{user.jenisPembayaran ?? "-"}</TableCell>
-                                    <TableCell className="text-center text-primary">{user.harga ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">
+                                        {user?.tanggal
+                                            ? format(new Date(user?.tanggal), "dd-MM-yyyy", { locale: id })
+                                            : "-"}
+                                    </TableCell>
+                                    <TableCell className="text-center text-primary">{user?.name ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.metode_payment ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.price ?? "-"}</TableCell>
                                     {/*  */}
                                     <TableCell className="text-center justify-center items-center flex gap-2">
                                         <div className="aksi flex-shrink-0">
@@ -75,7 +66,7 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                                                     <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                                     <DropdownMenuGroup>
                                                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                            <Link className="w-full" href={`/report/detail`}>
+                                                            <Link className="w-full" href={`/report/detail/${user?.slug}`}>
                                                                 <div className="flex items-center gap-2 text-primary">
                                                                     Detail
                                                                 </div>
@@ -90,7 +81,7 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={8} className="text-center">Tidak ada data</TableCell>
+                                <TableCell colSpan={6} className="text-center">Tidak ada data</TableCell>
                             </TableRow>
                         )}
                     </TableBody>
