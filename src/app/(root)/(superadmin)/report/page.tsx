@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import PrintIcon from "../../../../../public/assets/icons/PrintIcon";
 import DataTable from "@/components/Superadmin/Report/DataTable";
 import { DatePicker } from "@/components/Custom/DatePicker";
+import { useGetReportTryout } from "@/services/api";
 
 const ReportPage = () => {
     const [selectedValue, setSelectedValue] = useState<
@@ -25,46 +26,6 @@ const ReportPage = () => {
     // Define table headers
     const tableHeaders = ["No", "Tanggal", "Nama", "Jenis Pembayaran", "Harga", "Aksi"];
 
-    // Dummy data
-    const dummyData = [
-        {
-            no: 1,
-            tanggal: "2024-11-22",
-            nama: "John Doe",
-            jenisPembayaran: "Cash",
-            harga: "30000",
-        },
-        {
-            no: 2,
-            tanggal: "2024-11-21",
-            nama: "Jane Smith",
-            jenisPembayaran: "Credit",
-            harga: "50000",
-        },
-        {
-            no: 3,
-            tanggal: "2024-11-20",
-            nama: "Michael Brown",
-            jenisPembayaran: "Cash",
-            harga: "40000",
-        },
-        {
-            no: 4,
-            tanggal: "2024-11-19",
-            nama: "Emily Davis",
-            jenisPembayaran: "Transfer",
-            harga: "45000",
-        },
-        {
-            no: 5,
-            tanggal: "2024-11-18",
-            nama: "Chris Wilson",
-            jenisPembayaran: "Credit",
-            harga: "35000",
-        },
-    ];
-
-
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const onPageChange = (page: number) => {
@@ -78,10 +39,12 @@ const ReportPage = () => {
         setCurrentPage(1); // Reset to page 1
     };
     // serach
-
+    // INTEGRASI
+    const { data } = useGetReportTryout(currentPage, search,);
+    // INTEGRASI
     return (
         <div className="">
-            <TitleAdmin title="User" />
+            <TitleAdmin title="Laporan" />
             <div className="head flex gap-3 justify-between">
                 <div className="w-[50%]">
                     <SelectSearch
@@ -116,7 +79,7 @@ const ReportPage = () => {
             <div className="Table mt-6">
                 <DataTable
                     headers={tableHeaders}
-                    data={dummyData}
+                    data={data?.data}
                     currentPage={currentPage}
                     search={search}
                 />
@@ -125,7 +88,7 @@ const ReportPage = () => {
             <div className="pagi flex items-center justify-center md:justify-end mt-3 pb-5 lg:pb-0">
                 <PaginationTable
                     currentPage={currentPage}
-                    totalPages={10}
+                    totalPages={data?.pagination?.totalPages as number}
                     onPageChange={onPageChange}
                 />
             </div>

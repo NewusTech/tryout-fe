@@ -7,6 +7,7 @@ import PaginationTable from "@/components/Custom/PaginationTable";
 import { Button } from "@/components/ui/button";
 import DataTable from "@/components/Superadmin/Feedback/DataTable";
 import PrintIcon from "../../../../../public/assets/icons/PrintIcon";
+import { useGetFeedbackUser } from "@/services/api";
 
 const UserUser = () => {
     const [selectedValue, setSelectedValue] = useState<
@@ -21,36 +22,7 @@ const UserUser = () => {
     ];
 
     // Define table headers
-    const tableHeaders = ["No", "Nama", "Nilai"];
-
-    // Dummy data
-    const dummyData = [
-        {
-            no: 1,
-            nama: "John Doe",
-            nilai: "Baik",
-        },
-        {
-            no: 2,
-            nama: "Jane Smith",
-            nilai: "Sangat Baik",
-        },
-        {
-            no: 3,
-            nama: "Michael Brown",
-            nilai: "Cukup",
-        },
-        {
-            no: 4,
-            nama: "Emily Davis",
-            nilai: "Kurang",
-        },
-        {
-            no: 5,
-            nama: "Chris Wilson",
-            nilai: "Sangat Baik",
-        },
-    ];
+    const tableHeaders = ["No", "Nama", "Paket Tryout", "Nilai", "Aksi"];
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
@@ -66,9 +38,13 @@ const UserUser = () => {
     };
     // serach
 
+    // INTEGRASI
+    const { data } = useGetFeedbackUser(currentPage, search,);
+    // INTEGRASI
+
     return (
         <div className="">
-            <TitleAdmin title="User" />
+            <TitleAdmin title="Feedback" />
             <div className="head flex gap-3 justify-between">
                 <div className="w-[50%]">
                     <SelectSearch
@@ -79,8 +55,8 @@ const UserUser = () => {
                     />
                 </div>
                 <Button
-                variant="outlinePrimary"
-                className="flex gap-3 items-center w-[160px]"
+                    variant="outlinePrimary"
+                    className="flex gap-3 items-center w-[160px]"
                 >
                     <PrintIcon />
                     Print
@@ -90,7 +66,7 @@ const UserUser = () => {
             <div className="Table mt-6">
                 <DataTable
                     headers={tableHeaders}
-                    data={dummyData}
+                    data={data?.data}
                     currentPage={currentPage}
                     search={search}
                 />
@@ -99,7 +75,7 @@ const UserUser = () => {
             <div className="pagi flex items-center justify-center md:justify-end mt-3 pb-5 lg:pb-0">
                 <PaginationTable
                     currentPage={currentPage}
-                    totalPages={10}
+                    totalPages={data?.pagination?.totalPages as number}
                     onPageChange={onPageChange}
                 />
             </div>

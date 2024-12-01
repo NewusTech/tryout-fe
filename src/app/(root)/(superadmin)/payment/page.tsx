@@ -10,53 +10,13 @@ import SearchIcon from "../../../../../public/assets/icons/SearchIcon";
 import LinkCustom from "@/components/ui/LinkCustom";
 import PlusIcon from "../../../../../public/assets/icons/PlusIcon";
 import DataTable from "@/components/Superadmin/Payment/DataTable";
+import { useGetPaymentTryout } from "@/services/api";
 
 const History = () => {
     const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
 
     // Define table headers
-    const tableHeaders = ["No", "Nama", "Nama Paket", "Metode Pembayaran", "Status", "Aksi"];
-
-    // Dummy data
-    const dummyDataa = [
-        {
-            no: 1,
-            nama: "John Doe",
-            namaPaket: "Paket A",
-            metodePembayaran: "Transfer Bank",
-            status: "Lunas",
-        },
-        {
-            no: 2,
-            nama: "Jane Smith",
-            namaPaket: "Paket B",
-            metodePembayaran: "Kartu Kredit",
-            status: "Belum Lunas",
-        },
-        {
-            no: 3,
-            nama: "Alice Johnson",
-            namaPaket: "Paket C",
-            metodePembayaran: "Cash",
-            status: "Lunas",
-        },
-        {
-            no: 4,
-            nama: "Bob Brown",
-            namaPaket: "Paket D",
-            metodePembayaran: "QR Code",
-            status: "Belum Lunas",
-        },
-        {
-            no: 5,
-            nama: "Charlie Davis",
-            namaPaket: "Paket E",
-            metodePembayaran: "E-Wallet",
-            status: "Lunas",
-        },
-    ];
-
-
+    const tableHeaders = ["No", "Nama", "Nama Paket", "Metode Pembayaran", "Harga", "Aksi"];
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
@@ -72,14 +32,18 @@ const History = () => {
     };
     // serach
 
+    // INTEGRASI
+    const { data } = useGetPaymentTryout(currentPage, search,);
+    // INTEGRASI
+
     return (
         <div className="">
             <TitleAdmin title="Pembayaran Offline" />
             <div className="head flex gap-3 items-center">
                 <Input
-                    placeholder='Cari'
+                    placeholder='Cari Pembayaran'
                     leftIcon={<SearchIcon />}
-                    className='border-primary placeholder:text-primary'
+                    className='border-primary placeholder:text-primary/20'
                     value={search}
                     onChange={handleSearchChange}
                 />
@@ -106,7 +70,7 @@ const History = () => {
             <div className="Table mt-6">
                 <DataTable
                     headers={tableHeaders}
-                    data={dummyDataa}
+                    data={data?.data}
                     currentPage={currentPage}
                     search={search}
                 />
@@ -115,7 +79,7 @@ const History = () => {
             <div className="pagi flex items-center justify-center md:justify-end mt-3 pb-5 lg:pb-0">
                 <PaginationTable
                     currentPage={currentPage}
-                    totalPages={10}
+                    totalPages={data?.pagination?.totalPages as number}
                     onPageChange={onPageChange}
                 />
             </div>

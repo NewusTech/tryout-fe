@@ -106,3 +106,23 @@ export const packageTryout = z
   })
   .required();
 export type packageTryoutFormData = z.infer<typeof packageTryout>;
+
+// Payment user
+export const payment = z
+.object({
+  name: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+  email: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+  telepon: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+  password: z.string().min(6, { message: "Password minimal harus 6 karakter" }),
+  price: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+  receipt: z
+  .instanceof(File)
+  .refine((file) => file.size > 0, { message: "Gambar wajib diisi" }),
+  typepackage_id: z
+    .preprocess(
+      (val) => Number(val),
+      z.number().min(1, { message: "Jawaban tidak boleh kosong!" })
+    ),
+  })
+  .required();
+  export type paymentFormData = z.infer<typeof payment>;

@@ -24,15 +24,15 @@ interface Pagination {
 
 // type Package
 export interface PackageResponse {
-  headers: string[];
-  currentPage: number;
-  search: string;
   data: {
     id: number;
     name: string;
     createdAt: string;
     updatedAt: string;
   }[];
+  headers: string[];
+  currentPage: number;
+  search: string;
   status?: number;
   message?: string;
   pagination?: Pagination;
@@ -86,6 +86,16 @@ export interface PaymentResponse {
   status?: number;
   message?: string;
   pagination?: Pagination;
+}
+
+// type payment filter
+export interface PaymentResponseFilter {
+  data: {
+    id: number;
+    title: string;
+    createdAt: string;
+    updatedAt: string;
+  }[];
 }
 
 export interface PaymentResponseOne {
@@ -205,6 +215,10 @@ interface QuestionFormData {
   title: string;
   slug: string;
   Bank_packages: BankPackage[];
+  status: {
+    total_filled : number;
+    total_unfilled : number;
+  }
 }
 
 interface BankPackage {
@@ -260,6 +274,10 @@ interface PackageTryoutData {
   createdAt: string;
   updatedAt: string;
   Bank_packages: BankPackage[];
+  status: {
+    total_filled: number;
+    total_unfilled: number;
+  }
 }
 
 interface BankPackage {
@@ -279,3 +297,85 @@ interface BankSoal {
 interface TypeQuestion {
   name: string;
 }
+
+// history payment
+export interface PaymentHistoryResponse {
+  data: UserData[];
+  headers: string[];
+  currentPage: number;
+  search: string;
+  status?: number;
+  message?: string;
+  pagination?: Pagination;
+}
+
+interface UserData {
+  id: number;
+  slug: string;
+  name: string;
+  email: string;
+  type_package?: string;
+  payment_id?: number;
+  metode_payment?: string | null;
+  price?: string | null;
+  receipt?: string | null;
+  tanggal: string; // ISO date string
+  updatedAt: string; // ISO date string
+}
+
+// payment by slug
+export interface ReportPaymentSlugResponse {
+  status: number;
+  message: string;
+  data: {
+    id: number;
+    name: string;
+    metode_payment: string;
+    price: string;
+    receipt: string;
+    package_user: string;
+    createdAt: string; // ISO date string
+    updatedAt: string; // ISO date string
+  };
+}
+
+// feedback
+export interface FeedbackHistoryResponse {
+  data: FeedbackHistory[];
+  headers: string[];
+  currentPage: number;
+  search: string;
+  status?: number;
+  message?: string;
+  pagination?: Pagination;
+}
+
+interface FeedbackHistory {
+  id: number;
+  name: string;
+  package_id: number;
+  package_name: string;
+  total_feedback: number;
+  nila_feedback: number;
+  created_at: string; // ISO date string
+}
+
+// feedback detail
+export interface FeedbackDetailResponse {
+  status: number;
+  message: string;
+  data: FeedbackDetail;
+}
+
+interface FeedbackDetail {
+  id: number;
+  question_1: number; // Skor atau penilaian untuk pertanyaan 1
+  feedback: string; // Umpan balik dalam bentuk teks
+  package_name: string; // Nama lengkap paket
+  type_package_name: string; // Jenis paket
+  date: string; // ISO date string
+}
+
+
+
+

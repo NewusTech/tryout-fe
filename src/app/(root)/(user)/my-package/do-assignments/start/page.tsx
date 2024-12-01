@@ -225,11 +225,11 @@ const QuizPage: React.FC = () => {
                     </div>
                     <div className="flex justify-between md:mt-10 mt-5 md:text-base text-xs">
                         <div className="bg-succes rounded-full flex flex-col items-center p-2 px-6 text-white">
-                            <div className="">20</div>
+                            <div className="">{data?.data?.status?.total_filled ?? "-"}</div>
                             <div className="">Sudah Terisi</div>
                         </div>
                         <div className="bg-error rounded-full flex flex-col items-center p-2 px-6 text-white">
-                            <div className="">30</div>
+                            <div className="">{data?.data?.status?.total_unfilled ?? "-"}</div>
                             <div className="">Belum Terisi</div>
                         </div>
                     </div>

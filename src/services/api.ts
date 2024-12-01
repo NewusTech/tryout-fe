@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import { showAlert } from "@/lib/swalAlert";
 import { bannerEditFormData, tncFormData, typePackageFormData, typePaymentFormData, typeQuestionFormData } from "@/validations";
 import { useRouter } from "next/navigation";
-import { BankSoalResponse, BannerResponse, BannerResponseOne, CompanyProfileResponse, PackageResponse, PackageResponseOne, PackageTryoutResponse, PackageTryoutResponseOne, PaymentResponseOne, QuestionResponseOne, ResponseQuestionPackage, SnkResponse } from "@/types/interface";
+import { BankSoalResponse, BannerResponse, BannerResponseOne, CompanyProfileResponse, FeedbackDetailResponse, PackageResponse, PackageResponseOne, PackageTryoutResponse, PackageTryoutResponseOne, PaymentResponseFilter, PaymentResponseOne, QuestionResponseOne, ReportPaymentSlugResponse, ResponseQuestionPackage, SnkResponse } from "@/types/interface";
 
 // Hook to fetch master data tipe paket
 const useGetTypePackage = (currentPage: number, search: string) => {
@@ -516,6 +516,31 @@ const useGetTypePackageFilter = () => {
   return { data, error, mutate, isValidating, isLoading };
 };
 
+
+// filter tipe pembayaran
+const useGetTypePaymentFilter = () => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<PaymentResponseFilter>(
+    `/user/type/payment/get?limit=9999`,
+    () =>
+      axiosPrivate
+        .get(
+          `/user/type/payment/get?limit=9999`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
 // get bank soal tipe
 const useGetBankQuestionType = (id: number, ) => {
   // const [accessToken] = useCookies("accessToken", "");
@@ -606,7 +631,127 @@ const useGetUserTryoutPackageId = (id?: string) => {
   };
 };
 
+// get payment table
+const useGetPaymentTryout = (currentPage: number, search: string, ) => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/user/report/payment/get?page=${currentPage}&limit=10&search=${search}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/user/report/payment/get?page=${currentPage}&limit=10&search=${search}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// user get detail payment slug
+const useGetUserTryoutPaymentSlug = (slug?: string) => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<ReportPaymentSlugResponse>(
+    `/user/report/payment/${slug}`,
+    () =>
+      axiosPrivate
+        .get(`/user/report/payment/${slug}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading,
+  };
+};
+
+// get feedback table
+const useGetFeedbackUser = (currentPage: number, search: string, ) => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/user/history/feedback/get?page=${currentPage}&limit=10&search=${search}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/user/history/feedback/get?page=${currentPage}&limit=10&search=${search}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// user get feedback id
+const useGetUserFeedbackId = (id?: string) => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<FeedbackDetailResponse>(
+    `/user/history/feedback/detail/${id}`,
+    () =>
+      axiosPrivate
+        .get(`/user/history/feedback/detail/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading,
+  };
+};
+
+// get report table
+const useGetReportTryout = (currentPage: number, search: string, ) => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/user/report/payment/get?page=${currentPage}&limit=10&search=${search}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/user/report/payment/get?page=${currentPage}&limit=10&search=${search}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
 export {
+  useGetReportTryout,
+  useGetUserFeedbackId,
+  useGetFeedbackUser,
+  useGetUserTryoutPaymentSlug,
+  useGetPaymentTryout,
+  useGetTypePaymentFilter,
   useGetUserTryoutPackageId,
   useGetUserTryoutPackage,
   useGetQuestionPackageId,
