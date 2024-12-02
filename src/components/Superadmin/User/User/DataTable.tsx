@@ -19,21 +19,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import TitikIcon from "../../../../../public/assets/icons/TitikIcon";
 import DeletePopupTitik from "@/components/Custom/PopupDelete";
+import { UserListResponse } from "@/types/interface";
 
-interface History {
-    no: number;
-    nama: string,
-    email: string,
-}
-interface ApiResponse {
-    headers: string[];
-    data: History[];
-    currentPage: number;
-    search: string;
-}
-
-
-const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, }) => {
+const DataTable: React.FC<UserListResponse> = ({ headers, data, currentPage, search, }) => {
 
     return (
         <div className="Table mt-3">
@@ -49,12 +37,12 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                     <TableBody>
                         {data?.length > 0 ? (
                             data.map((user, index) => (
-                                <TableRow key={user.no} index={index}>
+                                <TableRow key={user?.id} index={index}>
                                     <TableCell className="text-center">
                                         {(currentPage - 1) * 10 + (index + 1)}
                                     </TableCell>
-                                    <TableCell className="text-center text-primary">{user.nama ?? "-"}</TableCell>
-                                    <TableCell className="text-center text-primary">{user.email ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.name ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.email ?? "-"}</TableCell>
                                     {/*  */}
                                     <TableCell className="text-center justify-center items-center flex gap-2">
                                         <div className="aksi flex-shrink-0">
@@ -71,7 +59,7 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                                                     <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                                     <DropdownMenuGroup>
                                                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                            <Link className="w-full" href={`/user/user/detail`}>
+                                                            <Link className="w-full" href={`/user/user/detail/${user?.slug}`}>
                                                                 <div className="flex items-center gap-2 text-primary">
                                                                     Detail
                                                                 </div>

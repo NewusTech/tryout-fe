@@ -77,7 +77,7 @@ const DataTable: React.FC<BankSoalResponse> = ({ headers, data, currentPage, sea
                                     </TableCell>
                                     <TableCell className="text-center text-primary">{user?.title ?? "-"}</TableCell>
                                     <TableCell className="text-center text-primary">{user?.Type_question_name ?? "-"}</TableCell>
-                                    <TableCell className="text-center text-primary">{user?.id ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.Total_question ?? "-"}</TableCell>
                                     {/*  */}
                                     <TableCell className="text-center justify-center items-center flex gap-2">
                                         <div className="aksi flex-shrink-0">
@@ -94,7 +94,7 @@ const DataTable: React.FC<BankSoalResponse> = ({ headers, data, currentPage, sea
                                                     <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                                     <DropdownMenuGroup>
                                                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                            <Link className="w-full" href={`/question-bank/question-answer/detail`}>
+                                                            <Link className="w-full" href={`/question-bank/question-answer/detail/${user?.id}`}>
                                                                 <div className="flex items-center gap-2 text-primary">
                                                                     Detail
                                                                 </div>

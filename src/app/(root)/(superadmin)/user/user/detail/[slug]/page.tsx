@@ -7,9 +7,14 @@ import Image from "next/image";
 import TabUserData from "@/components/Superadmin/User/User/tabUserData";
 import TabProgram from "@/components/Superadmin/User/User/tabProgram";
 import TabPerforma from "@/components/Superadmin/User/User/tabPerforma";
+import { useParams } from "next/navigation";
+import { useGetUserDetailId } from "@/services/api";
 
 const DetailUser = () => {
     const [activeTab, setActiveTab] = useState<string>("data-diri");
+    // Integrasi API
+    const { slug } = useParams();
+    const { data } = useGetUserDetailId(slug as string);
 
     return (
         <div className="">
@@ -27,8 +32,8 @@ const DetailUser = () => {
                     />
                 </div>
                 <div className="flex flex-col gap-1">
-                    <div className="text-xl font-semibold text-primary">Qurrota Aini Dila Azzahra</div>
-                    <div className="text-primary/80 text-xl">qurrotaainida@gmail.com</div>
+                    <div className="text-xl font-semibold text-primary">{data?.data?.name ?? "-"}</div>
+                    <div className="text-primary/80 text-xl">{data?.data?.email ?? "-"}</div>
                 </div>
             </div>
 

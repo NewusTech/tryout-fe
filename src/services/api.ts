@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import { showAlert } from "@/lib/swalAlert";
 import { bannerEditFormData, tncFormData, typePackageFormData, typePaymentFormData, typeQuestionFormData } from "@/validations";
 import { useRouter } from "next/navigation";
-import { BankSoalResponse, BannerResponse, BannerResponseOne, CompanyProfileResponse, FeedbackDetailResponse, PackageResponse, PackageResponseOne, PackageTryoutResponse, PackageTryoutResponseOne, PaymentResponseFilter, PaymentResponseOne, QuestionResponseOne, ReportPaymentSlugResponse, ResponseQuestionPackage, SnkResponse } from "@/types/interface";
+import { BankSoalResponse, BannerResponse, BannerResponseOne, CompanyProfileResponse, FeedbackDetailResponse, PackageResponse, PackageResponseOne, PackageTryoutResponse, PackageTryoutResponseOne, PaymentResponseFilter, PaymentResponseOne, ProvincesResponse, QuestionFormResponse, QuestionResponseOne, ReportPaymentSlugResponse, ResponseQuestionPackage, SnkResponse, UserDetailResponse, UserInfoResponse } from "@/types/interface";
 
 // Hook to fetch master data tipe paket
 const useGetTypePackage = (currentPage: number, search: string) => {
@@ -587,13 +587,13 @@ const useGetQuestionPackageId = (id?: string) => {
 };
 
 // user get paket tryout
-const useGetUserTryoutPackage = (currentPage: number, search: string, ) => {
-  // const [accessToken] = useCookies("accessToken", "");
-  const accessToken = Cookies.get("accessToken");
+const useGetUserTryoutPackage = (currentPage: number, search: string) => {
+  const accessToken = Cookies.get("accessToken"); // Mendapatkan accessToken
   const axiosPrivate = useAxiosPrivate();
 
   const { data, error, mutate, isValidating, isLoading } = useSWR<PackageTryoutResponse>(
-    `/user/package/tryout/get?page=${currentPage}&limit=10&search=${search}`,
+    accessToken ? // Pastikan hanya memanggil API jika accessToken ada
+      `/user/package/tryout/get?page=${currentPage}&limit=10&search=${search}` : null, // null jika token tidak ada
     () =>
       axiosPrivate
         .get(
@@ -604,11 +604,12 @@ const useGetUserTryoutPackage = (currentPage: number, search: string, ) => {
             },
           }
         )
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
+        .then((res) => res.data) // Pastikan `res.data` berisi data yang diinginkan
   );
 
   return { data, error, mutate, isValidating, isLoading };
 };
+
 
 // user get paket tryout id
 const useGetUserTryoutPackageId = (id?: string) => {
@@ -745,7 +746,148 @@ const useGetReportTryout = (currentPage: number, search: string, ) => {
   return { data, error, mutate, isValidating, isLoading };
 };
 
+// user get profile user id
+const useGetUserProfileId = (slug?: string) => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<UserInfoResponse>(
+    `/user/info/get/${slug}`,
+    () =>
+      axiosPrivate
+        .get(`/user/info/get/${slug}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading,
+  };
+};
+
+// get report table
+const useGetUserAll = (currentPage: number, search: string, ) => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/user/get?page=${currentPage}&limit=10&search=${search}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/user/get?page=${currentPage}&limit=10&search=${search}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// user get profile user id
+const useGetUserDetailId = (slug?: string) => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<UserDetailResponse>(
+    `/user/get/${slug}`,
+    () =>
+      axiosPrivate
+        .get(`/user/get/${slug}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading,
+  };
+};
+
+// user get detail bank soal id
+const useGetBankSoalDetailId = (id?: string) => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<QuestionFormResponse>(
+    `/user/question/get/${id}`,
+    () =>
+      axiosPrivate
+        .get(`/user/question/get/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading,
+  };
+};
+
+// get filter provinsi
+const useGetProvinsi = () => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<ProvincesResponse>(
+    `/user/provinsi/get?limit=99999`,
+    () =>
+      axiosPrivate
+        .get(
+          `/user/provinsi/get?limit=99999`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// get filter provinsi
+const useGetKota = () => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<ProvincesResponse>(
+    `/user/kota/get?limit=99999`,
+    () =>
+      axiosPrivate
+        .get(
+          `/user/kota/get?limit=99999`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
 export {
+  useGetKota,
+  useGetProvinsi,
+  useGetBankSoalDetailId,
+  useGetUserDetailId,
+  useGetUserAll,
+  useGetUserProfileId,
   useGetReportTryout,
   useGetUserFeedbackId,
   useGetFeedbackUser,

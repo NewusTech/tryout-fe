@@ -173,6 +173,7 @@ export interface BankSoalResponse {
 interface BankSoal {
   id: number;
   title: string;
+  Total_question: string;
   typequestion_id: number;
   createdAt: string; // ISO 8601 date string
   updatedAt: string; // ISO 8601 date string
@@ -375,6 +376,128 @@ interface FeedbackDetail {
   type_package_name: string; // Jenis paket
   date: string; // ISO date string
 }
+
+// profile user
+interface UserInfo {
+  id: number;
+  name: string;
+  slug: string;
+  email: string;
+  telepon: string;
+  alamat: string | null;
+  provinsi_id: number | null;
+  kota_id: number | null;
+  tempat_lahir: string | null;
+  tgl_lahir: string | null;
+  gender: number | null;
+  asal_instansi: string | null;
+  image_profile: string | null;
+  deletedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+  User: {
+    id: number;
+  };
+}
+
+export interface UserInfoResponse {
+  status: number;
+  message: string;
+  data: UserInfo;
+}
+
+// user all
+interface User {
+  id: number;
+  slug: string;
+  name: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UserListResponse {
+  data: User[];
+  headers: string[];
+  currentPage: number;
+  search: string;
+  status?: number;
+  message?: string;
+  pagination?: Pagination;
+}
+
+// user detail
+interface UserDetail {
+  id: number;
+  name: string;
+  email: string;
+  telepon: string;
+  alamat: string | null;
+  gender: string | null;
+  asal_instansi: string | null;
+  provinsi_id: number | null;
+  kota_id: number | null;
+  createdAt: string;
+  updatedAt: string;
+  package_tryout: any[];  // Adjust the type of elements based on actual data structure
+  performa: any[];  // Adjust the type of elements based on actual data structure
+}
+
+export interface UserDetailResponse {
+  status: number;
+  message: string;
+  data: UserDetail;
+}
+
+// detail bank soal id
+interface QuestionOption {
+  id: number;
+  key: string;
+}
+
+interface QuestionForm {
+  id: number;
+  field: string;
+  tipedata: string;
+  datajson: QuestionOption[];
+  correct_answer: number;
+  discussion: string;
+}
+
+interface TypeQuestion {
+  name: string;
+}
+
+export interface QuestionFormResponse {
+  code: number;
+  message: string;
+  data: {
+    id: number;
+    title: string;
+    typequestion_id: number;
+    Type_question: TypeQuestion;
+    Question_forms: QuestionForm[];
+  };
+}
+
+// provinsi
+interface Province {
+  id: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ProvincesResponse {
+  status: number;
+  message: string;
+  data: Province[];
+}
+
+
+
+
+
 
 
 

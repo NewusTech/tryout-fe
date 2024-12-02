@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import ExportIcon from "../../../../../../public/assets/icons/ExportIcon";
 import ImportIcon from "../../../../../../public/assets/icons/ImportIcon";
 import DataTable from "@/components/Superadmin/User/User/DataTable";
+import { useGetUserAll } from "@/services/api";
 
 const UserUser = () => {
     const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
@@ -74,6 +75,10 @@ const UserUser = () => {
     };
     // serach
 
+    // INTEGRASI
+    const { data } = useGetUserAll(currentPage, search,);
+    // INTEGRASI
+
     return (
         <div className="">
             <TitleAdmin title="User" />
@@ -106,7 +111,7 @@ const UserUser = () => {
             <div className="Table mt-6">
                 <DataTable
                     headers={tableHeaders}
-                    data={dummyData}
+                    data={data?.data}
                     currentPage={currentPage}
                     search={search}
                 />
@@ -115,7 +120,7 @@ const UserUser = () => {
             <div className="pagi flex items-center justify-center md:justify-end mt-3 pb-5 lg:pb-0">
                 <PaginationTable
                     currentPage={currentPage}
-                    totalPages={10}
+                    totalPages={data?.pagination?.totalPages as number}
                     onPageChange={onPageChange}
                 />
             </div>

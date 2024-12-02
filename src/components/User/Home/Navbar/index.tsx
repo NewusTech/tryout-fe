@@ -68,10 +68,12 @@ const Navbar = () => {
     // nav
     const [accessToken, setAccessToken] = useState<string | undefined>(undefined);
     const [username, setUsername] = useState<string | undefined>(undefined);
+    const [profile, setProfile] = useState<string | undefined>(undefined);
 
     useEffect(() => {
         setAccessToken(Cookies.get("accessToken"));
         setUsername(Cookies.get("username"));
+        setProfile(Cookies.get("profile"));
     }, []);
 
     return (
@@ -135,10 +137,10 @@ const Navbar = () => {
                                         <div className="flex items-center gap-3 text-white">
                                             <div className="h-[35px] w-[35px] border border-white rounded-full overflow-hidden">
                                                 <Image
-                                                    src="/assets/images/Profile-nav.png"
+                                                    src={profile ?? "/assets/images/Profile-nav.png"}
                                                     alt="logo"
-                                                    width={1000}
-                                                    height={1000}
+                                                    width={400}
+                                                    height={400}
                                                     unoptimized
                                                     className="w-full h-full object-cover"
                                                 />
