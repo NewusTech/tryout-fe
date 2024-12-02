@@ -1,6 +1,6 @@
 "use client";
 
-import SelectSearch from "@/components/Custom/SelectSearch2";
+import SelectSearch from "@/components/Custom/SelectSearch3";
 import FeedBackModal from "@/components/User/MyPackage/Start/FeedBackModal";
 import { useGetTypePackageFilter } from "@/services/api";
 import React, { useEffect, useState } from "react";
@@ -17,9 +17,14 @@ const Page: React.FC = () => {
     const { data } = useGetTypePackageFilter();
 
     // Transform data from API to match the expected structure
+    // const transformedItems = data?.data.map((item) => ({
+    //     id: item.id.toString(), // Ensure id is a string if needed
+    //     value: item.name, // Map 'name' to 'nama'
+    // })) || [];
+
     const transformedItems = data?.data.map((item) => ({
-        id: item.id.toString(), // Ensure id is a string if needed
-        value: item.name, // Map 'name' to 'nama'
+        value: item.id.toString(), // Ensure id is a string
+        label: item.name, // Assuming the API provides 'name'
     })) || [];
 
     const firstId = 3;    

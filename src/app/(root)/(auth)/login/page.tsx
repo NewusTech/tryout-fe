@@ -71,6 +71,12 @@ const LoginPage = () => {
         // Store username in cookies (with 7 days expiry, you can adjust as needed)
         Cookies.set("username", username,);
     };
+    const setProfile = (profile: string) => {
+        Cookies.set("profile", profile,);
+    };
+    const setSlug = (slug: string) => {
+        Cookies.set("slug", slug,);
+    };
 
     const onSubmit = async (data: FormSchemaType) => {
         setLoading(true);
@@ -108,6 +114,8 @@ const LoginPage = () => {
                 // alert
                 setAccessToken(response?.data?.data?.token);
                 setUsername(response?.data?.data?.username);
+                setSlug(response?.data?.data?.slug);
+                setProfile(response?.data?.data?.profile);
                 // reset();
                 router.push("/");
             }
