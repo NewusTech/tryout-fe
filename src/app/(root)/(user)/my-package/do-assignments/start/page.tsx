@@ -13,6 +13,9 @@ import WarningIcon from '../../../../../../../public/assets/icons/WarningIcon';
 import LoadingPage from '@/components/ui/LoadingPage';
 import Cookies from "js-cookie";
 import Countdown from '@/components/User/MyPackage/Start/Countdown';
+import { useRouter } from 'next/navigation';
+import { Textarea } from '@/components/ui/textarea';
+import MessageIcon from '../../../../../../../public/assets/icons/MessageIcon';
 
 type QuestionForm = {
     id: number;
@@ -44,6 +47,9 @@ const QuizPage: React.FC = () => {
     const [selectedOptions, setSelectedOptions] = useState<Record<number, string | undefined>>({});
     const [loading, setLoading] = useState(false);
     const axiosPrivate = useAxiosPrivate();
+    const navigate = useRouter();
+    const [rating, setRating] = useState<string>(""); // Menyimpan nilai rating
+    const [feedbackText, setFeedbackText] = useState<string>(""); // Menyimpan nilai feedback
 
     // Modal
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -72,6 +78,44 @@ const QuizPage: React.FC = () => {
         setIsPopupOpenSimpan(false);
     };
 
+    // feedback
+    const [isPopupOpenFeedback, setIsPopupOpenFeedback] = useState(false);
+    // Open pop-up
+    const handleOpenPopupFeedback = () => setIsPopupOpenFeedback(true);
+    // Close pop-up
+    const handleClosePopupFeedback = () => {
+        setIsPopupOpenFeedback(false);
+    };
+    const handleRatingClick = (value: string) => {
+        setRating(value); // Mengatur nilai rating saat lingkaran diklik
+    };
+    const handleFeedBack = async () => {
+        if (!rating || !feedbackText) {
+            console.log("Harap isi semua bidang sebelum mengirim.");
+            return;
+        }
+
+        setLoading(true);
+        // 
+        const bodyFeedback = {
+            question_1: rating,
+            feedback: feedbackText,
+        }
+        try {
+            setLoading(true);
+            await axiosPrivate.post(`/user/feedback/create/${id}`, bodyFeedback);
+            console.log("feedback", bodyFeedback)
+            navigate.push("/my-package/history");
+        } catch (error: any) {
+            const errorMessage =
+            error?.response?.data?.data?.[0]?.message ||
+            error?.response?.data?.message ||
+            console.log("feedback", bodyFeedback)
+                "Gagal menyelesainkan tryout!";
+        } finally {
+            setLoading(false);
+        }
+    };
 
 
     // INTEGRASI API
@@ -173,6 +217,22 @@ const QuizPage: React.FC = () => {
         }
     };
 
+    const handleEndTime = async () => {
+        try {
+            setLoading(true);
+            handleOpenPopupFeedback();
+            await axiosPrivate.post(`/user/end/time/tryout/${id}`,);
+        } catch (error: any) {
+            const errorMessage =
+                error?.response?.data?.data?.[0]?.message ||
+                error?.response?.data?.message ||
+                "Gagal memulai tryout!";
+        } finally {
+            setLoading(false);
+        }
+
+    };
+
     if (!currentQuestion) return null;
 
     return (
@@ -183,7 +243,7 @@ const QuizPage: React.FC = () => {
                     <h1 className="md:text-xl text-base font-semibold">{quizData.title}</h1>
                 </div>
                 <div className="flex justify-end md:justify-start">
-                    <Countdown end_time={data?.data?.end_time ?? "-"}/>
+                    <Countdown end_time={data?.data?.end_time ?? "-"} />
                 </div>
             </header>
 
@@ -319,9 +379,10 @@ const QuizPage: React.FC = () => {
                                 Tidak
                             </Button>
                             <Button
+                                onClick={handleEndTime}
                                 className='w-[130px]'
                             >
-                                Iya
+                                {loading ? <Loading /> : "Iya"}
                             </Button>
                         </div>
                     </div>
@@ -391,6 +452,78 @@ const QuizPage: React.FC = () => {
                                 className='w-[130px]'
                             >
                                 Tutup
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {/* Feedback Modal */}
+            {isPopupOpenFeedback && (
+                <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+                    <div
+                        className="bg-white rounded-lg overflow-hidden relative w-[600px] md:mx-0 mx-4"
+                    >
+                        {/* Header */}
+                        <div className="px-7 flex bg-white border-b justify-between p-4">
+                            <div className="text-primary font-medium flex items-center gap-2">
+                                <MessageIcon />
+                                Feedback
+                            </div>
+                        </div>
+                        {/* Content */}
+                        <div className="flex px-7 gap-4 items-center border-b border-slate-300 p-4">
+                            <div>
+                                <div className="text-primary font-semibold mb-2">
+                                    Berikan Masukan untuk Kami!
+                                </div>
+                                <div className="text-sm text-primary">
+                                    Seberapa puas Anda dengan pengalaman menggunakan website ini?
+                                </div>
+                            </div>
+                        </div>
+                        {/* Rating */}
+                        <div className="wrap flex gap-4 px-7 p-3 justify-evenly items-end">
+                            {["1", "2", "3", "4", "5"].map((value) => (
+                                <button
+                                    key={value}
+                                    className="flex flex-col items-center gap-2"
+                                    onClick={() => handleRatingClick(value)}
+                                >
+                                    <div className="text-center text-sm flex justify-center w-[40px] h-[40px] items-center font-medium">
+                                        {value === "1" && "Tidak Sesuai"}
+                                        {value === "2" && "Kurang Sesuai"}
+                                        {value === "3" && "Cukup"}
+                                        {value === "4" && "Sesuai"}
+                                        {value === "5" && "Sangat Sesuai"}
+                                    </div>
+                                    <div
+                                        className={`w-[50px] h-[50px] flex justify-center items-center rounded-full text-sm ${rating === value
+                                                ? "bg-primary text-white"
+                                                : "bg-white border border-primary text-primary"
+                                            }`}
+                                    >
+                                        {value}
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
+                        {/* Feedback Textarea */}
+                        <div className="px-7 mt-3">
+                            <Textarea
+                                placeholder="Masukkan kritik dan saran"
+                                value={feedbackText}
+                                onChange={(e) => setFeedbackText(e.target.value)}
+                            />
+                        </div>
+                        {/* Submit Button */}
+                        <div className="p-4 px-7 flex gap-3 justify-end">
+                            <Button
+                                className={`w-full rounded-full py-2 ${loading ? "bg-gray-500" : "bg-primary hover:bg-primary-hover"
+                                    }`}
+                                onClick={handleFeedBack}
+                                disabled={loading || rating === null || feedbackText === ""}
+                            >
+                                {loading ? <Loading /> : "Kirim"}
                             </Button>
                         </div>
                     </div>

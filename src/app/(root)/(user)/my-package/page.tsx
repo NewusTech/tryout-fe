@@ -88,7 +88,7 @@ const MyPackage = () => {
                                                 className="md:w-[300px] w-full object-contain md:rounded-xl"
                                             />
                                         </div>
-                                        <div className="right flex flex-col justify-between w-full">
+                                        <div className="right px-4 pb-4 md:px-0 md:pb-0 flex flex-col justify-between w-full">
                                             <div className="head text-primary flex flex-col gap-1">
                                                 <div className="md:text-xl text-base font-semibold">
                                                     {user?.title ?? "-"}
@@ -115,13 +115,13 @@ const MyPackage = () => {
                                             <div className="button flex gap-3 justify-end w-full mt-5">
                                                 <Button
                                                     onClick={() => handleStart(user.id.toString())}
-                                                    className="px-10 text-white"
+                                                    className="px-10 text-white text-sm w-full md:w-[160px]"
                                                 >
                                                     Kerjakan
                                                 </Button>
                                                 <LinkCustom
                                                     href="/my-package/history"
-                                                    className="px-10 bg-white text-primary border border-primary"
+                                                    className="px-10 w-full md:w-[160px] bg-white text-primary border border-primary"
                                                 >
                                                     Riwayat
                                                 </LinkCustom>
@@ -133,7 +133,7 @@ const MyPackage = () => {
                                 <div className="text-center mt-5">Tidak ada Data</div>
                             )}
                         </div>
-                        <div className="flex justify-end">
+                        <div className="flex justify-center md:justify-end">
                             <PaginationTable
                                 currentPage={currentPage}
                                 totalPages={data?.pagination?.totalPages || 1}
