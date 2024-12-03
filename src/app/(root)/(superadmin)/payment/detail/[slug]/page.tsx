@@ -30,7 +30,7 @@ const DetailPayment = () => {
         setIsLoading(true);
         try {
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/receipt/${data?.data?.id}`,
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/receipt/${data?.data?.id_payment}`,
                 {
                     method: "GET",
                     headers: {
@@ -63,7 +63,7 @@ const DetailPayment = () => {
                 Cookies.remove("pricePayment");
                 Cookies.remove("statusPayment");
                 Cookies.remove("idPayment");
-                navigate.push('/payment');
+                // navigate.push('/payment');
             }
         } catch (e: any) {
             Swal.fire({
@@ -142,12 +142,12 @@ const DetailPayment = () => {
                         </div>
                     </div>
                     {/*  */}
-                    <div className="flex items-center justify-between">
-                        <div className="flex flex-col gap-1">
+                    <div className="flex items-center">
+                        <div className="flex flex-col gap-1 w-full">
                             <div className="text-black/60">
                                 Bukti Pembayaran
                             </div>
-                            <div className="h-[350px] p-4 border border-gray-100 rounded-xl">
+                            <div className="h-[350px] w-full flex justify-center p-4 border border-gray-100 rounded-xl">
                                 <Image
                                     src={data?.data?.receipt ?? "/assets/images/no-image.png"}
                                     alt="receipt"

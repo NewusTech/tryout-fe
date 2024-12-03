@@ -12,6 +12,7 @@ import Loading from '@/components/ui/Loading';
 import WarningIcon from '../../../../../../../public/assets/icons/WarningIcon';
 import LoadingPage from '@/components/ui/LoadingPage';
 import Cookies from "js-cookie";
+import Countdown from '@/components/User/MyPackage/Start/Countdown';
 
 type QuestionForm = {
     id: number;
@@ -182,20 +183,7 @@ const QuizPage: React.FC = () => {
                     <h1 className="md:text-xl text-base font-semibold">{quizData.title}</h1>
                 </div>
                 <div className="flex justify-end md:justify-start">
-                    <div className="flex w-fit md:gap-10 gap-5 bg-primary rounded-lg md:rounded-xl md:p-3 p-2 md:text-sm text-xs">
-                        <div className="flex flex-col items-center">
-                            <div>0</div>
-                            <div>Jam</div>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <div>30</div>
-                            <div>Menit</div>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <div>0</div>
-                            <div>Detik</div>
-                        </div>
-                    </div>
+                    <Countdown end_time={data?.data?.end_time ?? "-"}/>
                 </div>
             </header>
 
