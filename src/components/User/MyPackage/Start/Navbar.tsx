@@ -30,7 +30,7 @@ const Navbar = () => {
     return (
         <div className="">
             <div
-                className={`fixed  hidden md:block w-full z-50 transition-all duration-300 ease-in-out ${scrolled ? 'bg-secondary/10' : 'bg-primary'
+                className={`fixed  hidden md:block w-full z-50 transition-all duration-300 ease-in-out ${scrolled ? 'bg-primary' : 'bg-primary'
                     }`}
             >
                 <div className="wrap py-2 m-auto container flex justify-between items-center">
@@ -92,12 +92,12 @@ const Navbar = () => {
                             <div className="logo">
                                 <img className="h-[40px]" src="/assets/images/logo-nav.png" alt="" />
                             </div>
-                            <div className="res bg-primary2 rounded-md w-[50px] h-[50px] flex justify-center items-center text-[40px] font-bold cursor-pointer" onClick={handleBurger}>
+                            {/* <div className="res bg-primary2 rounded-md w-[50px] h-[50px] flex justify-center items-center text-[40px] font-bold cursor-pointer" onClick={handleBurger}>
                                 {burger ? <Close /> : <Burger />}
-                            </div>
+                            </div> */}
                         </div>
 
-                        <div className={`wrap ${burger ? "flex opacity-100" : "hidden opacity-0 "}  bg-primary w-full items-center flex-col gap-5 transition-all duration-500`}>
+                        {/* <div className={`wrap ${burger ? "flex opacity-100" : "hidden opacity-0 "}  bg-primary w-full items-center flex-col gap-5 transition-all duration-500`}>
                             <a href="#beranda" className="font-bold">
                                 Beranda
                             </a>
@@ -105,7 +105,7 @@ const Navbar = () => {
                             <Link href="/login" className="loginn bg-secondary p-2 px-6 hover:bg-[#c78f3b]  rounded-full text-white">
                                 Login
                             </Link>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
