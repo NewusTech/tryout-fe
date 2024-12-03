@@ -18,7 +18,7 @@ const DetailReport = () => {
             <div className="bg-[#FAFAFA] text-primary flex flex-col gap-5 rounded-lg p-5 border border-gray-100 shadow-md">
                 <div className="flex gap-3">
                     <div className="w-1/2 font-medium">Nama</div>
-                    <div className="w-1/2">: Qurotta</div>
+                    <div className="w-1/2">: {data?.data?.name ?? "-"}</div>
                 </div>
                 <div className="flex gap-3">
                     <div className="w-1/2 font-medium">Nama Paket</div>
@@ -33,7 +33,7 @@ const DetailReport = () => {
                     <div className="w-1/2">
                         : {data?.data?.date
                             ? format(new Date(data.data.date), "dd-MM-yyyy, HH:mm ")
-                            : "-"}
+                            : "-"} 
                     </div>
                 </div>
                 <div className="flex gap-3">

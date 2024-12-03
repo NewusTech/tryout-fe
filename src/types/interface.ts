@@ -215,6 +215,8 @@ interface QuestionFormData {
   id: number;
   title: string;
   slug: string;
+  start_time: string;
+  end_time: string;
   Bank_packages: BankPackage[];
   status: {
     total_filled : number;
@@ -330,6 +332,7 @@ export interface ReportPaymentSlugResponse {
   message: string;
   data: {
     id: number;
+    id_payment: number;
     name: string;
     metode_payment: string;
     price: string;
@@ -371,6 +374,7 @@ export interface FeedbackDetailResponse {
 interface FeedbackDetail {
   id: number;
   question_1: number; // Skor atau penilaian untuk pertanyaan 1
+  name: string; // Umpan balik dalam bentuk teks
   feedback: string; // Umpan balik dalam bentuk teks
   package_name: string; // Nama lengkap paket
   type_package_name: string; // Jenis paket

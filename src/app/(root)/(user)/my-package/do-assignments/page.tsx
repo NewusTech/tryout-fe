@@ -4,16 +4,42 @@ import VerifIcon from '../../../../../../public/assets/icons/VerifIcon';
 import { Button } from '@/components/ui/button';
 import { useGetUserTryoutPackageId } from '@/services/api';
 import Cookies from "js-cookie";
+import { useState } from 'react';
+import useAxiosPrivate from '@/hooks/useAxiosPrivate';
+import { useRouter } from 'next/navigation';
+import Loading from '@/components/ui/Loading';
+import LoadingPage from '@/components/ui/LoadingPage';
 
 
 const DoAssignments = () => {
-
-    const handleStart = () => {
-        window.location.href = '/my-package/do-assignments/start';
+    const [loading, setLoading] = useState(false);
+    
+    const id = Cookies.get("package");
+    const { data: dataUser, isLoading } = useGetUserTryoutPackageId(id as string);
+    const axiosPrivate = useAxiosPrivate();
+    const navigate = useRouter();
+    
+    const handleStart = async () => {
+        try {
+            setLoading(true);
+            await axiosPrivate.post(`/user/start/time/tryout/${id}`, );
+        } catch (error: any) {
+            const errorMessage =
+                error?.response?.data?.data?.[0]?.message ||
+                error?.response?.data?.message ||
+                "Gagal memulai tryout!";
+        } finally {
+            setLoading(false);
+        } 
+        navigate.push("/my-package/do-assignments/start");
     };
 
-    const id = Cookies.get("package");
-    const { data: dataUser } = useGetUserTryoutPackageId(id as string);
+    if (isLoading) {
+        return <div >
+            <LoadingPage />
+        </div>;
+    }
+
 
     return (
         <div>
@@ -88,8 +114,8 @@ const DoAssignments = () => {
                             <div className="mt-7 flex justify-center">
                                 <Button
                                     onClick={handleStart}
-                                    className='px-10'>
-                                    Mulai
+                                    className='px-10 w-[150px]'>
+                                    {loading ? <Loading /> : "Mulai"}
                                 </Button>
                             </div>
                         </div>

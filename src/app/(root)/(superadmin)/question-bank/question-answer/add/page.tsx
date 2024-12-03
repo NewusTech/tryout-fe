@@ -182,6 +182,7 @@ const AddQuestion = () => {
             await axiosPrivate.post("/user/question/form/createmulti", formattedData);
             showAlert("success", "Data berhasil dibuat!");
             navigate.push("/question-bank/question-answer");
+            localStorage.clear();
         } catch (error: any) {
             const errorMessage =
                 error?.response?.data?.data?.[0]?.message ||
