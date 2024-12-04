@@ -130,22 +130,22 @@ export const payment = z
   // update user profile
   // Master Data edit about
 export const profileEdit = z.object({
-  name: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
-  email: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
-  telepon: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
-  alamat: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
-  tempat_lahir : z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
-  asal_instansi : z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+  name: z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
+  email: z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
+  telepon: z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
+  alamat: z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
+  tempat_lahir : z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
+  asal_instansi : z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
   // tgl_lahir : z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
   provinsi_id: z
   .preprocess(
     (val) => Number(val),
-    z.number().min(1, { message: "Jawaban tidak boleh kosong!" })
+    z.number().min(0, { message: "Jawaban tidak boleh kosong!" })
   ),
   kota_id: z
     .preprocess(
       (val) => Number(val),
-      z.number().min(1, { message: "Jawaban tidak boleh kosong!" })
+      z.number().min(0, { message: "Jawaban tidak boleh kosong!" })
     ),
   gender: z.string({
       required_error: "Jawaban tidak boleh kosong!",
