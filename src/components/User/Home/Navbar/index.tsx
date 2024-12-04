@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import Image from "next/image";
 import ArrowDown from "../../../../../public/assets/icons/ArrowDown";
-import { useGetAboutCompany } from "@/services/api";
+import { useGetAboutCompany, useGetProfileNav } from "@/services/api";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2"; // Make sure to import SweetAlert2
 
@@ -41,6 +41,14 @@ const Navbar = () => {
 
     // INTEGRASI
     const { data } = useGetAboutCompany();
+    // Integrasi API
+    
+    const [slug, setSlug] = useState<string | undefined>(undefined);
+
+    useEffect(() => {
+        setSlug(Cookies.get("slug"));
+    }, []);
+    const { data: dataUser } = useGetProfileNav(slug as string);
     // INTEGRASI
 
     const router = useRouter();
@@ -138,7 +146,7 @@ const Navbar = () => {
                                         <div className="flex items-center gap-3 text-white">
                                             <div className="h-[35px] w-[35px] border border-white rounded-full overflow-hidden">
                                                 <Image
-                                                    src={profile || "/assets/images/Profile-nav.png"}
+                                                    src={dataUser?.data?.image_profile || "/assets/images/Profile-nav.png"}
                                                     alt="logo"
                                                     width={400}
                                                     height={400}
@@ -146,7 +154,7 @@ const Navbar = () => {
                                                     className="w-full h-full object-cover"
                                                 />
                                             </div>
-                                            <div>{username ?? "-"}</div>
+                                            <div>{dataUser?.data?.name ?? "-"}</div>
                                             <div>
                                                 <ArrowDown />
                                             </div>
@@ -199,7 +207,7 @@ const Navbar = () => {
                                             <div className="flex items-center gap-3 text-white">
                                                 <div className="md:h-[35px] md:w-[35px] h-[28px] w-[28px] border border-white rounded-full overflow-hidden">
                                                     <Image
-                                                        src={profile || "/assets/images/Profile-nav.png"}
+                                                        src={dataUser?.data?.image_profile || "/assets/images/Profile-nav.png"}
                                                         alt="logo"
                                                         width={400}
                                                         height={400}
@@ -207,7 +215,7 @@ const Navbar = () => {
                                                         className="w-full h-full object-cover"
                                                     />
                                                 </div>
-                                                <div className="text-sm">{username ?? "-"}</div>
+                                                <div className="text-sm">{dataUser?.data?.name ?? "-"}</div>
                                                 <div className="">
                                                     <ArrowDown />
                                                 </div>

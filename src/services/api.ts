@@ -881,7 +881,32 @@ const useGetKota = () => {
   return { data, error, mutate, isValidating, isLoading };
 };
 
+// user get paket tryout
+const useGetProfileNav = (slug?: string) => {
+  const accessToken = Cookies.get("accessToken"); // Mendapatkan accessToken
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<UserInfoResponse>(
+    accessToken ? // Pastikan hanya memanggil API jika accessToken ada
+      `/user/info/get/${slug}` : null, // null jika token tidak ada
+    () =>
+      axiosPrivate
+        .get(
+          `/user/info/get/${slug}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Pastikan `res.data` berisi data yang diinginkan
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
 export {
+  useGetProfileNav,
   useGetKota,
   useGetProvinsi,
   useGetBankSoalDetailId,

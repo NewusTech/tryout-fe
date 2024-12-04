@@ -143,7 +143,7 @@ const Profile = () => {
             // reset();
         } catch (error: any) {
             // Extract error message from API response
-            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memperbarui data!';
+            const errorMessage = error.response?.data?.data?.[0]?.message || error.response?.data?.message || 'Gagal memperbarui data!';
             showAlert('error', errorMessage);
         } finally {
             setLoading(false); // Set loading to false once the process is complete
@@ -290,6 +290,16 @@ const Profile = () => {
                                     />
                                     <HelperError>{errors?.kota_id?.message}</HelperError>
                                 </div>
+                                <div className="flex flex-col md:gap-3 gap-2">
+                                <Label>Tempat Lahir</Label>
+                                <Input
+                                    placeholder="Tempat Lahir"
+                                    type='text'
+                                    {...register('tempat_lahir')}
+                                    className={`${errors.tempat_lahir ? 'border-red-500' : ''}`}
+                                />
+                                <HelperError>{errors?.tempat_lahir?.message}</HelperError>
+                            </div>
                             </div>
                             <div className="flex flex-col md:gap-3 gap-2">
                                 <Label>Alamat</Label>

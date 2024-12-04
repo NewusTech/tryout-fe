@@ -104,14 +104,14 @@ const QuizPage: React.FC = () => {
         try {
             setLoading(true);
             await axiosPrivate.post(`/user/feedback/create/${id}`, bodyFeedback);
-            console.log("feedback", bodyFeedback)
+            showAlert("success", "Data berhasil disimpan!");
             navigate.push("/my-package/history");
         } catch (error: any) {
             const errorMessage =
-            error?.response?.data?.data?.[0]?.message ||
-            error?.response?.data?.message ||
-            console.log("feedback", bodyFeedback)
-                "Gagal menyelesainkan tryout!";
+                error?.response?.data?.data?.[0]?.message ||
+                error?.response?.data?.message ||
+                "Gagal menyelesaikan tryout!";
+            showAlert("error", errorMessage);
         } finally {
             setLoading(false);
         }
@@ -222,11 +222,14 @@ const QuizPage: React.FC = () => {
             setLoading(true);
             handleOpenPopupFeedback();
             await axiosPrivate.post(`/user/end/time/tryout/${id}`,);
+            showAlert("success", "Data berhasil dikirim!");
         } catch (error: any) {
             const errorMessage =
                 error?.response?.data?.data?.[0]?.message ||
                 error?.response?.data?.message ||
                 "Gagal memulai tryout!";
+            showAlert("error", errorMessage);
+
         } finally {
             setLoading(false);
         }
@@ -498,8 +501,8 @@ const QuizPage: React.FC = () => {
                                     </div>
                                     <div
                                         className={`w-[50px] h-[50px] flex justify-center items-center rounded-full text-sm ${rating === value
-                                                ? "bg-primary text-white"
-                                                : "bg-white border border-primary text-primary"
+                                            ? "bg-primary text-white"
+                                            : "bg-white border border-primary text-primary"
                                             }`}
                                     >
                                         {value}
