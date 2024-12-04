@@ -499,6 +499,122 @@ export interface ProvincesResponse {
 }
 
 
+// quiz
+export interface QuestionTryoutResponse {
+  code: number;
+  message: string;
+  data: {
+    id: number;
+    title: string;
+    slug: string;
+    attempt: number;
+    start_time: string;
+    end_time: string;
+    Question_forms: QuestionForm[];
+    status: {
+      total_filled: number;
+      total_unfilled: number;
+    };
+  };
+}
+
+interface QuestionForm {
+  id: number;
+  type_question_id: number;
+  type_question_name: string;
+  bank_soal_id: number;
+  bank_soal_name: string;
+  field: string;
+  tipedata: string;
+  datajson: Option[];
+  answer: string | null;
+}
+
+interface Option {
+  id: number;
+  key: string;
+}
+
+// detail package tryout
+export interface PackageTryoutResponseDetailOne {
+  status: number;
+  message: string;
+  tes: string;
+  data: PackageTryoutDetailOne;
+}
+
+interface PackageTryoutDetailOne {
+  id: number;
+  user_id: number | null;
+  title: string;
+  slug: string;
+  description: string;
+  duration: string;
+  price: string;
+  typepackage_id: number;
+  total_question: string;
+  deletedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+  Bank_packages: BankDetailOne[];
+}
+
+interface BankDetailOne {
+  id: number;
+  packagetryout_id: number;
+  banksoal_id: number;
+  Bank_soal: BankSoalOne;
+}
+
+interface BankSoalOne {
+  id: number;
+  title: string;
+  typequestion_id: number;
+  Type_question: TypeQuestionOne;
+}
+
+interface TypeQuestionOne {
+  name: string;
+}
+
+// QUIZ START
+interface QuestionForm {
+  id: number;
+  type_question_id: number;
+  type_question_name: string;
+  bank_soal_id: number;
+  bank_soal_name: string;
+  field: string;
+  tipedata: string;
+  datajson: Option[];
+  answer: string | null;
+}
+
+interface Option {
+  id: number;
+  key: string;
+}
+
+export interface QuizData {
+  code: number;
+  message: string;
+  data: {
+      id: number;
+      title: string;
+      slug: string;
+      attempt: number;
+      start_time: string;
+      end_time: string;
+      Question_forms: QuestionForm[];
+      status: {
+          total_filled: number;
+          total_unfilled: number;
+      };
+  };
+}
+
+
+
 
 
 
