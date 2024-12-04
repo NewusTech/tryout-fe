@@ -14,6 +14,7 @@ import UserIcon from "../../../../../public/assets/icons/UserIcon";
 import { axiosInstance } from "@/utils/axios";
 import Swal from "sweetalert2"; // Make sure to import SweetAlert2
 import Cookies from "js-cookie"; // Import js-cookie
+import { useGetAboutCompany } from "@/services/api";
 
 
 const formSchema = z.object({
@@ -133,6 +134,8 @@ const LoginPage = () => {
         }
     };
 
+    const { data, isLoading } = useGetAboutCompany();
+
     return (
         <div>
             <section className="flex flex-col min-h-screen bg-primary justify-center items-center">
@@ -142,13 +145,18 @@ const LoginPage = () => {
                             <div className="head my-3 mb-5 flex flex-col gap-3">
                                 <div className="log flex justify-center md:mb-7">
                                     <Image
-                                        src="/assets/images/logo-login.png"
+                                        src={data?.data?.sub_logo ?? "/assets/images/logo-login.png"} 
                                         alt="logo"
                                         width={400}
                                         height={400}
                                         unoptimized
                                         className="w-[300px] object-contain"
                                     />
+                                </div>
+                            </div>
+                            <div className="head my-3 mb-7 flex flex-col gap-1">
+                                <div className="text-primary font-semibold md:text-2xl text-xl">
+                                    Login Admin
                                 </div>
                             </div>
                             <form

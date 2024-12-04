@@ -7,6 +7,7 @@ import BannerHome from '@/components/User/Home/Banner';
 import Footer from '@/components/User/Home/Footer';
 import { useGetAboutCompany } from '@/services/api';
 import LoadingPage from '@/components/ui/LoadingPage';
+import ContactUs from '@/components/User/Home/ContactUs';
 
 const Home = () => {
   // INTEGRASI
@@ -59,8 +60,8 @@ const Home = () => {
           <Footer />
           {/* footer */}
         </div>
-
       </div>
+      <ContactUs />
     </div>
 
   );

@@ -62,7 +62,7 @@ const Navbar = () => {
         });
         // Cookies.remove("accessToken");
         // Cookies.remove("username");
-        window.location.reload();
+        window.location.href = "/";
 
         // Tampilkan pop-up sukses tanpa tombol OK, otomatis menghilang setelah 2 detik
         Swal.fire({
