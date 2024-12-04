@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 import { Textarea } from '@/components/ui/textarea';
 import Loading from '@/components/ui/Loading';
 import MessageIcon from '../../../../../public/assets/icons/MessageIcon';
+import { useGetQuestionQuizId } from '@/services/api';
 
 
 interface CountdownProps {
@@ -71,15 +72,19 @@ const Countdown = ({ end_time }: CountdownProps) => {
             setLoading(false);
         }
     };
+    // INTEGRASI API
+    const { data, isLoading, error } = useGetQuestionQuizId(id as string);
 
     const handleEndTime = async () => {
         try {
             setLoading(true);
             await axiosPrivate.post(`/user/end/time/tryout/${id}`,);
-            // console.log("endtime sukses")
             showAlert("success", "Data berhasil dikirim!");
-            handleOpenPopupFeedback();
-            handleClosePopupHabis();
+            if (data?.data?.attempt === 1) {
+                handleOpenPopupFeedback();
+            } else {
+                navigate.push("/my-package/history");
+            }
 
         } catch (error: any) {
             const errorMessage =

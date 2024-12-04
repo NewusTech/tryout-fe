@@ -107,6 +107,32 @@ export const packageTryout = z
   .required();
 export type packageTryoutFormData = z.infer<typeof packageTryout>;
 
+// paket edit tryout
+export const editPackageTryout = z
+  .object({
+    title: z
+      .string()
+      .min(0, { message: "Jawaban tidak boleh kosong!" }),
+    description: z
+      .string()
+      .min(0, { message: "Jawaban tidak boleh kosong!" }),
+    duration: z
+      .string()
+      .min(0, { message: "Jawaban tidak boleh kosong!" }),
+    price: z
+      .string()
+      .min(0, { message: "Jawaban tidak boleh kosong!" }),
+    typepackage_id: z
+    .preprocess(
+        (val) => Number(val),
+        z.number().min(0, { message: "Jawaban tidak boleh kosong!" })
+      ),
+    total_question: z
+      .string()
+      .min(0, { message: "Jawaban tidak boleh kosong!" }),
+  })
+export type editPackageTryoutFormData = z.infer<typeof editPackageTryout>;
+
 // Payment user
 export const payment = z
 .object({

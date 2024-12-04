@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import { showAlert } from "@/lib/swalAlert";
 import { bannerEditFormData, tncFormData, typePackageFormData, typePaymentFormData, typeQuestionFormData } from "@/validations";
 import { useRouter } from "next/navigation";
-import { BankSoalResponse, BannerResponse, BannerResponseOne, CompanyProfileResponse, FeedbackDetailResponse, PackageResponse, PackageResponseOne, PackageTryoutResponse, PackageTryoutResponseOne, PaymentResponseFilter, PaymentResponseOne, ProvincesResponse, QuestionFormResponse, QuestionResponseOne, ReportPaymentSlugResponse, ResponseQuestionPackage, SnkResponse, UserDetailResponse, UserInfoResponse } from "@/types/interface";
+import { BankSoalResponse, BannerResponse, BannerResponseOne, CompanyProfileResponse, FeedbackDetailResponse, PackageResponse, PackageResponseOne, PackageTryoutResponse, PackageTryoutResponseDetailOne, PackageTryoutResponseOne, PaymentResponseFilter, PaymentResponseOne, ProvincesResponse, QuestionFormResponse, QuestionResponseOne, QuizData, ReportPaymentSlugResponse, ResponseQuestionPackage, SnkResponse, UserDetailResponse, UserInfoResponse } from "@/types/interface";
 
 // Hook to fetch master data tipe paket
 const useGetTypePackage = (currentPage: number, search: string) => {
@@ -586,6 +586,27 @@ const useGetQuestionPackageId = (id?: string) => {
   };
 };
 
+// get paket soal (user) quiz
+const useGetQuestionQuizId = (id?: string) => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<QuizData>(
+    `/user/question/form/${id}`,
+    () =>
+      axiosPrivate
+        .get(`/user/question/form/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading,
+  };
+};
+
 // user get paket tryout
 const useGetUserTryoutPackage = (currentPage: number, search: string) => {
   const accessToken = Cookies.get("accessToken"); // Mendapatkan accessToken
@@ -905,7 +926,30 @@ const useGetProfileNav = (slug?: string) => {
   return { data, error, mutate, isValidating, isLoading };
 };
 
+// user get one tryout id
+const useGetPackageDetailId = (id?: string) => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<PackageTryoutResponseDetailOne>(
+    `/user/package/tryout/get/${id}`,
+    () =>
+      axiosPrivate
+        .get(`/user/package/tryout/get/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading,
+  };
+};
+
 export {
+  useGetQuestionQuizId,
+  useGetPackageDetailId,
   useGetProfileNav,
   useGetKota,
   useGetProvinsi,

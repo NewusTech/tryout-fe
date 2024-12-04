@@ -4,52 +4,32 @@
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/User/MyPackage/Start/Navbar';
 import React, { useState, useEffect } from 'react';
-import { useGetQuestionPackageId } from '@/services/api';
-import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { showAlert } from '@/lib/swalAlert';
 import { mutate } from 'swr';
-import Loading from '@/components/ui/Loading';
-import WarningIcon from '../../../../../../../public/assets/icons/WarningIcon';
 import LoadingPage from '@/components/ui/LoadingPage';
-import Cookies from "js-cookie";
 import Countdown from '@/components/User/MyPackage/Start/Countdown';
 import { useRouter } from 'next/navigation';
 import { Textarea } from '@/components/ui/textarea';
+import Cookies from "js-cookie";
+import { useAxiosPrivate } from '@/hooks/useAxiosPrivate';
+import Loading from '@/components/ui/Loading';
+import WarningIcon from '../../../../../../../public/assets/icons/WarningIcon';
 import MessageIcon from '../../../../../../../public/assets/icons/MessageIcon';
-
-type QuestionForm = {
-    id: number;
-    field: string;
-    tipedata: string;
-    datajson: { id: number; key: string }[];
-    answer: string | null;
-};
-
-type BankSoal = {
-    id: number;
-    title: string;
-    Question_forms: QuestionForm[];
-};
-
-type QuizData = {
-    id: number;
-    title: string;
-    Bank_packages: {
-        id: number;
-        Bank_soal: BankSoal;
-    }[];
-};
+import { useGetQuestionQuizId } from '@/services/api';
 
 const QuizPage: React.FC = () => {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [quizData, setQuizData] = useState<QuizData | null>(null);
-    // Inisialisasi state untuk menyimpan pilihan jawaban
     const [selectedOptions, setSelectedOptions] = useState<Record<number, string | undefined>>({});
     const [loading, setLoading] = useState(false);
+    const [loadingKirim, setLoadingKirim] = useState(false);
     const axiosPrivate = useAxiosPrivate();
     const navigate = useRouter();
     const [rating, setRating] = useState<string>(""); // Menyimpan nilai rating
     const [feedbackText, setFeedbackText] = useState<string>(""); // Menyimpan nilai feedback
+
+    // INTEGRASI API
+    const id = Cookies.get("package");
+    const { data, isLoading, error } = useGetQuestionQuizId(id as string);
 
     // Modal
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -117,42 +97,47 @@ const QuizPage: React.FC = () => {
         }
     };
 
+    const handleEndTime = async () => {
+        try {
+            setLoadingKirim(true);
+            showAlert("success", "Jawaban berhasil dikirim!");
+            if (data?.data?.attempt === 1) {
+                handleOpenPopupFeedback();
+            } else {
+                navigate.push("/my-package/history");
+            }
+            await axiosPrivate.post(`/user/end/time/tryout/${id}`,);
+        } catch (error: any) {
+            const errorMessage =
+                error?.response?.data?.data?.[0]?.message ||
+                error?.response?.data?.message ||
+                "Gagal mengakhiri tryout!";
+            showAlert("error", errorMessage);
 
-    // INTEGRASI API
-    const id = Cookies.get("package");
-    const { data, isLoading, error } = useGetQuestionPackageId(id as string);
+        } finally {
+            setLoadingKirim(false);
+        }
+
+    };
 
     useEffect(() => {
-        if (data?.data) {
-            setQuizData(data.data);
-        }
+        const initialSelectedOptions = data?.data.Question_forms?.reduce((acc, question) => {
+            acc[question.id] = question.answer || "";
+            return acc;
+        }, {} as Record<number, string | undefined>) || {}; // Ensure default empty object
+
+        setSelectedOptions(initialSelectedOptions);
     }, [data]);
 
-    // Inisialisasi selectedOptions saat pertama kali render
-    useEffect(() => {
-        if (quizData) {
-            const initialSelectedOptions = quizData.Bank_packages.reduce((acc, packageData) => {
-                packageData.Bank_soal.Question_forms.forEach((question) => {
-                    acc[question.id] = question.answer || ""; // Menyimpan jawaban yang sudah ada
-                });
-                return acc;
-            }, {} as Record<number, string | undefined>);
+    if (isLoading) return <LoadingPage />;
+    if (!data?.data) return <p>Data tidak tersedia</p>;
 
-            setSelectedOptions(initialSelectedOptions);
-        }
-    }, [quizData]); // Pastikan effect ini hanya dipanggil jika quizData berubah
+    const currentQuestion = data?.data?.Question_forms[currentQuestionIndex];
 
-    if (isLoading) return <div><LoadingPage /></div>;
-    if (error) return <p>Error loading data</p>;
-    if (!quizData) return <p>No data available</p>;
-
-    const currentPackage = quizData.Bank_packages[currentQuestionIndex];
-    const currentQuestion = currentPackage?.Bank_soal.Question_forms[0];
-
-    const handleOptionSelect = (optionLabel: string) => {
+    const handleOptionSelect = (optionId: string) => {
         setSelectedOptions((prev) => ({
             ...prev,
-            [currentQuestion.id]: optionLabel,
+            [currentQuestion.id]: optionId,
         }));
     };
 
@@ -164,7 +149,6 @@ const QuizPage: React.FC = () => {
             handleOpenPopupLewatkan();
             return;
         }
-
         setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0));
     };
 
@@ -177,32 +161,26 @@ const QuizPage: React.FC = () => {
             return;
         }
 
-        setCurrentQuestionIndex((prev) => Math.min(prev + 1, quizData.Bank_packages.length - 1));
+        setCurrentQuestionIndex((prev) => Math.min(prev + 1, data.data.Question_forms.length - 1));
     };
 
-
     const handleSaveAndContinue = async () => {
-        const selectedAnswer = selectedOptions[currentQuestion?.id ?? 0];
+        const selectedAnswer = selectedOptions[currentQuestion.id];
 
         if (selectedAnswer) {
             const requestData = {
                 datainput: [
                     {
                         questionform_id: currentQuestion.id,
-                        data: Number(selectedAnswer), // Pass the selected option's id
+                        data: Number(selectedAnswer),
                     },
                 ],
             };
 
-            // console.log("Struktur data yang dikirim:", JSON.stringify(requestData, null, 2));
-            // setCurrentQuestionIndex((prev) => Math.min(prev + 1, quizData.Bank_packages.length - 1));
-
             try {
                 setLoading(true);
-                await axiosPrivate.post(`/user/input/answer/create/${id}`, requestData);
-                // console.log("Berhasil simpan")
-                // showAlert("success", "Data berhasil dibuat!");
-                setCurrentQuestionIndex((prev) => Math.min(prev + 1, quizData.Bank_packages.length - 1));
+                await axiosPrivate.post(`/user/input/answer/create/${data.data.id}`, requestData);
+                setCurrentQuestionIndex((prev) => Math.min(prev + 1, data.data.Question_forms.length - 1));
             } catch (error: any) {
                 const errorMessage =
                     error?.response?.data?.data?.[0]?.message ||
@@ -211,29 +189,12 @@ const QuizPage: React.FC = () => {
                 showAlert("error", errorMessage);
             } finally {
                 setLoading(false);
-            } mutate(`/user/question/form/${id}`);
+            }
+
+            mutate(`/user/question/form/${data.data.id}`);
         } else {
             handleOpenPopupSimpan();
         }
-    };
-
-    const handleEndTime = async () => {
-        try {
-            setLoading(true);
-            handleOpenPopupFeedback();
-            await axiosPrivate.post(`/user/end/time/tryout/${id}`,);
-            showAlert("success", "Data berhasil dikirim!");
-        } catch (error: any) {
-            const errorMessage =
-                error?.response?.data?.data?.[0]?.message ||
-                error?.response?.data?.message ||
-                "Gagal memulai tryout!";
-            showAlert("error", errorMessage);
-
-        } finally {
-            setLoading(false);
-        }
-
     };
 
     if (!currentQuestion) return null;
@@ -243,25 +204,24 @@ const QuizPage: React.FC = () => {
             <Navbar />
             <header className="text-white container mx-auto pt-[100px] flex md:flex-row flex-col justify-between md:items-center">
                 <div className="text-primary">
-                    <h1 className="md:text-xl text-base font-semibold">{quizData.title}</h1>
+                    <h1 className="md:text-xl text-base font-semibold">{data.data.title}</h1>
                 </div>
                 <div className="flex justify-end md:justify-start">
-                    <Countdown end_time={data?.data?.end_time ?? "-"} />
+                    <Countdown end_time={data.data.end_time ?? "-"} />
                 </div>
             </header>
 
             <div className="flex md:flex-row flex-col mt-4 container mx-auto">
-                <div className="w-full md:w-1/4 rounded ">
+                <div className="w-full md:w-1/4 rounded">
                     <div className="flex justify-between">
                         <h2 className="text-base md:text-lg font-semibold mb-4">Nomor Soal</h2>
                         <h2 className="text-base md:text-lg mb-4">
-                            {currentQuestionIndex + 1}/{quizData.Bank_packages.length}
+                            {currentQuestionIndex + 1}/{data.data.Question_forms.length}
                         </h2>
                     </div>
                     <div className="grid grid-cols-8 gap-2 md:text-base text-xs">
-                        {quizData.Bank_packages.map((_, index) => {
-                            const currentQuestion = quizData.Bank_packages[index]?.Bank_soal.Question_forms[0];
-                            const isAnswered = currentQuestion?.answer ? true : false;
+                        {data.data.Question_forms.map((_, index) => {
+                            const isAnswered = selectedOptions[data.data.Question_forms[index].id] ? true : false;
 
                             return (
                                 <button
@@ -276,24 +236,23 @@ const QuizPage: React.FC = () => {
                     </div>
                     <div className="flex justify-between md:mt-10 mt-5 md:text-base text-xs">
                         <div className="bg-succes rounded-full flex flex-col items-center p-2 px-6 text-white">
-                            <div className="">{data?.data?.status?.total_filled ?? "-"}</div>
+                            <div className="">{data.data.status.total_filled}</div>
                             <div className="">Sudah Terisi</div>
                         </div>
                         <div className="bg-error rounded-full flex flex-col items-center p-2 px-6 text-white">
-                            <div className="">{data?.data?.status?.total_unfilled ?? "-"}</div>
+                            <div className="">{data.data.status.total_unfilled}</div>
                             <div className="">Belum Terisi</div>
                         </div>
                     </div>
                     <Button
+                        className="bg-succes w-full mt-5 hover:bg-succes/80"
                         onClick={handleOpenPopup}
-                        className="bg-succes w-full mt-5 hover:bg-succes/80">
-                        Selesai
-                    </Button>
+                    >Selesai</Button>
                 </div>
 
                 <div className="w-full md:w-3/4 md:px-4 md:ml-4 rounded">
                     <h2 className="text-primary md:text-xl text-base font-medium mb-5 md:mb-7">
-                        {currentPackage.Bank_soal.title}
+                        {currentQuestion?.type_question_name}
                     </h2>
                     <h2 className="text-primary md:text-lg text-base font-semibold mb-2">
                         Soal No {currentQuestionIndex + 1}
@@ -305,7 +264,6 @@ const QuizPage: React.FC = () => {
                     <div className="space-y-1 md:space-y-2 md:text-base text-sm">
                         {currentQuestion.datajson.map((option, index) => {
                             const optionLabel = String.fromCharCode(65 + index); // 'A', 'B', 'C', dll
-
                             return (
                                 <label key={option.id} className="flex items-center space-x-2 p-2 cursor-pointer">
                                     <input
@@ -321,13 +279,23 @@ const QuizPage: React.FC = () => {
                         })}
                     </div>
                     <div className="mt-8 hidden md:flex justify-center gap-3 md:gap-7">
-                        <Button onClick={handlePreviousQuestion} variant="outlinePrimary" className="md:w-[180px]">
+                        <Button
+                            onClick={handlePreviousQuestion}
+                            variant="outlinePrimary"
+                            className="md:w-[180px]"
+                            disabled={currentQuestionIndex === 0}
+                        >
                             Sebelumnya
                         </Button>
                         <Button className="md:w-[250px] w-full" onClick={handleSaveAndContinue}>
                             {loading ? <Loading /> : "Simpan dan Lanjutkan"}
                         </Button>
-                        <Button onClick={handleNextQuestion} variant="outlinePrimary" className="px-10 md:w-[180px] w-full">
+                        <Button
+                            onClick={handleNextQuestion}
+                            variant="outlinePrimary"
+                            className="px-10 md:w-[180px] w-full"
+                            disabled={currentQuestionIndex === data.data.Question_forms.length - 1}
+                        >
                             Lewatkan
                         </Button>
                     </div>
@@ -385,7 +353,7 @@ const QuizPage: React.FC = () => {
                                 onClick={handleEndTime}
                                 className='w-[130px]'
                             >
-                                {loading ? <Loading /> : "Iya"}
+                                {loadingKirim ? <Loading /> : "Iya"}
                             </Button>
                         </div>
                     </div>
@@ -532,7 +500,6 @@ const QuizPage: React.FC = () => {
                     </div>
                 </div>
             )}
-            {/*  */}
         </div>
     );
 };
