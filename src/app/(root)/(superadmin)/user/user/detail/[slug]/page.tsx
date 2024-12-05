@@ -21,12 +21,12 @@ const DetailUser = () => {
             <TitleBack href="/user/user" title="Detail User" />
             {/* Profile Section */}
             <div className="flex gap-3 items-center">
-                <div className="w-[130px]">
+                <div className="w-[130px] h-[130px] rounded-full overflow-hidden">
                     <Image
-                        src="/assets/images/profile.png"
+                        src={data?.data?.image_profile ?? "/assets/images/profile.png"}
                         alt="logo"
-                        width={1000}
-                        height={1000}
+                        width={500}
+                        height={500}
                         unoptimized
                         className="w-full h-full object-cover"
                     />

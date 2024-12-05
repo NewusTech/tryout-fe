@@ -4,7 +4,7 @@ import useSWR, { mutate } from "swr";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import Cookies from "js-cookie";
 import { showAlert } from "@/lib/swalAlert";
-import { bannerEditFormData, tncFormData, typePackageFormData, typePaymentFormData, typeQuestionFormData } from "@/validations";
+import { adminTryoutFormData, bannerEditFormData, scheduleTryoutFormData, tncFormData, typePackageFormData, typePaymentFormData, typeQuestionFormData } from "@/validations";
 import { useRouter } from "next/navigation";
 import { BankSoalResponse, BannerResponse, BannerResponseOne, CompanyProfileResponse, FeedbackDetailResponse, PackageResponse, PackageResponseOne, PackageTryoutResponse, PackageTryoutResponseDetailOne, PackageTryoutResponseOne, PaymentResponseFilter, PaymentResponseOne, ProvincesResponse, QuestionFormResponse, QuestionResponseOne, QuizData, ReportPaymentSlugResponse, ResponseQuestionPackage, SnkResponse, UserDetailResponse, UserInfoResponse } from "@/types/interface";
 
@@ -947,7 +947,139 @@ const useGetPackageDetailId = (id?: string) => {
   };
 };
 
+// get jadwal tryout
+const useGetSchedule = (currentPage: number, search: string, ) => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/user/tryout/schedule/get?page=${currentPage}&limit=10&search=${search}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/user/tryout/schedule/get?page=${currentPage}&limit=10&search=${search}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// get paket tryot filter
+const useGetTryoutPackageFilter = () => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<PackageTryoutResponse>(
+    `/user/package/tryout/get?limit=9999`,
+    () =>
+      axiosPrivate
+        .get(
+          `/user/package/tryout/get?limit=9999`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// post create schedule
+const postSubmitSchedule = () => {
+  const navigate = useRouter(); // Pindahkan ke dalam fungsi
+  const axiosPrivate = useAxiosPrivate();
+
+  const handlePostSubmit = async (
+    data: scheduleTryoutFormData,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    try {
+      setLoading(true);
+      await axiosPrivate.post("/user/tryout/schedule/create", data);
+
+      showAlert("success", "Data berhasil ditambahkan!");
+      navigate.push("/tryout/schedule");
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.data?.[0]?.message || error.response?.data?.message  || "Gagal menambahkan data!";
+      showAlert("error", errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { handlePostSubmit };
+};
+
+// get report table
+const useGetUserAllAdmin = (currentPage: number, search: string, ) => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/admin/get?page=${currentPage}&limit=10&search=${search}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/admin/get?page=${currentPage}&limit=10&search=${search}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// post create tipe pembayaran
+const postSubmitAdmin = () => {
+  const navigate = useRouter(); // Pindahkan ke dalam fungsi
+  const axiosPrivate = useAxiosPrivate();
+
+  const handlePostSubmit = async (
+    data: adminTryoutFormData,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    try {
+      setLoading(true);
+      await axiosPrivate.post("/admin/account/create", data);
+
+      showAlert("success", "Data berhasil ditambahkan!");
+      navigate.push("/user/admin");
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.data?.[0]?.message || error.response?.data?.message  || "Gagal menambahkan data!";
+      showAlert("error", errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { handlePostSubmit };
+};
+
+
 export {
+  postSubmitAdmin,
+  useGetUserAllAdmin,
+  postSubmitSchedule,
+  useGetTryoutPackageFilter,
+  useGetSchedule,
   useGetQuestionQuizId,
   useGetPackageDetailId,
   useGetProfileNav,

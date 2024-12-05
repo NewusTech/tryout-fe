@@ -99,13 +99,6 @@ const UserUser = () => {
                     value={search}
                     onChange={handleSearchChange}
                 />
-                <LinkCustom
-                    href="/question-bank/tryout-package/add"
-                    className="flex gap-3 text-white items-center flex-shrink-0"
-                >
-                    <PlusIcon />
-                    Tambah Pengguna
-                </LinkCustom>
             </div>
             {/* Table */}
             <div className="Table mt-6">

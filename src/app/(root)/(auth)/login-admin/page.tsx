@@ -84,7 +84,7 @@ const LoginPage = () => {
                     icon: "success",
                     title: "Berhasil Login!",
                     text: "Selamat Datang ✅",
-                    timer: 3000,
+                    timer: 1500,
                     timerProgressBar: true,
                     showConfirmButton: false,
                     showClass: {

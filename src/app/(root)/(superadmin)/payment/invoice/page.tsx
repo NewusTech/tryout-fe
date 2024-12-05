@@ -19,6 +19,7 @@ const DetailPayment = () => {
     const [PricePayment, setPricePayment] = useState<string | undefined>(undefined);
     const [StatusPayment, setStatusPayment] = useState<string | undefined>(undefined);
     const [IdPayment, setIdPayment] = useState<string | undefined>(undefined);
+    const [formattedTime, setFormattedTime] = useState<string | null>(null);
 
     useEffect(() => {
         setNoPayment(Cookies.get("noPayment"));
@@ -28,7 +29,22 @@ const DetailPayment = () => {
         setPricePayment(Cookies.get("pricePayment"));
         setStatusPayment(Cookies.get("statusPayment"));
         setIdPayment(Cookies.get("idPayment"));
-    }, []);
+        if (TimePayment) {
+            const [hours, minutes] = TimePayment.split('.').map(Number);
+
+            // Membuat objek Date dengan waktu dasar 00:00:00 dan menambahkan jam
+            const time = new Date();
+            time.setHours(hours + 7, minutes, 0, 0); // Menambahkan 7 jam
+
+            // Format waktu menjadi string "HH:mm"
+            const formatted = time.toLocaleTimeString('id-ID', {
+                hour: '2-digit',
+                minute: '2-digit',
+            });
+
+            setFormattedTime(formatted);
+        }
+    }, [TimePayment]);
 
     // 
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -128,7 +144,7 @@ const DetailPayment = () => {
                             <div className="text-black/60 text-end">
                                 Waktu
                             </div>
-                            <div className="font-semibold text-end">{TimePayment ?? "-"} WIB</div>
+                            <div className="font-semibold text-end">{formattedTime ?? "-"} WIB</div>
                         </div>
                     </div>
                     {/*  */}

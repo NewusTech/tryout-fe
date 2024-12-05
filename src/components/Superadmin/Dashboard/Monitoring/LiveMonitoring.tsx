@@ -4,22 +4,49 @@ import SelectSearch from "@/components/Custom/SelectSearch";
 import TitleAdmin from "@/components/Superadmin/Title";
 import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
-import SearchIcon from "../../../../../../public/assets/icons/SearchIcon";
 import PaginationTable from "@/components/Custom/PaginationTable";
-import DataTable from "@/components/Superadmin/Tryout/Schedule/DataTable";
-import { DatePicker } from "@/components/Custom/DatePicker";
-import LinkCustom from "@/components/ui/LinkCustom";
-import PlusIcon from "../../../../../../public/assets/icons/PlusIcon";
-import { useGetSchedule } from "@/services/api";
+import DataTable from "@/components/Superadmin/Tryout/LiveMonitoring/DataTable";
+import SearchIcon from "../../../../../public/assets/icons/SearchIcon";
 
-const Schedule = () => {
+const dummyData = [
+  { value: 1, label: "Option 1" },
+  { value: 2, label: "Option 2" },
+  { value: 3, label: "Option 3" },
+  { value: 4, label: "Option 4" },
+];
+
+const LiveMonitoring = () => {
   const [selectedValue, setSelectedValue] = useState<
     { id: string | number; label: string } | undefined
   >(undefined);
-  const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
 
   // Define table headers
-  const tableHeaders = ["No", "Nama Tryout", "Tanggal", "Jam", "Aksi"];
+  const tableHeaders = ["No", "Nama", "Passing Grade", "Waktu Tersisa", "Soal Dikerjakan"];
+
+  // Dummy data
+  const dummyDataa = [
+      {
+          no: 1,
+          nama: "Anggun",
+          passingGrade: "1",
+          waktuTersisa: "01:30:59",
+          soal: "Lulus",
+      },
+      {
+          no: 1,
+          nama: "Satria",
+          passingGrade: "1",
+          waktuTersisa: "01:30:59",
+          soal: "Lulus",
+      },
+      {
+          no: 1,
+          nama: "Bryan",
+          passingGrade: "1",
+          waktuTersisa: "01:30:59",
+          soal: "Lulus",
+      },
+  ];
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,47 +62,29 @@ const Schedule = () => {
   };
   // serach
 
-  // INTEGRASI
-  const { data } = useGetSchedule(currentPage, search,);
-  // INTEGRASI
-
   return (
-    <div className="">
-      <TitleAdmin title="Jadwal" />
+    <div className='w-full rounded-3xl shadow p-6'>
+      <TitleAdmin title="Live Monitoring" />
       <div className="head flex gap-3">
+        <SelectSearch
+          data={dummyData}
+          placeholder="Option"
+          valueId={selectedValue}
+          setValueId={setSelectedValue}
+        />
         <Input
           placeholder='Cari Paket'
           leftIcon={<SearchIcon />}
-          className='border-primary'
+          className='border-primary placeholder:text-primary'
           value={search}
           onChange={handleSearchChange}
         />
-        <div className="wrap flex gap-2 items-center">
-          <DatePicker
-            value={selectedDate}
-            onChange={(date) => setSelectedDate(date)}
-            placeholder="Tanggal Awal"
-          />
-          <div className="">to</div>
-          <DatePicker
-            value={selectedDate}
-            onChange={(date) => setSelectedDate(date)}
-            placeholder="Tanggal Akhir"
-          />
-        </div>
-        <LinkCustom
-          href="/tryout/schedule/add"
-          className="flex gap-3 text-white items-center"
-        >
-          <PlusIcon />
-          Tambah
-        </LinkCustom>
       </div>
       {/* Table */}
       <div className="Table mt-6">
         <DataTable
           headers={tableHeaders}
-          data={data?.data}
+          data={dummyDataa}
           currentPage={currentPage}
           search={search}
         />
@@ -84,7 +93,7 @@ const Schedule = () => {
       <div className="pagi flex items-center justify-center md:justify-end mt-3 pb-5 lg:pb-0">
         <PaginationTable
           currentPage={currentPage}
-          totalPages={data?.pagination?.totalPages as number}
+          totalPages={10}
           onPageChange={onPageChange}
         />
       </div>
@@ -92,4 +101,4 @@ const Schedule = () => {
   );
 };
 
-export default Schedule;
+export default LiveMonitoring;

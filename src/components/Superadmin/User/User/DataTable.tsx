@@ -20,8 +20,33 @@ import {
 import TitikIcon from "../../../../../public/assets/icons/TitikIcon";
 import DeletePopupTitik from "@/components/Custom/PopupDelete";
 import { UserListResponse } from "@/types/interface";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import Cookies from "js-cookie";
+import { showAlert } from "@/lib/swalAlert";
+import { mutate } from "swr";
+
 
 const DataTable: React.FC<UserListResponse> = ({ headers, data, currentPage, search, }) => {
+    const accessToken = Cookies.get("accessToken"); // Ambil token langsung
+    const axiosPrivate = useAxiosPrivate();
+    const handleDelete = async (slug: string) => {
+        try {
+            await axiosPrivate.delete(`/user/delete/${slug}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            // alert
+            showAlert('success', 'Data berhasil dihapus!');
+            // alert
+            // Update the local data after successful deletion
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || error.response?.data?.message || 'Gagal menghapus data!';
+            showAlert('error', errorMessage);
+            //   alert
+        } mutate(`/user/get?page=${currentPage}&limit=10&search=${search}`);;
+    };
 
     return (
         <div className="Table mt-3">
@@ -29,7 +54,7 @@ const DataTable: React.FC<UserListResponse> = ({ headers, data, currentPage, sea
                 <Table>
                     <TableHeader>
                         <TableRow>
-                        {headers.map((header, index) => (
+                            {headers.map((header, index) => (
                                 <TableHead key={index}>{header}</TableHead>
                             ))}
                         </TableRow>
@@ -66,7 +91,7 @@ const DataTable: React.FC<UserListResponse> = ({ headers, data, currentPage, sea
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                            <DeletePopupTitik onDelete={async () => { }} />
+                                                            <DeletePopupTitik onDelete={() => handleDelete(user?.slug)} />
                                                         </DropdownMenuItem>
                                                     </DropdownMenuGroup>
                                                 </DropdownMenuContent>

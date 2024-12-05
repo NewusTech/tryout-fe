@@ -18,7 +18,7 @@ const TabUserData = () => {
                 </div>
                 <div className="flex flex-col gap-1">
                     <div className="font-medium text-end">Jenis Kelamin</div>
-                    <div className="text-end">{data?.data?.gender ?? "-"}</div>
+                    <div className="text-end">{data?.data?.gender === 1 ? "Laki-laki" : "Perempuan"}</div>
                 </div>
             </div>
             {/*  */}
@@ -40,14 +40,14 @@ const TabUserData = () => {
                 </div>
                 <div className="flex flex-col gap-1">
                     <div className="font-medium text-end">Provinsi</div>
-                    <div className="text-end">{data?.data?.provinsi_id ?? "-"}</div>
+                    <div className="text-end">{data?.data?.provinsi_name ?? "-"}</div>
                 </div>
             </div>
             {/*  */}
             <div className="flex justify-between">
                 <div className="flex flex-col gap-1">
                     <div className="font-medium">Kabupaten / Kota</div>
-                    <div className="">{data?.data?.provinsi_id ?? "-"}</div>
+                    <div className="">{data?.data?.kota_name ?? "-"}</div>
                 </div>
             </div>
             {/*  */}

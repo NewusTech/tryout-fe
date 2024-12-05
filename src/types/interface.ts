@@ -437,14 +437,29 @@ interface UserDetail {
   email: string;
   telepon: string;
   alamat: string | null;
-  gender: string | null;
+  gender: number;
   asal_instansi: string | null;
   provinsi_id: number | null;
   kota_id: number | null;
+  kota_name: string; 
+  image_profile: string; 
+  provinsi_name: string;
   createdAt: string;
   updatedAt: string;
-  package_tryout: any[];  // Adjust the type of elements based on actual data structure
-  performa: any[];  // Adjust the type of elements based on actual data structure
+  program: ProgramUser[];  // Adjust the type of elements based on actual data structure
+  performa: PerformaUser[];  // Adjust the type of elements based on actual data structure
+}
+
+interface ProgramUser{
+  id: number;
+  nama_package: string;
+}
+
+interface PerformaUser{
+  id: number;
+  packagetryout_id : number;
+  nama_tryout : string;
+  skor : string;
 }
 
 export interface UserDetailResponse {
@@ -613,6 +628,27 @@ export interface QuizData {
   };
 }
 
+// schedule
+export interface ScheduleTryoutResponse {
+  data: ScheduleTryout[];
+  headers: string[];
+  currentPage: number;
+  search: string;
+  pagination?: Pagination;
+  status?: number;
+  message?: string;
+}
+
+interface ScheduleTryout {
+  id: number;
+  title: string;
+  packagetryout_id: number;
+  tanggal: string; // format: "YYYY-MM-DD"
+  waktu: string; // format: "HH:mm:ss"
+  deletedAt: string | null;
+  createdAt: string; // format: ISO 8601
+  updatedAt: string; // format: ISO 8601
+}
 
 
 

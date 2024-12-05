@@ -184,3 +184,32 @@ export const profileEdit = z.object({
     }),
 });
 export type profileEditFormData = z.infer<typeof profileEdit>;
+
+// jadwal tryout
+export const scheduleTryout = z
+  .object({
+    title: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    packagetryout_id: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    tanggal: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    waktu: z
+      .string()
+      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+  })
+  .required();
+export type scheduleTryoutFormData = z.infer<typeof scheduleTryout>;
+
+// create admin
+export const adminTryout = z
+  .object({
+    name: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+    email: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+    password: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+  })
+  .required();
+export type adminTryoutFormData = z.infer<typeof adminTryout>;
