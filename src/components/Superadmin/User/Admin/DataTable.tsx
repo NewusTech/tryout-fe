@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import {
     Table,
@@ -8,10 +9,6 @@ import {
     TableHead,
 } from "@/components/ui/table";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { mutate } from "swr";
-import Loading from "@/components/ui/Loading";
-import LinkCustom from "@/components/ui/LinkCustom";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -20,17 +17,36 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import DeletePopupTitik from "@/components/Custom/PopupDelete";
 import TitikIcon from "../../../../../public/assets/icons/TitikIcon";
-import { ScheduleTryoutResponse } from "@/types/interface";
+import DeletePopupTitik from "@/components/Custom/PopupDelete";
+import { UserListResponse } from "@/types/interface";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import Cookies from "js-cookie";
+import { showAlert } from "@/lib/swalAlert";
+import { mutate } from "swr";
 
 
-const DataTable: React.FC<ScheduleTryoutResponse> = ({ headers, data, currentPage, search, }) => {
-
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedUser, setSelectedUser] = useState<any | null>(null); // Store the currently selected user for status update
-    const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
-    const [isLoading, setIsLoading] = useState(false); // Loading state
+const DataTable: React.FC<UserListResponse> = ({ headers, data, currentPage, search, }) => {
+    const accessToken = Cookies.get("accessToken"); // Ambil token langsung
+    const axiosPrivate = useAxiosPrivate();
+    const handleDelete = async (slug: string) => {
+        try {
+            await axiosPrivate.delete(`/user/delete/${slug}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            // alert
+            showAlert('success', 'Data berhasil dihapus!');
+            // alert
+            // Update the local data after successful deletion
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || error.response?.data?.message || 'Gagal menghapus data!';
+            showAlert('error', errorMessage);
+            //   alert
+        } mutate(`/admin/get?page=${currentPage}&limit=10&search=${search}`);;
+    };
 
     return (
         <div className="Table mt-3">
@@ -50,9 +66,8 @@ const DataTable: React.FC<ScheduleTryoutResponse> = ({ headers, data, currentPag
                                     <TableCell className="text-center">
                                         {(currentPage - 1) * 10 + (index + 1)}
                                     </TableCell>
-                                    <TableCell className="text-primary">{user?.title ?? "-"}</TableCell>
-                                    <TableCell className="text-center text-primary">{user?.tanggal ?? "-"}</TableCell>
-                                    <TableCell className="text-center text-primary">{user?.waktu ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.name ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.email ?? "-"}</TableCell>
                                     {/*  */}
                                     <TableCell className="text-center justify-center items-center flex gap-2">
                                         <div className="aksi flex-shrink-0">
@@ -69,21 +84,7 @@ const DataTable: React.FC<ScheduleTryoutResponse> = ({ headers, data, currentPag
                                                     <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                                     <DropdownMenuGroup>
                                                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                            <Link className="w-full" href={`/tryout/schedule/detail`}>
-                                                                <div className="flex items-center gap-2 text-primary">
-                                                                    Detail
-                                                                </div>
-                                                            </Link>
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                            <Link className="w-full" href={`/tryout/schedule/edit`}>
-                                                                <div className="flex items-center gap-2 text-primary">
-                                                                    Edit
-                                                                </div>
-                                                            </Link>
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                            <DeletePopupTitik onDelete={async () => { }} />
+                                                            <DeletePopupTitik onDelete={() => handleDelete(user?.slug)} />
                                                         </DropdownMenuItem>
                                                     </DropdownMenuGroup>
                                                 </DropdownMenuContent>

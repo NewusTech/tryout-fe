@@ -1,48 +1,25 @@
 "use client";
 
+import SelectSearch from "@/components/Custom/SelectSearch";
 import TitleAdmin from "@/components/Superadmin/Title";
 import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import PaginationTable from "@/components/Custom/PaginationTable";
-import SearchIcon from "../../../../../../public/assets/icons/SearchIcon";
+import DataTable from "@/components/Superadmin/Tryout/Schedule/DataTable";
+import { DatePicker } from "@/components/Custom/DatePicker";
 import LinkCustom from "@/components/ui/LinkCustom";
-import PlusIcon from "../../../../../../public/assets/icons/PlusIcon";
-import { useGetUserAllAdmin } from "@/services/api";
-import DataTable from "@/components/Superadmin/User/Admin/DataTable";
+import { useGetSchedule } from "@/services/api";
+import SearchIcon from "../../../../../public/assets/icons/SearchIcon";
+import PlusIcon from "../../../../../public/assets/icons/PlusIcon";
 
-const UserAdmin = () => {
+const Schedule = () => {
+    const [selectedValue, setSelectedValue] = useState<
+        { id: string | number; label: string } | undefined
+    >(undefined);
+    const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
+
     // Define table headers
-    const tableHeaders = ["No", "Nama", "Email", "Aksi"];
-
-    // Dummy data
-    const dummyData = [
-        {
-            no: 1,
-            nama: "John Doe",
-            email: "johndoe@example.com",
-        },
-        {
-            no: 2,
-            nama: "Jane Smith",
-            email: "janesmith@example.com",
-        },
-        {
-            no: 3,
-            nama: "Robert Johnson",
-            email: "robertjohnson@example.com",
-        },
-        {
-            no: 4,
-            nama: "Emily Davis",
-            email: "emilydavis@example.com",
-        },
-        {
-            no: 5,
-            nama: "Michael Brown",
-            email: "michaelbrown@example.com",
-        },
-    ];
-
+    const tableHeaders = ["No", "Nama Tryout", "Tanggal", "Jam", "Aksi"];
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
@@ -59,26 +36,39 @@ const UserAdmin = () => {
     // serach
 
     // INTEGRASI
-    const { data } = useGetUserAllAdmin(currentPage, search,);
+    const { data } = useGetSchedule(currentPage, search,);
     // INTEGRASI
 
     return (
-        <div className="">
-            <TitleAdmin title="Admin" />
+        <div className='w-full rounded-3xl shadow p-6'>
+            <TitleAdmin title="Jadwal Tryout" />
             <div className="head flex gap-3">
                 <Input
-                    placeholder='Cari'
+                    placeholder='Cari Paket'
                     leftIcon={<SearchIcon />}
-                    className='border-primary placeholder:text-primary/40 w-1/2'
+                    className='border-primary'
                     value={search}
                     onChange={handleSearchChange}
                 />
+                <div className="wrap flex gap-2 items-center">
+                    <DatePicker
+                        value={selectedDate}
+                        onChange={(date) => setSelectedDate(date)}
+                        placeholder="Tanggal Awal"
+                    />
+                    <div className="">to</div>
+                    <DatePicker
+                        value={selectedDate}
+                        onChange={(date) => setSelectedDate(date)}
+                        placeholder="Tanggal Akhir"
+                    />
+                </div>
                 <LinkCustom
-                    href="/user/admin/add"
-                    className="flex gap-3 text-white items-center flex-shrink-0"
+                    href="/tryout/schedule/add"
+                    className="flex gap-3 text-white items-center"
                 >
                     <PlusIcon />
-                    Tambah Admin
+                    Tambah
                 </LinkCustom>
             </div>
             {/* Table */}
@@ -102,4 +92,4 @@ const UserAdmin = () => {
     );
 };
 
-export default UserAdmin;
+export default Schedule;

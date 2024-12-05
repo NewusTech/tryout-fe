@@ -14,7 +14,7 @@ import UserIcon from "../../../../../public/assets/icons/UserIcon";
 import { axiosInstance } from "@/utils/axios";
 import Swal from "sweetalert2"; // Make sure to import SweetAlert2
 import Cookies from "js-cookie"; // Import js-cookie
-import { useGetAboutCompany } from "@/services/api";
+import { useGetAboutCompany, useGetTnc } from "@/services/api";
 
 
 const formSchema = z.object({
@@ -149,6 +149,8 @@ const LoginPage = () => {
     };
 
     const { data, isLoading } = useGetAboutCompany();
+    // INTEGRASI
+    const { data : dataSnk } = useGetTnc();
 
     return (
         <div>
@@ -271,7 +273,7 @@ const LoginPage = () => {
                             <div className="md:h-[600px] h-[400px] overflow-auto no-scrollbar">
                                 <div
                                     className="prose text-xs md:text-sm max-w-none text-justify"
-                                    dangerouslySetInnerHTML={{ __html: "Tidak Ada Deskripsi" }}
+                                    dangerouslySetInnerHTML={{ __html: dataSnk?.data?.privacy_policy ?? "Tidak ada Kebijakan Privasi" }}
                                 />
                             </div>
                             {/*  */}
@@ -299,12 +301,9 @@ const LoginPage = () => {
                     >
                         <div>
                             <div className="md:h-[600px] h-[400px] overflow-auto no-scrollbar">
-                                <div className="font-semibold mb-3">
-                                    data kebijakan
-                                </div>
                                 <div
                                     className="prose text-xs md:text-sm max-w-none text-justify"
-                                    dangerouslySetInnerHTML={{ __html: "Tidak Ada Deskripsi" }}
+                                    dangerouslySetInnerHTML={{ __html: dataSnk?.data?.term_condition ?? "Tidak ada kebijakan" }}
                                 />
                             </div>
                             {/*  */}

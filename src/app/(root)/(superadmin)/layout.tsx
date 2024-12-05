@@ -77,9 +77,9 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
             showConfirmButton: false,  // Tidak menampilkan tombol OK
         }).then(() => {
             // Arahkan ke halaman login setelah pop-up ditutup otomatis
-            router.push('/login');
+            router.push('/login-admin');
         });
-        router.push('/login');
+        router.push('/login-admin');
     };
 
     const [navbar, setNavbar] = useState(false);
@@ -256,14 +256,14 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                             </div>
                                         </AccordionTrigger>
                                         <AccordionContent className="bg-primary-600/25 flex flex-col gap-2 mb-2 rounded-md">
-                                            <Menu link="/user/admin">
-                                                <span className="text-sm md:text-base">
-                                                    Admin
-                                                </span>
-                                            </Menu>
                                             <Menu link="/user/user">
                                                 <span className="text-sm md:text-base">
                                                     User
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/user/admin">
+                                                <span className="text-sm md:text-base">
+                                                    Admin
                                                 </span>
                                             </Menu>
                                         </AccordionContent>
@@ -354,7 +354,7 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                             {/* accordion */}
                             {/* profile */}
                             <div className="wrap mt-10 flex flex-col gap-3">
-                                <div className="flex gap-3 px-5">
+                                <div className="flex gap-3 px-5 items-center">
                                     <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
                                         <Image
                                             src="/assets/images/Profile-nav.png"
@@ -366,8 +366,7 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                         />
                                     </div>
                                     <div className="flex flex-col gap-1 text-primary">
-                                        <div className="font-medium text-sm">Dila</div>
-                                        <div className="text-xs">Admin</div>
+                                        <div className="font-medium text-sm">Super Admin</div>
                                     </div>
                                 </div>
                                 {/*  */}

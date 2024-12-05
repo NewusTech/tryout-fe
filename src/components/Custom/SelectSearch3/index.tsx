@@ -31,6 +31,7 @@ const frameworks = [
 interface SelectSearchProps {
     items: { value: string; label: string }[];
     label: string;
+    className?: string;
     placeholder: string;
     value: string | number;
     onChange: (value: string) => void;
@@ -39,6 +40,7 @@ interface SelectSearchProps {
 const SelectSearch: React.FC<SelectSearchProps> = ({
     items,
     label,
+    className,
     placeholder,
     value,
     onChange,
@@ -58,7 +60,7 @@ const SelectSearch: React.FC<SelectSearchProps> = ({
                     variant="outline"
                     role="combobox"
                     aria-expanded={open ? "true" : "false"}
-                    className="w-full justify-between"
+                    className={`w-full justify-between ${className}`}
                 >
                     {value
                         ? items.find((item) => item.value === value)?.label

@@ -8,70 +8,90 @@ import {
   Tooltip,
   Title,
 } from "chart.js";
+import { useParams } from "next/navigation";
+import { useGetUserDetailId } from "@/services/api";
 
 // Registrasi komponen Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Title);
 
 const PerformaChart = () => {
-  const data = {
-    labels: ["Try Out 1", "Try Out 2", "Try Out 3", "Try Out 4", "Try Out 5", "Try Out 6"],
-    datasets: [
-      {
-        label: "Nilai",
-        data: [300, 200, 400, 450, 500, 400], // Data nilai
-        backgroundColor: "#4A055B", // Warna batang
-        borderRadius: 4, // Sudut melengkung batang
-      },
-    ],
-  };
+  // Ambil parameter slug dari URL
+  const { slug } = useParams();
+  const { data, isLoading } = useGetUserDetailId(slug as string);
+
+  // Menyiapkan data chart
+  const chartData = React.useMemo(() => {
+    if (!data || !data.data?.performa) return { labels: [], datasets: [] };
+
+    const labels = data.data.performa.map((item: any) => item.nama_tryout || "Unknown Tryout");
+    const scores = data.data.performa.map((item: any) => (item.skor !== null ? parseFloat(item.skor) : 0));
+
+    return {
+      labels,
+      datasets: [
+        {
+          label: "Nilai",
+          data: scores,
+          backgroundColor: "#4A055B",
+          borderRadius: 4,
+        },
+      ],
+    };
+  }, [data]);
 
   // ID untuk masing-masing bar
-  const tryOutIds = [1, 2, 3, 4, 5, 6];
+  const tryOutIds = data?.data?.performa?.map((item: any) => item.id) || [];
 
+  // Opsi chart
   const options = {
     responsive: true,
-    indexAxis: "y" as const, // Membuat grafik menjadi horizontal
+    indexAxis: "y" as const,
     onClick: (event: any, elements: any) => {
-      // Periksa apakah bar diklik
       if (elements.length > 0) {
-        const index = elements[0].index; // Mendapatkan index bar yang diklik
-        const tryOutId = tryOutIds[index]; // Mengambil ID yang sesuai
-        window.location.href = `/user/user/detail/statistik/${tryOutId}`; // Navigasi ke URL
+        const index = elements[0].index;
+        const tryOutId = tryOutIds[index];
+        if (tryOutId) {
+          window.location.href = `/user/user/detail/statistik/${tryOutId}`;
+        }
       }
     },
     plugins: {
       tooltip: {
         callbacks: {
           label: (tooltipItem: any) => {
-            const nilai = tooltipItem.raw; // Nilai dari dataset
-            return [`Nilai: ${nilai}`, "Klik untuk detail"]; // Tooltip multiline
+            const nilai = tooltipItem.raw;
+            return [`Nilai: ${nilai}`, "Klik untuk detail"];
           },
         },
-        backgroundColor: "#5E239D", // Warna latar belakang tooltip
-        titleColor: "#FFF", // Warna teks judul tooltip
-        bodyColor: "#FFF", // Warna teks isi tooltip
+        backgroundColor: "#5E239D",
+        titleColor: "#FFF",
+        bodyColor: "#FFF",
         bodyFont: {
-          size: 14, // Ukuran font isi tooltip
+          size: 14,
         },
-        displayColors: false, // Hilangkan kotak warna kecil di tooltip
-        padding: 8, // Padding dalam tooltip
+        displayColors: false,
+        padding: 8,
       },
     },
     scales: {
       x: {
         beginAtZero: true,
-        max: 600, // Menyesuaikan nilai maksimum pada sumbu X
+        max: 100, // Nilai maksimum sumbu X
         ticks: {
-          stepSize: 100, // Jarak antar garis
+          stepSize: 10,
         },
       },
     },
-    
   };
 
+  // Tampilkan loader saat data belum siap
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div className=" w-full mx-auto p-4 pt-[40px] rounded-lg bg-[#FCF4F1]">
-      <Bar data={data} options={options} />
+    <div className="w-full mx-auto p-4 pt-[40px] rounded-lg bg-[#FCF4F1]">
+      <Bar data={chartData} options={options} />
     </div>
   );
 };
