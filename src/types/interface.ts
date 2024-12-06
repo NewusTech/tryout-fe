@@ -650,6 +650,109 @@ interface ScheduleTryout {
   updatedAt: string; // format: ISO 8601
 }
 
+// history user
+interface UserTryout {
+  id: number;
+  userinfo_id: number;
+  name: string;
+  skor: string | null;
+  sertifikat: string | null;
+  status: number;
+  packagetryout_id: number;
+  package_name: string;
+  typepackage_id: number;
+  typepackage_name: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface HistoryUser {
+  data: UserTryout[];
+  headers: string[];
+  currentPage: number;
+  search: string;
+  pagination?: Pagination;
+  status?: number;
+  message?: string;
+}
+
+// history statistik user
+interface TypeQuestionSummary {
+  typeName: string;
+  totalQuestions: number;
+  totalScore: number;
+}
+
+interface PackageDetails {
+  id: number;
+  title: string;
+  slug: string;
+  description: string;
+  duration: string;
+  price: string;
+  score: number;
+  typeQuestionSummary: TypeQuestionSummary[];
+}
+
+export interface StatistikUser {
+  code: number;
+  message: string;
+  data: PackageDetails;
+}
+
+// pembahasan user
+interface DataJson {
+  id: number;
+  key: string;
+}
+
+interface QuestionCorrectAnswer {
+  id: number;
+  key: string;
+  point: number;
+}
+
+interface QuestionFormDiscussion {
+  id: number;
+  type_question_id: number;
+  type_question_name: string;
+  bank_soal_id: number;
+  bank_soal_name: string;
+  field: string;
+  tipedata: string;
+  datajson: DataJson[];
+  correct_answer: number | QuestionCorrectAnswer[];
+  answer: string;
+  discussion: string;
+  isCorrect: boolean;
+  points: number;
+}
+
+interface Status {
+  total_questions: number;
+  total_filled: number;
+  total_unfilled: number;
+  total_correct: number;
+  total_uncorrect: number;
+}
+
+interface PackageDetails {
+  id: number;
+  title: string;
+  slug: string;
+  duration: string;
+  Question_forms: QuestionFormDiscussion[];
+  status: Status;
+}
+
+export interface DiscussionUser {
+  code: number;
+  message: string;
+  data: PackageDetails;
+}
+
+
+
 
 
 

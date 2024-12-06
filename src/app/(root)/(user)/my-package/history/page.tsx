@@ -5,38 +5,12 @@ import ArrowBread from '../../../../../../public/assets/icons/ArrowBread';
 import { useState } from 'react';
 import PaginationTable from '@/components/Custom/PaginationTable';
 import DataTable from '@/components/User/MyPackage/History/DataTable';
+import { useGetUserHistory } from '@/services/api';
+import Cookies from "js-cookie";
 
 const History = () => {
     // Define table headers
-    const tableHeaders = ["No", "Passing Grade", "Rank", "Skor", "Status", "Durasi Pengerjaan", "Aksi"];
-
-    // Dummy data
-    const dummyData = [
-        {
-            no: 1,
-            grade: "A",
-            rank: "1",
-            skor: "80",
-            status: "Lulus",
-            durasiPengerjaan : "2 Jam"
-        },
-        {
-            no: 2,
-            grade: "A",
-            rank: "3",
-            skor: "84",
-            status: "Lulus",
-            durasiPengerjaan : "2 Jam"
-        },
-        {
-            no: 3,
-            grade: "B",
-            rank: "4",
-            skor: "90",
-            status: "Tidak Lulus",
-            durasiPengerjaan : "2 Jam"
-        },
-    ];
+    const tableHeaders = ["No", "Nama Tryout",  "Skor", "Status", "Durasi Pengerjaan", "Aksi"];
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
@@ -50,6 +24,11 @@ const History = () => {
         setSearch(event.target.value);
         setCurrentPage(1); // Reset to page 1
     };
+
+    const id = Cookies.get("history");
+    // INTEGRASI
+    const { data } = useGetUserHistory(currentPage, search, id as string);
+    // INTEGRASI
 
     return (
         <div>
@@ -70,7 +49,7 @@ const History = () => {
                         <div className="Table mt-6">
                             <DataTable
                                 headers={tableHeaders}
-                                data={dummyData}
+                                data={data?.data}
                                 currentPage={currentPage}
                                 search={search}
                             />
@@ -79,7 +58,7 @@ const History = () => {
                         <div className="pagi flex items-center justify-center md:justify-end mt-3 pb-5 lg:pb-0">
                             <PaginationTable
                                 currentPage={currentPage}
-                                totalPages={10}
+                                totalPages={data?.pagination?.totalPages as number}
                                 onPageChange={onPageChange}
                             />
                         </div>

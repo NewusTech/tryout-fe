@@ -14,7 +14,7 @@ const Dashboard = () => {
     return (
         <div className="">
             <TitleAdmin title="Dashboard" />
-            <div className="wrap-all grid grid-cols-3 gap-4">
+            <div className="wrap-all grid grid-cols-3 gap-7">
                 <div className="card shadow flex  flex-col gap-4 p-6 rounded-3xl bg-[#E4D9E6]">
                     <div className="">
                         <UserAll />
@@ -26,7 +26,7 @@ const Dashboard = () => {
                         Total Users
                     </div>
                 </div>
-                <div className="card shadow flex  flex-col gap-4 p-6 rounded-3xl bg-[#FFF4DE]">
+                <div className="card shadow flex  flex-col gap-4 p-6 rounded-3xl bg-[#E4D9E6]">
                     <div className="">
                         <BankSoal />
                     </div>
@@ -37,7 +37,7 @@ const Dashboard = () => {
                         Total Bank Soal
                     </div>
                 </div>
-                <div className="card shadow flex  flex-col gap-4 p-6 rounded-3xl bg-[#DCFCE7]">
+                <div className="card shadow flex  flex-col gap-4 p-6 rounded-3xl bg-[#E4D9E6]">
                     <div className="">
                         <Package />
                     </div>

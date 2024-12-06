@@ -346,6 +346,11 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                                     Banner Beranda
                                                 </span>
                                             </Menu>
+                                            <Menu link="/data-master/setting-sertifikat">
+                                                <span className="text-sm md:text-base">
+                                                    Pengaturan Sertifikat
+                                                </span>
+                                            </Menu>
                                         </AccordionContent>
                                     </AccordionItem>
                                     {/* Data Master */}

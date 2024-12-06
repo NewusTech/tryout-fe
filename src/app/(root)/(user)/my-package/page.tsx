@@ -44,10 +44,20 @@ const MyPackage = () => {
         Cookies.set("package", packageId);
     };
 
+    const setPackageHistory = (historyId: string) => {
+        Cookies.set("history", historyId);
+    };
+
     const handleStart = (id: string) => {
         setPackageStart(id);
         router.push("/my-package/do-assignments");
     };
+    const handleHistory = (id: string) => {
+        setPackageHistory(id);
+        router.push("/my-package/history");
+    };
+
+
 
     return (
         <div className="text-srBlack overflow-x-hidden">
@@ -119,12 +129,13 @@ const MyPackage = () => {
                                                 >
                                                     Kerjakan
                                                 </Button>
-                                                <LinkCustom
-                                                    href="/my-package/history"
-                                                    className="px-10 w-full md:w-[160px] bg-white text-primary border border-primary"
+                                                <Button 
+                                                    onClick={() => handleHistory(user.id.toString())}
+                                                    variant="outlinePrimary"
+                                                    className="px-10 text-sm w-full md:w-[160px]"
                                                 >
                                                     Riwayat
-                                                </LinkCustom>
+                                                </Button>
                                             </div>
                                         </div>
                                     </div>
