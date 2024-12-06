@@ -6,11 +6,16 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
+import { useParams } from 'next/navigation';
+import { useGetHistoryUserId } from '@/services/api';
 
 // Registrasi komponen Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const TwkChart = () => {
+    // Integrasi API
+    const { id } = useParams();
+    const { data: dataUser } = useGetHistoryUserId(id as string);
     // Data untuk grafik
     const data = {
         labels: ['Benar', 'Salah'],
@@ -48,8 +53,8 @@ const TwkChart = () => {
             {/* Statistik */}
             <div className="wrap flex justify-between items-center">
                 <div className="text-sm mb-4">
-                    <p>Skor Anda: <span className="font-bold">150</span></p>
-                    <p>Jumlah Soal: <span className="font-bold">50</span></p>
+                    <p>Skor Anda: <span className="font-bold">{dataUser?.data?.typeQuestionSummary[0].totalScore ?? "-"}</span></p>
+                    <p>Jumlah Soal: <span className="font-bold">{dataUser?.data?.typeQuestionSummary[0].totalQuestions ?? "-"}</span></p>
                     <p className="text-red-500">
                         Soal Tidak Terjawab: <span className="font-bold">50</span>
                     </p>

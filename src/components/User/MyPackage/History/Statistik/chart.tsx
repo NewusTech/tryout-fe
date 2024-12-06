@@ -8,17 +8,23 @@ import {
   Tooltip,
   Title,
 } from 'chart.js';
+import { useParams } from 'next/navigation';
+import { useGetHistoryUserId } from '@/services/api';
 
 // Registrasi komponen Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Title);
 
 const BarChart = () => {
+  // Integrasi API
+  const { id } = useParams();
+  const { data : dataUser } = useGetHistoryUserId(id as string);
+
   const data = {
-    labels: ['TIU', 'TKP', 'TWK'], // Label pada sumbu X
+    labels: ['TWK', 'TIU', 'TKP'], // Label pada sumbu X
     datasets: [
       {
         label: 'Nilai',
-        data: [183, 90, 183], // Data nilai
+        data: [dataUser?.data?.typeQuestionSummary[0].totalScore, dataUser?.data?.typeQuestionSummary[1].totalScore, dataUser?.data?.typeQuestionSummary[2].totalScore], // Data nilai
         backgroundColor: '#4A055B', // Warna batang
         borderRadius: 4, // Sudut melengkung batang
       },

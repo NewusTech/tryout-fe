@@ -5,9 +5,9 @@ import { ChartPengguna } from './ChartPengguna'
 
 const Statistik = () => {
     return (
-        <div className='flex flex-col gap-4'>
+        <div className='flex flex-col gap-7'>
             {/*  */}
-            <div className="flex gap-4">
+            <div className="flex gap-7">
                 <div className="w-1/3">
                     <PieChartStatistik />
                 </div>

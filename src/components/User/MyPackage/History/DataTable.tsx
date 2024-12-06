@@ -12,24 +12,10 @@ import { Button } from "@/components/ui/button";
 import { mutate } from "swr";
 import Loading from "@/components/ui/Loading";
 import LinkCustom from "@/components/ui/LinkCustom";
-
-interface History {
-    no: number;
-    grade: string,
-    rank: string,
-    skor: string,
-    status: string,
-    durasiPengerjaan: string
-}
-interface ApiResponse {
-    headers: string[];
-    data: History[];
-    currentPage: number;
-    search: string;
-}
+import { HistoryUser } from "@/types/interface";
 
 
-const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, }) => {
+const DataTable: React.FC<HistoryUser> = ({ headers, data, currentPage, search, }) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState<any | null>(null); // Store the currently selected user for status update
@@ -50,35 +36,35 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                 <TableBody>
                     {data?.length > 0 ? (
                         data.map((user, index) => (
-                            <TableRow key={user.no} index={index}>
+                            <TableRow key={user?.id} index={index}>
                                 <TableCell className="text-center">
                                     {(currentPage - 1) * 10 + (index + 1)}
                                 </TableCell>
-                                <TableCell className="text-center">{user.grade ?? "-"}</TableCell>
-                                <TableCell className="text-center">{user.rank ?? "-"}</TableCell>
-                                <TableCell className="text-center">{user.skor ?? "-"}</TableCell>
-                                <TableCell >
+                                <TableCell className="text-center">{user?.package_name ?? "-"}</TableCell>
+                                <TableCell className="text-center">{user?.skor ?? "-"}</TableCell>
+                                {/* <TableCell >
                                     <div className={`text-center font-medium ${user.status === "Lulus" ? "text-succes bg-succes/20 p-2 rounded-full" : "text-error bg-error/20 p-2 rounded-full"}`}>
                                         {user.status === "Lulus" ? "Lulus" : "Tidak Lulus"}
                                     </div>
-                                </TableCell>
-                                <TableCell className="text-center">{user.durasiPengerjaan ?? "-"}</TableCell>
+                                </TableCell> */}
+                                <TableCell className="text-center">{"-"}</TableCell>
+                                <TableCell className="text-center">{"-"}</TableCell>
                                 {/*  */}
                                 <TableCell className="text-center">
                                     <div className="flex gap-2 justify-center">
                                         <LinkCustom
                                             className="text-white bg-secondary"
-                                            href="/my-package/history/statistik">
+                                            href={`/my-package/history/statistik/${user?.id}`}>
                                             Statistik
                                         </LinkCustom>
                                         <LinkCustom
                                             className="text-white"
-                                            href="/my-package/history/discussion">
+                                            href={`/my-package/history/discussion/${user?.id}`}>
                                             Pembahasan
                                         </LinkCustom>
                                         <LinkCustom
                                             className="text-primary bg-white border border-primary"
-                                            href="/my-package/history/ranking">
+                                            href={`/my-package/history/ranking/${user?.id}`}>
                                             Ranking
                                         </LinkCustom>
                                     </div>
