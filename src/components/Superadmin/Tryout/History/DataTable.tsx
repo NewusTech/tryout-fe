@@ -17,22 +17,9 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import TitikIcon from "../../../../../public/assets/icons/TitikIcon";
+import { TryoutResponseHistory } from "@/types/interface";
 
-interface History {
-    no: number;
-    nama: string,
-    ranking: string,
-    skor: string,
-}
-interface ApiResponse {
-    headers: string[];
-    data: History[];
-    currentPage: number;
-    search: string;
-}
-
-
-const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, }) => {
+const DataTable: React.FC<TryoutResponseHistory> = ({ headers, data, currentPage, search, }) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState<any | null>(null); // Store the currently selected user for status update
@@ -53,13 +40,13 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                     <TableBody>
                         {data?.length > 0 ? (
                             data.map((user, index) => (
-                                <TableRow key={user.no} index={index}>
+                                <TableRow key={user.id} index={index}>
                                     <TableCell className="text-center">
                                         {(currentPage - 1) * 10 + (index + 1)}
                                     </TableCell>
-                                    <TableCell className="text-center text-primary">{user.ranking ?? "-"}</TableCell>
-                                    <TableCell className="text-center text-primary">{user.nama ?? "-"}</TableCell>
-                                    <TableCell className="text-center text-primary">{user.skor ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.package_name ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.name ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.skor ?? "-"}</TableCell>
                                     {/*  */}
                                     <TableCell className="text-center justify-center items-center flex gap-2">
                                         <div className="aksi flex-shrink-0">
@@ -76,7 +63,7 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                                                     <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                                     <DropdownMenuGroup>
                                                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                            <Link className="w-full" href={`/tryout/history/detail`}>
+                                                            <Link className="w-full" href={`/tryout/history/detail/${user.id}`}>
                                                                 <div className="flex items-center gap-2 text-primary">
                                                                     Detail
                                                                 </div>

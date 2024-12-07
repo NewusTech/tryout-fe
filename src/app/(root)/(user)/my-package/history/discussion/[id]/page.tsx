@@ -6,6 +6,7 @@ import ArrowBread from "../../../../../../../../public/assets/icons/ArrowBread";
 import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
 import { useGetDiscussionUserId } from "@/services/api";
+import LoadingPage from "@/components/ui/LoadingPage";
 
 const PembahasanPage: React.FC = () => {
   const { id } = useParams();
@@ -62,7 +63,7 @@ const PembahasanPage: React.FC = () => {
   // Mendapatkan soal berdasarkan nomor yang dipilih
   const soal = soalData.find((item) => item.nomor === currentNomor);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div><LoadingPage /></div>;
   if (error) return <div>Error loading data.</div>;
   if (!soal) return null;
 

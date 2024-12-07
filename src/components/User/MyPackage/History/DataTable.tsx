@@ -42,13 +42,12 @@ const DataTable: React.FC<HistoryUser> = ({ headers, data, currentPage, search, 
                                 </TableCell>
                                 <TableCell className="text-center">{user?.package_name ?? "-"}</TableCell>
                                 <TableCell className="text-center">{user?.skor ?? "-"}</TableCell>
-                                {/* <TableCell >
-                                    <div className={`text-center font-medium ${user.status === "Lulus" ? "text-succes bg-succes/20 p-2 rounded-full" : "text-error bg-error/20 p-2 rounded-full"}`}>
-                                        {user.status === "Lulus" ? "Lulus" : "Tidak Lulus"}
+                                <TableCell >
+                                    <div className={`text-center font-medium ${user.status === 1 ? "text-succes bg-succes/20 p-2 rounded-full" : "text-error bg-error/20 p-2 rounded-full"}`}>
+                                        {user.status === 1 ? "Lulus" : "Tidak Lulus"}
                                     </div>
-                                </TableCell> */}
-                                <TableCell className="text-center">{"-"}</TableCell>
-                                <TableCell className="text-center">{"-"}</TableCell>
+                                </TableCell>
+                                <TableCell className="text-center">{user?.duration ?? "-"}</TableCell>
                                 {/*  */}
                                 <TableCell className="text-center">
                                     <div className="flex gap-2 justify-center">

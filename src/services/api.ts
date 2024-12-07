@@ -1139,8 +1139,32 @@ const useGetDiscussionUserId = (id?: string) => {
   };
 };
 
+// get history user all
+const useGetUserHistoryAll = (currentPage: number, search: string) => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/user/history/tryout?page=${currentPage}&limit=10&search=${search}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/user/history/tryout?page=${currentPage}&limit=10&search=${search}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
 
 export {
+  useGetUserHistoryAll,
   useGetDiscussionUserId,
   useGetHistoryUserId,
   useGetUserHistory,

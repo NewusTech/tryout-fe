@@ -660,6 +660,7 @@ interface UserTryout {
   status: number;
   packagetryout_id: number;
   package_name: string;
+  duration: string;
   typepackage_id: number;
   typepackage_name: string;
   createdAt: string;
@@ -749,6 +750,33 @@ export interface DiscussionUser {
   code: number;
   message: string;
   data: PackageDetails;
+}
+
+// history all
+interface TryoutHistory {
+  id: number;
+  userinfo_id: number;
+  name: string;
+  skor: string | null;
+  sertifikat: string | null;
+  status: number;
+  duration: string;
+  packagetryout_id: number;
+  package_name: string;
+  typepackage_id: number;
+  typepackage_name: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface TryoutResponseHistory {
+  data: TryoutHistory[];
+  headers: string[];
+  currentPage: number;
+  search: string;
+  pagination?: Pagination;
+  status?: number;
+  message?: string;
 }
 
 
