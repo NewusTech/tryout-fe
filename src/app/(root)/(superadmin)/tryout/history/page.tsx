@@ -8,6 +8,7 @@ import SearchIcon from "../../../../../../public/assets/icons/SearchIcon";
 import PaginationTable from "@/components/Custom/PaginationTable";
 import { DatePicker } from "@/components/Custom/DatePicker";
 import DataTable from "@/components/Superadmin/Tryout/History/DataTable";
+import { useGetUserHistoryAll } from "@/services/api";
 
 const dummyData = [
   { value: 1, label: "Tryout 1" },
@@ -23,42 +24,7 @@ const History = () => {
   const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
 
   // Define table headers
-  const tableHeaders = ["No", "Ranking", "Nama", "Skor", "Aksi"];
-
-  // Dummy data
-  const dummyDataa = [
-    {
-      no: 1,
-      nama: "John Doe",
-      ranking: "1",
-      skor: "95",
-    },
-    {
-      no: 2,
-      nama: "Jane Smith",
-      ranking: "2",
-      skor: "90",
-    },
-    {
-      no: 3,
-      nama: "Alice Johnson",
-      ranking: "3",
-      skor: "88",
-    },
-    {
-      no: 4,
-      nama: "Bob Brown",
-      ranking: "4",
-      skor: "85",
-    },
-    {
-      no: 5,
-      nama: "Charlie Davis",
-      ranking: "5",
-      skor: "82",
-    },
-  ];
-  
+  const tableHeaders = ["No","Nama Tryout", "Nama", "Skor", "Aksi"];
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -73,6 +39,10 @@ const History = () => {
     setCurrentPage(1); // Reset to page 1
   };
   // serach
+
+  // INTEGRASI
+  const { data } = useGetUserHistoryAll(currentPage, search,);
+  // INTEGRASI
 
   return (
     <div className="">
@@ -111,7 +81,7 @@ const History = () => {
       <div className="Table mt-6">
         <DataTable
           headers={tableHeaders}
-          data={dummyDataa}
+          data={data?.data}
           currentPage={currentPage}
           search={search}
         />
@@ -120,7 +90,7 @@ const History = () => {
       <div className="pagi flex items-center justify-center md:justify-end mt-3 pb-5 lg:pb-0">
         <PaginationTable
           currentPage={currentPage}
-          totalPages={10}
+          totalPages={data?.pagination?.totalPages as number}
           onPageChange={onPageChange}
         />
       </div>
