@@ -18,6 +18,24 @@ export const typePayment = z
   .required();
 export type typePaymentFormData = z.infer<typeof typePayment>;
 
+// Master Data Kenapa Kami
+export const whyUs = z
+  .object({
+    title: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+    description: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+  })
+  .required();
+export type whyUsFormData = z.infer<typeof whyUs>;
+
+// sosial media
+export const socialMedia = z
+  .object({
+    title: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+    link: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+  })
+  .required();
+export type socialMediaFormData = z.infer<typeof socialMedia>;
+
 // Master Data Tipe Paket
 export const typeQuestion = z
   .object({
@@ -65,6 +83,11 @@ export const aboutEdit = z.object({
   title: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
   sub_title: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
   description: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+  telepon: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+  email: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+  address: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+  lat: z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
+  long: z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
   main_logo: z
     .instanceof(File)
     .optional()
@@ -79,6 +102,19 @@ export const aboutEdit = z.object({
     }),
 });
 export type aboutEditFormData = z.infer<typeof aboutEdit>;
+
+// Master Data edit about
+export const sertifikatEdit = z.object({
+  title: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+  name: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+  sign: z
+    .instanceof(File)
+    .optional()
+    .refine((file) => !file || file.size > 0, {
+      message: "Gambar wajib diisi!",
+    }),
+});
+export type sertifikatEditFormData = z.infer<typeof sertifikatEdit>;
 
 // paket tryout
 export const packageTryout = z

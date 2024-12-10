@@ -19,6 +19,7 @@ import TitleBack from '@/components/Superadmin/TitleBack';
 import { Label } from '@/components/ui/label';
 import { useGetAboutCompany } from '@/services/api';
 import { Textarea } from '@/components/ui/textarea';
+import { mutate } from 'swr';
 
 
 const EditPelatihan = () => {
@@ -44,6 +45,11 @@ const EditPelatihan = () => {
         setValue("title", dataUser?.data?.title ?? '');
         setValue("sub_title", dataUser?.data?.sub_title ?? '');
         setValue("description", dataUser?.data?.description ?? '');
+        setValue("telepon", dataUser?.data?.telepon ?? '');
+        setValue("email", dataUser?.data?.email ?? '');
+        setValue("address", dataUser?.data?.address ?? '');
+        setValue("long", dataUser?.data?.long ?? '');
+        setValue("lat", dataUser?.data?.lat ?? '');
 
         if (dataUser?.data?.main_logo) {
           setImagePreviewMain(dataUser?.data?.main_logo);
@@ -90,6 +96,11 @@ const EditPelatihan = () => {
     formData.append('title', data.title);
     formData.append('sub_title', data.sub_title);
     formData.append('description', data.description);
+    formData.append('telepon', data.telepon);
+    formData.append('email', data.email);
+    formData.append('address', data.address);
+    formData.append('long', data.long);
+    formData.append('lat', data.lat);
 
     // Memeriksa jika image ada sebelum menambahkannya ke formData
     if (data.main_logo) {
@@ -119,7 +130,7 @@ const EditPelatihan = () => {
     } finally {
       setLoading(false); // Set loading to false once the process is complete
     }
-    // mutate(`galeri/get?page=1`);
+    mutate(`/user/company/profile/get/1`);
   };
   // 
   return (
@@ -175,7 +186,86 @@ const EditPelatihan = () => {
             </div>
           </div>
           {/*  */}
-
+          {/*  */}
+          <div className="flex flex-col md:flex-row md:justify-between gap-2 md:lg-3 lg:gap-5">
+            <div className="flex flex-col mb-2 w-full">
+              <Label className="text-primary mb-2">Nomor Telepon</Label>
+              <Input
+                type="text"
+                placeholder="Nomor Telepon"
+                {...register('telepon')}
+                className={`${errors.telepon ? 'border-red-500' : ''}`}
+              />
+              {errors.telepon && (
+                <HelperError>{errors.telepon.message}</HelperError>
+              )}
+            </div>
+          </div>
+          {/*  */}
+          {/*  */}
+          <div className="flex flex-col md:flex-row md:justify-between gap-2 md:lg-3 lg:gap-5">
+            <div className="flex flex-col mb-2 w-full">
+              <Label className="text-primary mb-2">Email</Label>
+              <Input
+                type="text"
+                placeholder="Email"
+                {...register('email')}
+                className={`${errors.email ? 'border-red-500' : ''}`}
+              />
+              {errors.email && (
+                <HelperError>{errors.email.message}</HelperError>
+              )}
+            </div>
+          </div>
+          {/*  */}
+          {/*  */}
+          <div className="flex flex-col md:flex-row md:justify-between gap-2 md:lg-3 lg:gap-5">
+            <div className="flex flex-col mb-2 w-full">
+              <Label className="text-primary mb-2">Alamat</Label>
+              <Input
+                type="text"
+                placeholder="Alamat"
+                {...register('address')}
+                className={`${errors.address ? 'border-red-500' : ''}`}
+              />
+              {errors.address && (
+                <HelperError>{errors.address.message}</HelperError>
+              )}
+            </div>
+          </div>
+          {/*  */}
+          {/*  */}
+          <div className="flex flex-col md:flex-row md:justify-between gap-2 md:lg-3 lg:gap-5">
+            <div className="flex flex-col mb-2 w-full">
+              <Label className="text-primary mb-2">Latitude</Label>
+              <Input
+                type="text"
+                placeholder="Latitude"
+                {...register('lat')}
+                className={`${errors.lat ? 'border-red-500' : ''}`}
+              />
+              {errors.lat && (
+                <HelperError>{errors.lat.message}</HelperError>
+              )}
+            </div>
+          </div>
+          {/*  */}
+          {/*  */}
+          <div className="flex flex-col md:flex-row md:justify-between gap-2 md:lg-3 lg:gap-5">
+            <div className="flex flex-col mb-2 w-full">
+              <Label className="text-primary mb-2">Longitude</Label>
+              <Input
+                type="text"
+                placeholder="Longitude"
+                {...register('long')}
+                className={`${errors.long ? 'border-red-500' : ''}`}
+              />
+              {errors.long && (
+                <HelperError>{errors.long.message}</HelperError>
+              )}
+            </div>
+          </div>
+          {/*  */}
           {/* main upload section */}
           <div className="">
             <div className="flex flex-col mb-2 w-full">
@@ -210,7 +300,6 @@ const EditPelatihan = () => {
               )}
             </div>
           </div>
-
           {/* sub upload section */}
           <div className="">
             <div className="flex flex-col mb-2 w-full">

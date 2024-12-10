@@ -63,6 +63,38 @@ const DetailAbout = () => {
         </div>
         <div className="flex flex-col gap-1">
           <div className="font-medium">
+            Email
+          </div>
+          <div className="">
+            {data?.data?.email ?? "-"}
+          </div>
+        </div>
+        <div className="flex flex-col gap-1">
+          <div className="font-medium">
+            Alamat
+          </div>
+          <div className="">
+            {data?.data?.address ?? "-"}
+          </div>
+        </div>
+        <div className="flex flex-col gap-1">
+          <div className="font-medium">
+            Latitude
+          </div>
+          <div className="">
+            {data?.data?.lat ?? "-"}
+          </div>
+        </div>
+        <div className="flex flex-col gap-1">
+          <div className="font-medium">
+            Longitude
+          </div>
+          <div className="">
+            {data?.data?.long ?? "-"}
+          </div>
+        </div>
+        <div className="flex flex-col gap-1">
+          <div className="font-medium">
             Logo Utama
           </div>
           <div className="">

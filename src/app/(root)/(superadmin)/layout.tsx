@@ -346,6 +346,16 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                                     Banner Beranda
                                                 </span>
                                             </Menu>
+                                            <Menu link="/data-master/why-us">
+                                                <span className="text-sm md:text-base">
+                                                    Kenapa Kami
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/data-master/social-media">
+                                                <span className="text-sm md:text-base">
+                                                    Media Sosial
+                                                </span>
+                                            </Menu>
                                             <Menu link="/data-master/setting-sertifikat">
                                                 <span className="text-sm md:text-base">
                                                     Pengaturan Sertifikat

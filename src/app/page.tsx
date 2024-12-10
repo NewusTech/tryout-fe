@@ -57,18 +57,18 @@ const Home = () => {
 
           {/* card */}
           <div className="bg-white">
-              <AboutHome />
+            <AboutHome />
           </div>
           {/* card */}
 
           {/* banner */}
           <div className="banner bg-gradient-to-r from-[#4A055B] to-[#9D0BC1]">
-            <div className="container mx-auto py-16">
-            <BannerHome />
+            <div className="container mx-auto py-[120px]">
+              <BannerHome />
             </div>
           </div>
           {/* banner */}
-          
+
           {/* maps */}
           <div className="bg-white">
             <MapsHome />
