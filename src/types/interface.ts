@@ -133,6 +133,10 @@ interface CompanyProfile {
   telepon: string;
   main_logo: string;
   sub_logo: string;
+  email: string;
+  address: string;
+  lat: string;
+  long: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -219,9 +223,9 @@ interface QuestionFormData {
   end_time: string;
   Bank_packages: BankPackage[];
   status: {
-    total_filled : number;
-    total_unfilled : number;
-  }
+    total_filled: number;
+    total_unfilled: number;
+  };
 }
 
 interface BankPackage {
@@ -280,7 +284,7 @@ interface PackageTryoutData {
   status: {
     total_filled: number;
     total_unfilled: number;
-  }
+  };
 }
 
 interface BankPackage {
@@ -441,25 +445,25 @@ interface UserDetail {
   asal_instansi: string | null;
   provinsi_id: number | null;
   kota_id: number | null;
-  kota_name: string; 
-  image_profile: string; 
+  kota_name: string;
+  image_profile: string;
   provinsi_name: string;
   createdAt: string;
   updatedAt: string;
-  program: ProgramUser[];  // Adjust the type of elements based on actual data structure
-  performa: PerformaUser[];  // Adjust the type of elements based on actual data structure
+  program: ProgramUser[]; // Adjust the type of elements based on actual data structure
+  performa: PerformaUser[]; // Adjust the type of elements based on actual data structure
 }
 
-interface ProgramUser{
+interface ProgramUser {
   id: number;
   nama_package: string;
 }
 
-interface PerformaUser{
+interface PerformaUser {
   id: number;
-  packagetryout_id : number;
-  nama_tryout : string;
-  skor : string;
+  packagetryout_id: number;
+  nama_tryout: string;
+  skor: string;
 }
 
 export interface UserDetailResponse {
@@ -512,7 +516,6 @@ export interface ProvincesResponse {
   message: string;
   data: Province[];
 }
-
 
 // quiz
 export interface QuestionTryoutResponse {
@@ -614,17 +617,17 @@ export interface QuizData {
   code: number;
   message: string;
   data: {
-      id: number;
-      title: string;
-      slug: string;
-      attempt: number;
-      start_time: string;
-      end_time: string;
-      Question_forms: QuestionForm[];
-      status: {
-          total_filled: number;
-          total_unfilled: number;
-      };
+    id: number;
+    title: string;
+    slug: string;
+    attempt: number;
+    start_time: string;
+    end_time: string;
+    Question_forms: QuestionForm[];
+    status: {
+      total_filled: number;
+      total_unfilled: number;
+    };
   };
 }
 
@@ -779,13 +782,79 @@ export interface TryoutResponseHistory {
   message?: string;
 }
 
+// why us
+export interface WhyUsResponse {
+  data: WhyUsItem[];
+  headers: string[];
+  currentPage: number;
+  search: string;
+  pagination?: Pagination;
+  status?: number;
+  message?: string;
+}
 
+interface WhyUsItem {
+  id: number;
+  title: string;
+  description: string;
+  createdAt: string; // ISO 8601 format
+  updatedAt: string; // ISO 8601 format
+}
 
+// why us by id
+export interface WhyUsByIdResponse {
+  status: number;
+  message: string;
+  data: WhyUsItem;
+}
 
+// setting sertifikat
+export interface CertificateSettingResponse {
+  status: number;
+  message: string;
+  data: CertificateSetting;
+}
 
+interface CertificateSetting {
+  id: number;
+  title: string;
+  name: string;
+  sign: string; // URL string
+  createdAt: string; // ISO 8601 format
+  updatedAt: string; // ISO 8601 format
+}
 
+// sosial media
+export interface SocialMediaResponse {
+  data: SocialMediaItem[];
+  headers: string[];
+  currentPage: number;
+  search: string;
+  pagination?: Pagination;
+  status?: number;
+  message?: string;
+}
 
+interface SocialMediaItem {
+  id: number;
+  title: string;
+  link: string; // URL string
+  createdAt: string; // ISO 8601 format
+  updatedAt: string; // ISO 8601 format
+}
 
+// sosial media id
+export interface SocialMediaByIdResponse {
+  status: number;
+  message: string;
+  data: SocialMediaItem;
+}
 
-
+interface SocialMediaItem {
+  id: number;
+  title: string;
+  link: string; // URL string
+  createdAt: string; // ISO 8601 format
+  updatedAt: string; // ISO 8601 format
+}
 

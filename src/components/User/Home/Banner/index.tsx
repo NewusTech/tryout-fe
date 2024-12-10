@@ -45,9 +45,9 @@ const BannerHome: React.FC = () => {
       <div className="relative h-full w-full">
         {/* Carousel Container */}
         <div className="h-full" ref={emblaRef}>
-          <div className="flex h-[650px]">
+          <div className="flex md:h-[650px] h-[180px]">
             {data?.data?.map((src, index) => (
-              <div key={index} className="min-w-full">
+              <div key={index} className="min-w-full rounded-xl overflow-hidden">
                 <Image
                   src={src?.image}
                   alt={`Banner ${index + 1}`}

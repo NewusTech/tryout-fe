@@ -212,45 +212,7 @@ const QuizPage: React.FC = () => {
             </header>
 
             <div className="flex md:flex-row flex-col mt-4 container mx-auto">
-                <div className="w-full md:w-1/4 rounded">
-                    <div className="flex justify-between">
-                        <h2 className="text-base md:text-lg font-semibold mb-4">Nomor Soal</h2>
-                        <h2 className="text-base md:text-lg mb-4">
-                            {currentQuestionIndex + 1}/{data.data.Question_forms.length}
-                        </h2>
-                    </div>
-                    <div className="grid grid-cols-8 gap-2 md:text-base text-xs">
-                        {data.data.Question_forms.map((_, index) => {
-                            const isAnswered = selectedOptions[data.data.Question_forms[index].id] ? true : false;
-
-                            return (
-                                <button
-                                    key={index}
-                                    className={`p-1.5 rounded ${isAnswered ? 'bg-succes text-white' : 'bg-error text-white'} ${currentQuestionIndex === index ? 'border-2 border-primary' : ''}`}
-                                    onClick={() => setCurrentQuestionIndex(index)}
-                                >
-                                    {index + 1}
-                                </button>
-                            );
-                        })}
-                    </div>
-                    <div className="flex justify-between md:mt-10 mt-5 md:text-base text-xs">
-                        <div className="bg-succes rounded-full flex flex-col items-center p-2 px-6 text-white">
-                            <div className="">{data.data.status.total_filled}</div>
-                            <div className="">Sudah Terisi</div>
-                        </div>
-                        <div className="bg-error rounded-full flex flex-col items-center p-2 px-6 text-white">
-                            <div className="">{data.data.status.total_unfilled}</div>
-                            <div className="">Belum Terisi</div>
-                        </div>
-                    </div>
-                    <Button
-                        className="bg-succes w-full mt-5 hover:bg-succes/80"
-                        onClick={handleOpenPopup}
-                    >Selesai</Button>
-                </div>
-
-                <div className="w-full md:w-3/4 md:px-4 md:ml-4 rounded">
+                <div className="w-full order-2 md:order-1 md:w-3/4 md:px-4 md:ml-4 rounded mt-5 md:mt-0">
                     <h2 className="text-primary md:text-xl text-base font-medium mb-5 md:mb-7">
                         {currentQuestion?.type_question_name}
                     </h2>
@@ -313,6 +275,43 @@ const QuizPage: React.FC = () => {
                             </Button>
                         </div>
                     </div>
+                </div>
+                <div className="w-full order-1 md:order-2 md:w-1/4 rounded">
+                    <div className="flex justify-between">
+                        <h2 className="text-base md:text-lg font-semibold mb-4">Nomor Soal</h2>
+                        <h2 className="text-base md:text-lg mb-4">
+                            {currentQuestionIndex + 1}/{data.data.Question_forms.length}
+                        </h2>
+                    </div>
+                    <div className="grid grid-cols-8 gap-2 md:text-base text-xs">
+                        {data.data.Question_forms.map((_, index) => {
+                            const isAnswered = selectedOptions[data.data.Question_forms[index].id] ? true : false;
+
+                            return (
+                                <button
+                                    key={index}
+                                    className={`p-1.5 rounded ${isAnswered ? 'bg-succes text-white' : 'bg-error text-white'} ${currentQuestionIndex === index ? 'border-2 border-primary' : ''}`}
+                                    onClick={() => setCurrentQuestionIndex(index)}
+                                >
+                                    {index + 1}
+                                </button>
+                            );
+                        })}
+                    </div>
+                    <div className="flex justify-between md:mt-10 mt-5 md:text-base text-xs">
+                        <div className="bg-succes rounded-full flex flex-col items-center p-2 px-6 text-white">
+                            <div className="">{data.data.status.total_filled}</div>
+                            <div className="">Sudah Terisi</div>
+                        </div>
+                        <div className="bg-error rounded-full flex flex-col items-center p-2 px-6 text-white">
+                            <div className="">{data.data.status.total_unfilled}</div>
+                            <div className="">Belum Terisi</div>
+                        </div>
+                    </div>
+                    <Button
+                        className="bg-succes w-full mt-5 hover:bg-succes/80"
+                        onClick={handleOpenPopup}
+                    >Selesai</Button>
                 </div>
             </div>
             {/*  */}

@@ -4,9 +4,9 @@ import useSWR, { mutate } from "swr";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import Cookies from "js-cookie";
 import { showAlert } from "@/lib/swalAlert";
-import { adminTryoutFormData, bannerEditFormData, scheduleTryoutFormData, tncFormData, typePackageFormData, typePaymentFormData, typeQuestionFormData } from "@/validations";
+import { adminTryoutFormData, bannerEditFormData, scheduleTryoutFormData, socialMediaFormData, tncFormData, typePackageFormData, typePaymentFormData, typeQuestionFormData, whyUsFormData } from "@/validations";
 import { useRouter } from "next/navigation";
-import { BankSoalResponse, BannerResponse, BannerResponseOne, CompanyProfileResponse, DiscussionUser, FeedbackDetailResponse, PackageResponse, PackageResponseOne, PackageTryoutResponse, PackageTryoutResponseDetailOne, PackageTryoutResponseOne, PaymentResponseFilter, PaymentResponseOne, ProvincesResponse, QuestionFormResponse, QuestionResponseOne, QuizData, ReportPaymentSlugResponse, ResponseQuestionPackage, SnkResponse, StatistikUser, UserDetailResponse, UserInfoResponse } from "@/types/interface";
+import { BankSoalResponse, BannerResponse, BannerResponseOne, CertificateSettingResponse, CompanyProfileResponse, DiscussionUser, FeedbackDetailResponse, PackageResponse, PackageResponseOne, PackageTryoutResponse, PackageTryoutResponseDetailOne, PackageTryoutResponseOne, PaymentResponseFilter, PaymentResponseOne, ProvincesResponse, QuestionFormResponse, QuestionResponseOne, QuizData, ReportPaymentSlugResponse, ResponseQuestionPackage, SnkResponse, SocialMediaByIdResponse, StatistikUser, UserDetailResponse, UserInfoResponse, WhyUsByIdResponse, WhyUsResponse } from "@/types/interface";
 
 // Hook to fetch master data tipe paket
 const useGetTypePackage = (currentPage: number, search: string) => {
@@ -158,6 +158,33 @@ const postSubmitTypePayment = () => {
   return { handlePostSubmit };
 };
 
+// post create kenapa kami
+const postSubmitWhyUs = () => {
+  const navigate = useRouter(); // Pindahkan ke dalam fungsi
+  const axiosPrivate = useAxiosPrivate();
+
+  const handlePostSubmit = async (
+    data: whyUsFormData,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    try {
+      setLoading(true);
+      await axiosPrivate.post("/user/why/us/create", data);
+
+      showAlert("success", "Data berhasil ditambahkan!");
+      navigate.push("/data-master/why-us");
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.data?.[0]?.message || error.response?.data?.message  || "Gagal menambahkan data!";
+      showAlert("error", errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { handlePostSubmit };
+};
+
 // get one tipe pembayaran
 const useGetTypePaymentId = (id: string) => {
   const accessToken = Cookies.get("accessToken");
@@ -278,6 +305,27 @@ const useGetTypeQuestionId = (id: string) => {
   };
 };
 
+// get one kenapa kami
+const useGetWhyUsId = (id: string) => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<WhyUsByIdResponse>(
+    `/user/why/us/get/${id}`,
+    () =>
+      axiosPrivate
+        .get(`/user/why/us/get/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading,
+  };
+};
+
 // update tipe pertanyaan
 const putSubmitTypeQuestion = (id : string) => {
   const navigate = useRouter(); // Pindahkan ke dalam fungsi
@@ -296,6 +344,33 @@ const putSubmitTypeQuestion = (id : string) => {
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.data?.[0]?.message || error.response?.data?.message  || "Gagal menambahkan data!";
+      showAlert("error", errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { handlePostSubmit };
+};
+
+// update kenapa kami
+const putSubmitWhyUs = (id : string) => {
+  const navigate = useRouter(); // Pindahkan ke dalam fungsi
+  const axiosPrivate = useAxiosPrivate();
+
+  const handlePostSubmit = async (
+    data: whyUsFormData,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    try {
+      setLoading(true);
+      await axiosPrivate.put(`/user/why/us/update/${id}`, data);
+
+      showAlert("success", "Data berhasil ditambahkan!");
+      navigate.push("/data-master/why-us");
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.data?.[0]?.message || error.response?.data?.message  || "Gagal memperbarui data!";
       showAlert("error", errorMessage);
     } finally {
       setLoading(false);
@@ -1163,7 +1238,157 @@ const useGetUserHistoryAll = (currentPage: number, search: string) => {
   return { data, error, mutate, isValidating, isLoading };
 };
 
+// Hook to fetch master kenapa kami
+const useGetWhyUs = (currentPage?: number, search?: string) => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/user/why/us/get?page=${currentPage}&limit=10&search=${search}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/user/why/us/get?page=${currentPage}&limit=10&search=${search}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// Hook to fetch master kenapa kami
+const useGetWhyUsHome = () => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<WhyUsResponse>(
+    `/user/why/us/get`,
+    () =>
+      axiosPrivate
+        .get(
+          `/user/why/us/get`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// get setting sertifikat
+const useGetSettingSertifkat = () => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<CertificateSettingResponse>(
+    `/user/detail/setting/sertifikat`,
+    () =>
+      axiosPrivate
+        .get(`/user/detail/setting/sertifikat`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading,
+  };
+};
+
+// Hook to fetch master data sosial media
+const useGetMediaSocial = (currentPage?: number, search?: string) => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/user/social/media/get?page=${currentPage}&limit=10&search=${search}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/user/social/media/get?page=${currentPage}&limit=10&search=${search}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// user sosial media id
+const useGetMediaSosialId = (id?: string) => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<SocialMediaByIdResponse>(
+    `/user/social/media/get/${id}`,
+    () =>
+      axiosPrivate
+        .get(`/user/social/media/get/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading,
+  };
+};
+
+// update sosial media
+const putSocialMedia = (id : string) => {
+  const navigate = useRouter(); // Pindahkan ke dalam fungsi
+  const axiosPrivate = useAxiosPrivate();
+
+  const handlePostSubmit = async (
+    data: socialMediaFormData,
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    try {
+      setLoading(true);
+      await axiosPrivate.put(`/user/social/media/update/${id}`, data);
+
+      showAlert("success", "Data berhasil ditambahkan!");
+      navigate.push("/data-master/social-media");
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.data?.[0]?.message || error.response?.data?.message  || "Gagal memperbarui data!";
+      showAlert("error", errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { handlePostSubmit };
+};
+
 export {
+  useGetWhyUsHome,
+  putSocialMedia,
+  useGetMediaSosialId,
+  useGetMediaSocial,
+  useGetSettingSertifkat,
+  putSubmitWhyUs,
+  useGetWhyUsId,
+  postSubmitWhyUs,
+  useGetWhyUs,
   useGetUserHistoryAll,
   useGetDiscussionUserId,
   useGetHistoryUserId,
