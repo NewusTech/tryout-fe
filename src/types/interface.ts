@@ -868,3 +868,68 @@ export interface SertifikatResponse {
   };
 };
 
+
+// detail performa user
+interface TypeQuestionSummary {
+  typeName: string;
+  totalQuestions: number;
+  totalCorrect: number;
+  totalIncorrect: number;
+  totalUnanswered: number;
+  totalScore: number;
+}
+
+interface Status {
+  total_questions: number;
+  total_filled: number;
+  total_unfilled: number;
+  total_correct: number;
+  total_uncorrect: number;
+}
+
+interface QuestionDetailsData {
+  id: number;
+  title: string;
+  slug: string;
+  startTime: string;
+  endTime: string;
+  description: string;
+  duration: string;
+  price: string;
+  score: number;
+  typeQuestionSummary: TypeQuestionSummary[];
+  Question_forms: QuestionForm[];
+  status: Status;
+}
+
+export interface QuestionDetailsResponse {
+  code: number;
+  message: string;
+  data: QuestionDetailsData;
+}
+
+// dashboard
+export interface DashboardResponse {
+  status: number;
+  message: string;
+  data: DashboardData;
+}
+
+interface DashboardData {
+  totalUser: number;
+  totalPackageTryout: number;
+  totalBankSoal: number;
+  usersByPackageType: PackageType[];
+  tryoutMonthly: MonthlyTryout[];
+}
+
+interface PackageType {
+  type_package: string;
+  user_count: number;
+}
+
+interface MonthlyTryout {
+  month: string;
+  user_count: number;
+}
+

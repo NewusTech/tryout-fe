@@ -1,27 +1,9 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts"
-
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import {
-    ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
-} from "@/components/ui/chart"
-const chartData = [
-    { month: "Free", desktop: 186 },
-    { month: "Premium", desktop: 305 },
-    { month: "Platinum", desktop: 237 },
-]
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { useGetDashboard } from "@/services/api"
 
 const chartConfig = {
     desktop: {
@@ -31,6 +13,15 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function BarPackage() {
+    // Fetching data from the useGetDashboard hook
+    const { data } = useGetDashboard();
+
+    // Transform the API response to match the required chartData structure
+    const chartData = data?.data?.usersByPackageType?.map((packageType) => ({
+        month: packageType.type_package,
+        desktop: packageType.user_count,
+    })) || [];
+
     return (
         <div className='w-full h-[400px] rounded-3xl shadow p-6'>
             <CardHeader>

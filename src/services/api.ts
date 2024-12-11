@@ -22,6 +22,7 @@ import {
   BannerResponseOne,
   CertificateSettingResponse,
   CompanyProfileResponse,
+  DashboardResponse,
   DiscussionUser,
   FeedbackDetailResponse,
   PackageResponse,
@@ -32,6 +33,7 @@ import {
   PaymentResponseFilter,
   PaymentResponseOne,
   ProvincesResponse,
+  QuestionDetailsResponse,
   QuestionFormResponse,
   QuestionResponseOne,
   QuizData,
@@ -1428,7 +1430,52 @@ const useGetSertifikatId = (id?: string) => {
 
   return { data, error, mutate, isValidating, isLoading };
 };
+
+// performa statistik
+const useGetPerformaUserId = (id?: string) => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<QuestionDetailsResponse>(
+      `/user/report/result/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/user/report/result/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// dashboard superadmin
+const useGetDashboard = () => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<DashboardResponse>(
+      `/user/dashboard/superadmin`,
+      () =>
+        axiosPrivate
+          .get(`/user/dashboard/superadmin`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
 export {
+  useGetDashboard,
+  useGetPerformaUserId,
   useGetSertifikatId,
   useGetWhyUsHome,
   putSocialMedia,
