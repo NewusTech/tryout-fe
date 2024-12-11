@@ -119,23 +119,14 @@ export type sertifikatEditFormData = z.infer<typeof sertifikatEdit>;
 // paket tryout
 export const packageTryout = z
   .object({
-    title: z
-      .string()
-      .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    description: z
-      .string()
-      .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    duration: z
-      .string()
-      .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    price: z
-      .string()
-      .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    typepackage_id: z
-    .preprocess(
-        (val) => Number(val),
-        z.number().min(1, { message: "Jawaban tidak boleh kosong!" })
-      ),
+    title: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+    description: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+    duration: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+    price: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+    typepackage_id: z.preprocess(
+      (val) => Number(val),
+      z.number().min(1, { message: "Jawaban tidak boleh kosong!" })
+    ),
     total_question: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
@@ -144,74 +135,60 @@ export const packageTryout = z
 export type packageTryoutFormData = z.infer<typeof packageTryout>;
 
 // paket edit tryout
-export const editPackageTryout = z
-  .object({
-    title: z
-      .string()
-      .min(0, { message: "Jawaban tidak boleh kosong!" }),
-    description: z
-      .string()
-      .min(0, { message: "Jawaban tidak boleh kosong!" }),
-    duration: z
-      .string()
-      .min(0, { message: "Jawaban tidak boleh kosong!" }),
-    price: z
-      .string()
-      .min(0, { message: "Jawaban tidak boleh kosong!" }),
-    typepackage_id: z
-    .preprocess(
-        (val) => Number(val),
-        z.number().min(0, { message: "Jawaban tidak boleh kosong!" })
-      ),
-    total_question: z
-      .string()
-      .min(0, { message: "Jawaban tidak boleh kosong!" }),
-  })
+export const editPackageTryout = z.object({
+  title: z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
+  description: z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
+  duration: z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
+  price: z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
+  typepackage_id: z.preprocess(
+    (val) => Number(val),
+    z.number().min(0, { message: "Jawaban tidak boleh kosong!" })
+  ),
+  total_question: z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
+});
 export type editPackageTryoutFormData = z.infer<typeof editPackageTryout>;
 
 // Payment user
-export const payment = z
-.object({
+export const payment = z.object({
   name: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
   email: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
   telepon: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
   password: z.string().min(6, { message: "Password minimal harus 6 karakter" }),
   price: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
   receipt: z
-  .instanceof(File)
-  .refine((file) => file.size > 0, { message: "Gambar wajib diisi" }),
-  typepackage_id: z
-    .preprocess(
-      (val) => Number(val),
-      z.number().min(1, { message: "Jawaban tidak boleh kosong!" })
-    ),
-  })
-  .required();
-  export type paymentFormData = z.infer<typeof payment>;
+    .instanceof(File)
+    .optional()
+    .refine((file) => !file || file.size > 0, {
+      message: "Gambar wajib diisi!",
+    }),
+  typepackage_id: z.preprocess(
+    (val) => Number(val),
+    z.number().min(1, { message: "Jawaban tidak boleh kosong!" })
+  ),
+});
+export type paymentFormData = z.infer<typeof payment>;
 
-  // update user profile
-  // Master Data edit about
+// update user profile
+// Master Data edit about
 export const profileEdit = z.object({
   name: z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
   email: z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
   telepon: z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
   alamat: z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
-  tempat_lahir : z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
-  asal_instansi : z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
+  tempat_lahir: z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
+  asal_instansi: z.string().min(0, { message: "Jawaban tidak boleh kosong!" }),
   // tgl_lahir : z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
-  provinsi_id: z
-  .preprocess(
+  provinsi_id: z.preprocess(
     (val) => Number(val),
     z.number().min(0, { message: "Jawaban tidak boleh kosong!" })
   ),
-  kota_id: z
-    .preprocess(
-      (val) => Number(val),
-      z.number().min(0, { message: "Jawaban tidak boleh kosong!" })
-    ),
+  kota_id: z.preprocess(
+    (val) => Number(val),
+    z.number().min(0, { message: "Jawaban tidak boleh kosong!" })
+  ),
   gender: z.string({
-      required_error: "Jawaban tidak boleh kosong!",
-    }),
+    required_error: "Jawaban tidak boleh kosong!",
+  }),
   image_profile: z
     .instanceof(File)
     .optional()
@@ -224,18 +201,12 @@ export type profileEditFormData = z.infer<typeof profileEdit>;
 // jadwal tryout
 export const scheduleTryout = z
   .object({
-    title: z
-      .string()
-      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    title: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
     packagetryout_id: z
       .string()
       .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    tanggal: z
-      .string()
-      .min(1, { message: "Jawaban tidak boleh kosong!" }),
-    waktu: z
-      .string()
-      .min(1, { message: "Jawaban tidak boleh kosong!" }),
+    tanggal: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
+    waktu: z.string().min(1, { message: "Jawaban tidak boleh kosong!" }),
   })
   .required();
 export type scheduleTryoutFormData = z.infer<typeof scheduleTryout>;

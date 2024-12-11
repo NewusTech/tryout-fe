@@ -1,36 +1,9 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
-
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import {
-    ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
-} from "@/components/ui/chart"
-const chartData = [
-    { month: "January", desktop: 186 },
-    { month: "February", desktop: 305 },
-    { month: "March", desktop: 237 },
-    { month: "April", desktop: 73 },
-    { month: "May", desktop: 209 },
-    { month: "June", desktop: 214 },
-    { month: "July", desktop: 254 },
-    { month: "August", desktop: 114 },
-    { month: "September", desktop: 143 },
-    { month: "October", desktop: 241 },
-    { month: "November", desktop: 189 },
-    { month: "December", desktop: 214 },
-]
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { useGetDashboard } from "@/services/api"
 
 const chartConfig = {
     desktop: {
@@ -40,6 +13,15 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function ChartPengguna() {
+    // Fetch data from the API using the useGetDashboard hook
+    const { data } = useGetDashboard();
+
+    // Transform API data to match the format expected by the chart
+    const chartData = data?.data?.tryoutMonthly?.map((item) => ({
+        month: item.month,
+        desktop: item.user_count,
+    })) || [];
+
     return (
         <div className='w-full h-[450px] rounded-3xl shadow p-6'>
             <CardHeader>
@@ -61,7 +43,7 @@ export function ChartPengguna() {
                             tickLine={false}
                             axisLine={false}
                             tickMargin={8}
-                            tickFormatter={(value) => value.slice(0, 3)}
+                            tickFormatter={(value) => value.slice(0, 3)} // Shorten month names
                         />
                         <ChartTooltip
                             cursor={false}

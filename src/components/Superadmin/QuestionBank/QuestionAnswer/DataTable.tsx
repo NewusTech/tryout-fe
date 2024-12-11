@@ -100,13 +100,13 @@ const DataTable: React.FC<BankSoalResponse> = ({ headers, data, currentPage, sea
                                                                 </div>
                                                             </Link>
                                                         </DropdownMenuItem>
-                                                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                        {/* <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                                                             <Link className="w-full" href={`/question-bank/question-answer/edit`}>
                                                                 <div className="flex items-center gap-2 text-primary">
                                                                     Edit
                                                                 </div>
                                                             </Link>
-                                                        </DropdownMenuItem>
+                                                        </DropdownMenuItem> */}
                                                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                                                             <DeletePopupTitik onDelete={() => handleDelete(user?.id)} />
                                                         </DropdownMenuItem>

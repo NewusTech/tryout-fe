@@ -316,6 +316,31 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                             </div>
                                         </AccordionTrigger>
                                         <AccordionContent className="bg-primary-600/25 flex flex-col gap-2 mb-2 rounded-md">
+                                            <Menu link="/data-master/banner">
+                                                <span className="text-sm md:text-base">
+                                                    Banner Beranda
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/data-master/why-us">
+                                                <span className="text-sm md:text-base">
+                                                    Kenapa Kami
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/data-master/term-policies">
+                                                <span className="text-sm md:text-base">
+                                                    Ketentuan & Kebijakan
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/data-master/social-media">
+                                                <span className="text-sm md:text-base">
+                                                    Media Sosial
+                                                </span>
+                                            </Menu>
+                                            <Menu link="/data-master/setting-sertifikat">
+                                                <span className="text-sm md:text-base">
+                                                    Pengaturan Sertifikat
+                                                </span>
+                                            </Menu>
                                             <Menu link="/data-master/package-type">
                                                 <span className="text-sm md:text-base">
                                                     Tipe Paket
@@ -331,34 +356,9 @@ const LayoutPerusahaan = (props: LayoutPerusahaanProps) => {
                                                     Tipe Pertanyaan
                                                 </span>
                                             </Menu>
-                                            <Menu link="/data-master/term-policies">
-                                                <span className="text-sm md:text-base">
-                                                    Ketentuan & Kebijakan
-                                                </span>
-                                            </Menu>
                                             <Menu link="/data-master/about-company">
                                                 <span className="text-sm md:text-base">
                                                     Tentang Perusahaan
-                                                </span>
-                                            </Menu>
-                                            <Menu link="/data-master/banner">
-                                                <span className="text-sm md:text-base">
-                                                    Banner Beranda
-                                                </span>
-                                            </Menu>
-                                            <Menu link="/data-master/why-us">
-                                                <span className="text-sm md:text-base">
-                                                    Kenapa Kami
-                                                </span>
-                                            </Menu>
-                                            <Menu link="/data-master/social-media">
-                                                <span className="text-sm md:text-base">
-                                                    Media Sosial
-                                                </span>
-                                            </Menu>
-                                            <Menu link="/data-master/setting-sertifikat">
-                                                <span className="text-sm md:text-base">
-                                                    Pengaturan Sertifikat
                                                 </span>
                                             </Menu>
                                         </AccordionContent>

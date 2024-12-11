@@ -129,7 +129,7 @@ const ForgotPasswordPage = () => {
                             <div className="head my-3 mb-5 flex flex-col gap-3">
                                 <div className="log flex justify-center md:mb-7">
                                     <Image
-                                        src={data?.data?.sub_logo ?? "/assets/images/logo-login.png"}
+                                        src="/assets/images/logo-login2.png"
                                         alt="logo"
                                         width={400}
                                         height={400}

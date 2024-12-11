@@ -25,7 +25,7 @@ const History = () => {
         setCurrentPage(1); // Reset to page 1
     };
 
-    const id = Cookies.get("history");
+    const id = Cookies.get("history") || Cookies.get("package");
     // INTEGRASI
     const { data } = useGetUserHistory(currentPage, search, id as string);
     // INTEGRASI

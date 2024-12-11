@@ -8,8 +8,13 @@ import Package from "../../../../../public/assets/icons/Package";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Statistik from "@/components/Superadmin/Dashboard/Statistik";
 import Monitoring from "@/components/Superadmin/Dashboard/Monitoring";
+import { useGetDashboard } from "@/services/api";
+import LoadingPage from "@/components/ui/LoadingPage";
 
 const Dashboard = () => {
+    // INTEGRASI
+    const { data, isLoading } = useGetDashboard();
+    if (isLoading) return <div><LoadingPage /></div>;
 
     return (
         <div className="">
@@ -20,7 +25,7 @@ const Dashboard = () => {
                         <UserAll />
                     </div>
                     <div className="text-[#151D48] text-4xl font-semibold">
-                        1342
+                        {data?.data?.totalUser ?? "-"}
                     </div>
                     <div className="text-[#425166]">
                         Total Users
@@ -31,7 +36,7 @@ const Dashboard = () => {
                         <BankSoal />
                     </div>
                     <div className="text-[#151D48] text-4xl font-semibold">
-                        1342
+                        {data?.data?.totalBankSoal ?? "-"}
                     </div>
                     <div className="text-[#425166]">
                         Total Bank Soal
@@ -42,7 +47,7 @@ const Dashboard = () => {
                         <Package />
                     </div>
                     <div className="text-[#151D48] text-4xl font-semibold">
-                        1342
+                        {data?.data?.totalPackageTryout ?? "-"}
                     </div>
                     <div className="text-[#425166]">
                         Total Paket Tryout
