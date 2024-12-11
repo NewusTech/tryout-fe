@@ -24,7 +24,7 @@ const BarChart = () => {
     datasets: [
       {
         label: 'Nilai',
-        data: [dataUser?.data?.typeQuestionSummary[0].totalScore, dataUser?.data?.typeQuestionSummary[1].totalScore, dataUser?.data?.typeQuestionSummary[2].totalScore], // Data nilai
+        data: [dataUser?.data?.typeQuestionSummary[0]?.totalScore, dataUser?.data?.typeQuestionSummary[1]?.totalScore, dataUser?.data?.typeQuestionSummary[2]?.totalScore], // Data nilai
         backgroundColor: '#4A055B', // Warna batang
         borderRadius: 4, // Sudut melengkung batang
       },

@@ -99,8 +99,11 @@ const AddPayment = () => {
         formData.append('password', data.password);
         formData.append('typepackage_id', data.typepackage_id.toString());
         formData.append('price', data.price);
-        formData.append('receipt', data.receipt);
         formData.append('typepayment_id', (paymentMethod ?? 0).toString());
+        // Memeriksa jika image ada sebelum menambahkannya ke formData
+        if (data.receipt) {
+            formData.append('receipt', data.receipt);
+        }
 
         try {
             const response = await axiosPrivate.post(`/registerbyadmin`, formData, {

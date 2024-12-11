@@ -4,9 +4,48 @@ import useSWR, { mutate } from "swr";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import Cookies from "js-cookie";
 import { showAlert } from "@/lib/swalAlert";
-import { adminTryoutFormData, bannerEditFormData, scheduleTryoutFormData, socialMediaFormData, tncFormData, typePackageFormData, typePaymentFormData, typeQuestionFormData, whyUsFormData } from "@/validations";
+import {
+  adminTryoutFormData,
+  bannerEditFormData,
+  scheduleTryoutFormData,
+  socialMediaFormData,
+  tncFormData,
+  typePackageFormData,
+  typePaymentFormData,
+  typeQuestionFormData,
+  whyUsFormData,
+} from "@/validations";
 import { useRouter } from "next/navigation";
-import { BankSoalResponse, BannerResponse, BannerResponseOne, CertificateSettingResponse, CompanyProfileResponse, DiscussionUser, FeedbackDetailResponse, PackageResponse, PackageResponseOne, PackageTryoutResponse, PackageTryoutResponseDetailOne, PackageTryoutResponseOne, PaymentResponseFilter, PaymentResponseOne, ProvincesResponse, QuestionFormResponse, QuestionResponseOne, QuizData, ReportPaymentSlugResponse, ResponseQuestionPackage, SnkResponse, SocialMediaByIdResponse, StatistikUser, UserDetailResponse, UserInfoResponse, WhyUsByIdResponse, WhyUsResponse } from "@/types/interface";
+import {
+  BankSoalResponse,
+  BannerResponse,
+  BannerResponseOne,
+  CertificateSettingResponse,
+  CompanyProfileResponse,
+  DiscussionUser,
+  FeedbackDetailResponse,
+  PackageResponse,
+  PackageResponseOne,
+  PackageTryoutResponse,
+  PackageTryoutResponseDetailOne,
+  PackageTryoutResponseOne,
+  PaymentResponseFilter,
+  PaymentResponseOne,
+  ProvincesResponse,
+  QuestionFormResponse,
+  QuestionResponseOne,
+  QuizData,
+  ReportPaymentSlugResponse,
+  ResponseQuestionPackage,
+  SertifikatResponse,
+  SnkResponse,
+  SocialMediaByIdResponse,
+  StatistikUser,
+  UserDetailResponse,
+  UserInfoResponse,
+  WhyUsByIdResponse,
+  WhyUsResponse,
+} from "@/types/interface";
 
 // Hook to fetch master data tipe paket
 const useGetTypePackage = (currentPage: number, search: string) => {
@@ -49,7 +88,9 @@ const postSubmitTypePackage = () => {
       navigate.push("/data-master/package-type");
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.data?.[0]?.message || error.response?.data?.message  || "Gagal menambahkan data!";
+        error.response?.data?.data?.[0]?.message ||
+        error.response?.data?.message ||
+        "Gagal menambahkan data!";
       showAlert("error", errorMessage);
     } finally {
       setLoading(false);
@@ -64,24 +105,24 @@ const useGetTypePackageId = (id: string) => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<PackageResponseOne>(
-    `/user/type/package/get/${id}`,
-    () =>
-      axiosPrivate
-        .get(`/user/type/package/get/${id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<PackageResponseOne>(
+      `/user/type/package/get/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/user/type/package/get/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
-  return { data, error, mutate, isValidating, isLoading,
-  };
+  return { data, error, mutate, isValidating, isLoading };
 };
 
 // update tipe paket
-const putSubmitTypePackage = (id : string) => {
+const putSubmitTypePackage = (id: string) => {
   const navigate = useRouter(); // Pindahkan ke dalam fungsi
   const axiosPrivate = useAxiosPrivate();
 
@@ -97,7 +138,9 @@ const putSubmitTypePackage = (id : string) => {
       navigate.push("/data-master/package-type");
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.data?.[0]?.message || error.response?.data?.message  || "Gagal menambahkan data!";
+        error.response?.data?.data?.[0]?.message ||
+        error.response?.data?.message ||
+        "Gagal menambahkan data!";
       showAlert("error", errorMessage);
     } finally {
       setLoading(false);
@@ -148,7 +191,9 @@ const postSubmitTypePayment = () => {
       navigate.push("/data-master/payment-type");
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.data?.[0]?.message || error.response?.data?.message  || "Gagal menambahkan data!";
+        error.response?.data?.data?.[0]?.message ||
+        error.response?.data?.message ||
+        "Gagal menambahkan data!";
       showAlert("error", errorMessage);
     } finally {
       setLoading(false);
@@ -175,7 +220,9 @@ const postSubmitWhyUs = () => {
       navigate.push("/data-master/why-us");
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.data?.[0]?.message || error.response?.data?.message  || "Gagal menambahkan data!";
+        error.response?.data?.data?.[0]?.message ||
+        error.response?.data?.message ||
+        "Gagal menambahkan data!";
       showAlert("error", errorMessage);
     } finally {
       setLoading(false);
@@ -190,24 +237,24 @@ const useGetTypePaymentId = (id: string) => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<PaymentResponseOne>(
-    `/user/type/payment/get/${id}`,
-    () =>
-      axiosPrivate
-        .get(`/user/type/payment/get/${id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<PaymentResponseOne>(
+      `/user/type/payment/get/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/user/type/payment/get/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
-  return { data, error, mutate, isValidating, isLoading,
-  };
+  return { data, error, mutate, isValidating, isLoading };
 };
 
 // update tipe pembayaran
-const putSubmitTypePayment = (id : string) => {
+const putSubmitTypePayment = (id: string) => {
   const navigate = useRouter(); // Pindahkan ke dalam fungsi
   const axiosPrivate = useAxiosPrivate();
 
@@ -223,7 +270,9 @@ const putSubmitTypePayment = (id : string) => {
       navigate.push("/data-master/payment-type");
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.data?.[0]?.message || error.response?.data?.message  || "Gagal menambahkan data!";
+        error.response?.data?.data?.[0]?.message ||
+        error.response?.data?.message ||
+        "Gagal menambahkan data!";
       showAlert("error", errorMessage);
     } finally {
       setLoading(false);
@@ -274,7 +323,9 @@ const postSubmitTypeQuestion = () => {
       navigate.push("/data-master/question-type");
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.data?.[0]?.message || error.response?.data?.message  || "Gagal menambahkan data!";
+        error.response?.data?.data?.[0]?.message ||
+        error.response?.data?.message ||
+        "Gagal menambahkan data!";
       showAlert("error", errorMessage);
     } finally {
       setLoading(false);
@@ -289,20 +340,20 @@ const useGetTypeQuestionId = (id: string) => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<QuestionResponseOne>(
-    `/user/type/question/get/${id}`,
-    () =>
-      axiosPrivate
-        .get(`/user/type/question/get/${id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<QuestionResponseOne>(
+      `/user/type/question/get/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/user/type/question/get/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
-  return { data, error, mutate, isValidating, isLoading,
-  };
+  return { data, error, mutate, isValidating, isLoading };
 };
 
 // get one kenapa kami
@@ -310,24 +361,24 @@ const useGetWhyUsId = (id: string) => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<WhyUsByIdResponse>(
-    `/user/why/us/get/${id}`,
-    () =>
-      axiosPrivate
-        .get(`/user/why/us/get/${id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<WhyUsByIdResponse>(
+      `/user/why/us/get/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/user/why/us/get/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
-  return { data, error, mutate, isValidating, isLoading,
-  };
+  return { data, error, mutate, isValidating, isLoading };
 };
 
 // update tipe pertanyaan
-const putSubmitTypeQuestion = (id : string) => {
+const putSubmitTypeQuestion = (id: string) => {
   const navigate = useRouter(); // Pindahkan ke dalam fungsi
   const axiosPrivate = useAxiosPrivate();
 
@@ -343,7 +394,9 @@ const putSubmitTypeQuestion = (id : string) => {
       navigate.push("/data-master/question-type");
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.data?.[0]?.message || error.response?.data?.message  || "Gagal menambahkan data!";
+        error.response?.data?.data?.[0]?.message ||
+        error.response?.data?.message ||
+        "Gagal menambahkan data!";
       showAlert("error", errorMessage);
     } finally {
       setLoading(false);
@@ -354,7 +407,7 @@ const putSubmitTypeQuestion = (id : string) => {
 };
 
 // update kenapa kami
-const putSubmitWhyUs = (id : string) => {
+const putSubmitWhyUs = (id: string) => {
   const navigate = useRouter(); // Pindahkan ke dalam fungsi
   const axiosPrivate = useAxiosPrivate();
 
@@ -370,7 +423,9 @@ const putSubmitWhyUs = (id : string) => {
       navigate.push("/data-master/why-us");
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.data?.[0]?.message || error.response?.data?.message  || "Gagal memperbarui data!";
+        error.response?.data?.data?.[0]?.message ||
+        error.response?.data?.message ||
+        "Gagal memperbarui data!";
       showAlert("error", errorMessage);
     } finally {
       setLoading(false);
@@ -389,14 +444,11 @@ const useGetTnc = () => {
     `/user/tnc/get`,
     () =>
       axiosPrivate
-        .get(
-          `/user/tnc/get`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        )
+        .get(`/user/tnc/get`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
         .then((res) => res.data) // Ensure `res.data` contains the desired data
   );
 
@@ -419,11 +471,14 @@ const putSubmitTnc = () => {
       showAlert("success", "Data berhasil diperbarui!");
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.data?.[0]?.message || error.response?.data?.message  || "Gagal memperbarui data!";
+        error.response?.data?.data?.[0]?.message ||
+        error.response?.data?.message ||
+        "Gagal memperbarui data!";
       showAlert("error", errorMessage);
     } finally {
       setLoading(false);
-    }mutate(`/user/tnc/get`);
+    }
+    mutate(`/user/tnc/get`);
   };
 
   return { handlePostSubmit };
@@ -434,20 +489,18 @@ const useGetAboutCompany = () => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<CompanyProfileResponse>(
-    `/user/company/profile/get/1`,
-    () =>
-      axiosPrivate
-        .get(
-          `/user/company/profile/get/1`,
-          {
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<CompanyProfileResponse>(
+      `/user/company/profile/get/1`,
+      () =>
+        axiosPrivate
+          .get(`/user/company/profile/get/1`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          }
-        )
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
   return { data, error, mutate, isValidating, isLoading };
 };
@@ -461,14 +514,11 @@ const useGetBanner = (currentPage: number) => {
     `/user/banner/get?page=${currentPage}&limit=10`,
     () =>
       axiosPrivate
-        .get(
-          `/user/banner/get?page=${currentPage}&limit=10`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        )
+        .get(`/user/banner/get?page=${currentPage}&limit=10`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
         .then((res) => res.data) // Ensure `res.data` contains the desired data
   );
 
@@ -480,20 +530,20 @@ const useGetBannerId = (id: string) => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<BannerResponseOne>(
-    `/user/banner/get/${id}`,
-    () =>
-      axiosPrivate
-        .get(`/user/banner/get/${id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<BannerResponseOne>(
+      `/user/banner/get/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/user/banner/get/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
-  return { data, error, mutate, isValidating, isLoading,
-  };
+  return { data, error, mutate, isValidating, isLoading };
 };
 
 // banner home
@@ -501,26 +551,24 @@ const useGetBannerHome = () => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<BannerResponse>(
-    `/user/banner/get?limit=99999`,
-    () =>
-      axiosPrivate
-        .get(
-          `/user/banner/get?limit=99999`,
-          {
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<BannerResponse>(
+      `/user/banner/get?limit=99999`,
+      () =>
+        axiosPrivate
+          .get(`/user/banner/get?limit=99999`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          }
-        )
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
   return { data, error, mutate, isValidating, isLoading };
 };
 
 // get bank soal
-const useGetBankQuestion = (currentPage: number, search: string, ) => {
+const useGetBankQuestion = (currentPage: number, search: string) => {
   // const [accessToken] = useCookies("accessToken", "");
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
@@ -544,7 +592,7 @@ const useGetBankQuestion = (currentPage: number, search: string, ) => {
 };
 
 // get paket tryot
-const useGetTryoutPackage = (currentPage: number, search: string, ) => {
+const useGetTryoutPackage = (currentPage: number, search: string) => {
   // const [accessToken] = useCookies("accessToken", "");
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
@@ -573,24 +621,21 @@ const useGetTypePackageFilter = () => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<PackageResponse>(
-    `/user/type/package/get?limit=9999`,
-    () =>
-      axiosPrivate
-        .get(
-          `/user/type/package/get?limit=9999`,
-          {
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<PackageResponse>(
+      `/user/type/package/get?limit=9999`,
+      () =>
+        axiosPrivate
+          .get(`/user/type/package/get?limit=9999`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          }
-        )
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
   return { data, error, mutate, isValidating, isLoading };
 };
-
 
 // filter tipe pembayaran
 const useGetTypePaymentFilter = () => {
@@ -598,44 +643,40 @@ const useGetTypePaymentFilter = () => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<PaymentResponseFilter>(
-    `/user/type/payment/get?limit=9999`,
-    () =>
-      axiosPrivate
-        .get(
-          `/user/type/payment/get?limit=9999`,
-          {
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<PaymentResponseFilter>(
+      `/user/type/payment/get?limit=9999`,
+      () =>
+        axiosPrivate
+          .get(`/user/type/payment/get?limit=9999`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          }
-        )
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
   return { data, error, mutate, isValidating, isLoading };
 };
 
 // get bank soal tipe
-const useGetBankQuestionType = (id: number, ) => {
+const useGetBankQuestionType = (id: number) => {
   // const [accessToken] = useCookies("accessToken", "");
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<BankSoalResponse>(
-    `/user/bank/question/get/${id}`,
-    () =>
-      axiosPrivate
-        .get(
-          `/user/bank/question/get/${id}`,
-          {
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<BankSoalResponse>(
+      `/user/bank/question/get/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/user/bank/question/get/${id}`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          }
-        )
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
   return { data, error, mutate, isValidating, isLoading };
 };
@@ -645,20 +686,20 @@ const useGetQuestionPackageId = (id?: string) => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<ResponseQuestionPackage>(
-    `/user/question/form/${id}`,
-    () =>
-      axiosPrivate
-        .get(`/user/question/form/${id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<ResponseQuestionPackage>(
+      `/user/question/form/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/user/question/form/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
-  return { data, error, mutate, isValidating, isLoading,
-  };
+  return { data, error, mutate, isValidating, isLoading };
 };
 
 // get paket soal (user) quiz
@@ -678,8 +719,7 @@ const useGetQuestionQuizId = (id?: string) => {
         .then((res) => res.data) // Ensure `res.data` contains the desired data
   );
 
-  return { data, error, mutate, isValidating, isLoading,
-  };
+  return { data, error, mutate, isValidating, isLoading };
 };
 
 // user get paket tryout
@@ -687,49 +727,50 @@ const useGetUserTryoutPackage = (currentPage: number, search: string) => {
   const accessToken = Cookies.get("accessToken"); // Mendapatkan accessToken
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<PackageTryoutResponse>(
-    accessToken ? // Pastikan hanya memanggil API jika accessToken ada
-      `/user/package/tryout/get?page=${currentPage}&limit=10&search=${search}` : null, // null jika token tidak ada
-    () =>
-      axiosPrivate
-        .get(
-          `/user/package/tryout/get?page=${currentPage}&limit=10&search=${search}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        )
-        .then((res) => res.data) // Pastikan `res.data` berisi data yang diinginkan
-  );
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<PackageTryoutResponse>(
+      accessToken // Pastikan hanya memanggil API jika accessToken ada
+        ? `/user/package/tryout/get?page=${currentPage}&limit=10&search=${search}`
+        : null, // null jika token tidak ada
+      () =>
+        axiosPrivate
+          .get(
+            `/user/package/tryout/get?page=${currentPage}&limit=10&search=${search}`,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          )
+          .then((res) => res.data) // Pastikan `res.data` berisi data yang diinginkan
+    );
 
   return { data, error, mutate, isValidating, isLoading };
 };
-
 
 // user get paket tryout id
 const useGetUserTryoutPackageId = (id?: string) => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<PackageTryoutResponseOne>(
-    `/user/package/tryout/get/${id}`,
-    () =>
-      axiosPrivate
-        .get(`/user/package/tryout/get/${id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<PackageTryoutResponseOne>(
+      `/user/package/tryout/get/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/user/package/tryout/get/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
-  return { data, error, mutate, isValidating, isLoading,
-  };
+  return { data, error, mutate, isValidating, isLoading };
 };
 
 // get payment table
-const useGetPaymentTryout = (currentPage: number, search: string, ) => {
+const useGetPaymentTryout = (currentPage: number, search: string) => {
   // const [accessToken] = useCookies("accessToken", "");
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
@@ -757,24 +798,24 @@ const useGetUserTryoutPaymentSlug = (slug?: string) => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<ReportPaymentSlugResponse>(
-    `/user/report/payment/${slug}`,
-    () =>
-      axiosPrivate
-        .get(`/user/report/payment/${slug}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<ReportPaymentSlugResponse>(
+      `/user/report/payment/${slug}`,
+      () =>
+        axiosPrivate
+          .get(`/user/report/payment/${slug}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
-  return { data, error, mutate, isValidating, isLoading,
-  };
+  return { data, error, mutate, isValidating, isLoading };
 };
 
 // get feedback table
-const useGetFeedbackUser = (currentPage: number, search: string, ) => {
+const useGetFeedbackUser = (currentPage: number, search: string) => {
   // const [accessToken] = useCookies("accessToken", "");
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
@@ -802,24 +843,24 @@ const useGetUserFeedbackId = (id?: string) => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<FeedbackDetailResponse>(
-    `/user/history/feedback/detail/${id}`,
-    () =>
-      axiosPrivate
-        .get(`/user/history/feedback/detail/${id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<FeedbackDetailResponse>(
+      `/user/history/feedback/detail/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/user/history/feedback/detail/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
-  return { data, error, mutate, isValidating, isLoading,
-  };
+  return { data, error, mutate, isValidating, isLoading };
 };
 
 // get report table
-const useGetReportTryout = (currentPage: number, search: string, ) => {
+const useGetReportTryout = (currentPage: number, search: string) => {
   // const [accessToken] = useCookies("accessToken", "");
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
@@ -847,24 +888,24 @@ const useGetUserProfileId = (slug?: string) => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<UserInfoResponse>(
-    `/user/info/get/${slug}`,
-    () =>
-      axiosPrivate
-        .get(`/user/info/get/${slug}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<UserInfoResponse>(
+      `/user/info/get/${slug}`,
+      () =>
+        axiosPrivate
+          .get(`/user/info/get/${slug}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
-  return { data, error, mutate, isValidating, isLoading,
-  };
+  return { data, error, mutate, isValidating, isLoading };
 };
 
 // get report table
-const useGetUserAll = (currentPage: number, search: string, ) => {
+const useGetUserAll = (currentPage: number, search: string) => {
   // const [accessToken] = useCookies("accessToken", "");
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
@@ -873,14 +914,11 @@ const useGetUserAll = (currentPage: number, search: string, ) => {
     `/user/get?page=${currentPage}&limit=10&search=${search}`,
     () =>
       axiosPrivate
-        .get(
-          `/user/get?page=${currentPage}&limit=10&search=${search}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        )
+        .get(`/user/get?page=${currentPage}&limit=10&search=${search}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
         .then((res) => res.data) // Ensure `res.data` contains the desired data
   );
 
@@ -892,20 +930,20 @@ const useGetUserDetailId = (slug?: string) => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<UserDetailResponse>(
-    `/user/get/${slug}`,
-    () =>
-      axiosPrivate
-        .get(`/user/get/${slug}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<UserDetailResponse>(
+      `/user/get/${slug}`,
+      () =>
+        axiosPrivate
+          .get(`/user/get/${slug}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
-  return { data, error, mutate, isValidating, isLoading,
-  };
+  return { data, error, mutate, isValidating, isLoading };
 };
 
 // user get detail bank soal id
@@ -913,20 +951,20 @@ const useGetBankSoalDetailId = (id?: string) => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<QuestionFormResponse>(
-    `/user/question/get/${id}`,
-    () =>
-      axiosPrivate
-        .get(`/user/question/get/${id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<QuestionFormResponse>(
+      `/user/question/get/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/user/question/get/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
-  return { data, error, mutate, isValidating, isLoading,
-  };
+  return { data, error, mutate, isValidating, isLoading };
 };
 
 // get filter provinsi
@@ -935,20 +973,18 @@ const useGetProvinsi = () => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<ProvincesResponse>(
-    `/user/provinsi/get?limit=99999`,
-    () =>
-      axiosPrivate
-        .get(
-          `/user/provinsi/get?limit=99999`,
-          {
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<ProvincesResponse>(
+      `/user/provinsi/get?limit=99999`,
+      () =>
+        axiosPrivate
+          .get(`/user/provinsi/get?limit=99999`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          }
-        )
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
   return { data, error, mutate, isValidating, isLoading };
 };
@@ -959,20 +995,18 @@ const useGetKota = () => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<ProvincesResponse>(
-    `/user/kota/get?limit=99999`,
-    () =>
-      axiosPrivate
-        .get(
-          `/user/kota/get?limit=99999`,
-          {
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<ProvincesResponse>(
+      `/user/kota/get?limit=99999`,
+      () =>
+        axiosPrivate
+          .get(`/user/kota/get?limit=99999`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          }
-        )
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
   return { data, error, mutate, isValidating, isLoading };
 };
@@ -982,21 +1016,20 @@ const useGetProfileNav = (slug?: string) => {
   const accessToken = Cookies.get("accessToken"); // Mendapatkan accessToken
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<UserInfoResponse>(
-    accessToken ? // Pastikan hanya memanggil API jika accessToken ada
-      `/user/info/get/${slug}` : null, // null jika token tidak ada
-    () =>
-      axiosPrivate
-        .get(
-          `/user/info/get/${slug}`,
-          {
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<UserInfoResponse>(
+      accessToken // Pastikan hanya memanggil API jika accessToken ada
+        ? `/user/info/get/${slug}`
+        : null, // null jika token tidak ada
+      () =>
+        axiosPrivate
+          .get(`/user/info/get/${slug}`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          }
-        )
-        .then((res) => res.data) // Pastikan `res.data` berisi data yang diinginkan
-  );
+          })
+          .then((res) => res.data) // Pastikan `res.data` berisi data yang diinginkan
+    );
 
   return { data, error, mutate, isValidating, isLoading };
 };
@@ -1006,24 +1039,24 @@ const useGetPackageDetailId = (id?: string) => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<PackageTryoutResponseDetailOne>(
-    `/user/package/tryout/get/${id}`,
-    () =>
-      axiosPrivate
-        .get(`/user/package/tryout/get/${id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<PackageTryoutResponseDetailOne>(
+      `/user/package/tryout/get/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/user/package/tryout/get/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
-  return { data, error, mutate, isValidating, isLoading,
-  };
+  return { data, error, mutate, isValidating, isLoading };
 };
 
 // get jadwal tryout
-const useGetSchedule = (currentPage: number, search: string, ) => {
+const useGetSchedule = (currentPage: number, search: string) => {
   // const [accessToken] = useCookies("accessToken", "");
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
@@ -1052,20 +1085,18 @@ const useGetTryoutPackageFilter = () => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<PackageTryoutResponse>(
-    `/user/package/tryout/get?limit=9999`,
-    () =>
-      axiosPrivate
-        .get(
-          `/user/package/tryout/get?limit=9999`,
-          {
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<PackageTryoutResponse>(
+      `/user/package/tryout/get?limit=9999`,
+      () =>
+        axiosPrivate
+          .get(`/user/package/tryout/get?limit=9999`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          }
-        )
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
   return { data, error, mutate, isValidating, isLoading };
 };
@@ -1087,7 +1118,9 @@ const postSubmitSchedule = () => {
       navigate.push("/tryout/schedule");
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.data?.[0]?.message || error.response?.data?.message  || "Gagal menambahkan data!";
+        error.response?.data?.data?.[0]?.message ||
+        error.response?.data?.message ||
+        "Gagal menambahkan data!";
       showAlert("error", errorMessage);
     } finally {
       setLoading(false);
@@ -1098,7 +1131,7 @@ const postSubmitSchedule = () => {
 };
 
 // get report table
-const useGetUserAllAdmin = (currentPage: number, search: string, ) => {
+const useGetUserAllAdmin = (currentPage: number, search: string) => {
   // const [accessToken] = useCookies("accessToken", "");
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
@@ -1107,14 +1140,11 @@ const useGetUserAllAdmin = (currentPage: number, search: string, ) => {
     `/admin/get?page=${currentPage}&limit=10&search=${search}`,
     () =>
       axiosPrivate
-        .get(
-          `/admin/get?page=${currentPage}&limit=10&search=${search}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        )
+        .get(`/admin/get?page=${currentPage}&limit=10&search=${search}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
         .then((res) => res.data) // Ensure `res.data` contains the desired data
   );
 
@@ -1138,7 +1168,9 @@ const postSubmitAdmin = () => {
       navigate.push("/user/admin");
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.data?.[0]?.message || error.response?.data?.message  || "Gagal menambahkan data!";
+        error.response?.data?.data?.[0]?.message ||
+        error.response?.data?.message ||
+        "Gagal menambahkan data!";
       showAlert("error", errorMessage);
     } finally {
       setLoading(false);
@@ -1149,7 +1181,7 @@ const postSubmitAdmin = () => {
 };
 
 // get history user
-const useGetUserHistory = (currentPage: number, search: string, id:string) => {
+const useGetUserHistory = (currentPage: number, search: string, id: string) => {
   // const [accessToken] = useCookies("accessToken", "");
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
@@ -1177,20 +1209,20 @@ const useGetHistoryUserId = (id?: string) => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<StatistikUser>(
-    `/user/history/tryout/${id}`,
-    () =>
-      axiosPrivate
-        .get(`/user/history/tryout/${id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<StatistikUser>(
+      `/user/history/tryout/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/user/history/tryout/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
-  return { data, error, mutate, isValidating, isLoading,
-  };
+  return { data, error, mutate, isValidating, isLoading };
 };
 
 // user statistik pembahasan id
@@ -1198,20 +1230,20 @@ const useGetDiscussionUserId = (id?: string) => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<DiscussionUser>(
-    `/user/discussion/tryout/${id}`,
-    () =>
-      axiosPrivate
-        .get(`/user/discussion/tryout/${id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<DiscussionUser>(
+      `/user/discussion/tryout/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/user/discussion/tryout/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
-  return { data, error, mutate, isValidating, isLoading,
-  };
+  return { data, error, mutate, isValidating, isLoading };
 };
 
 // get history user all
@@ -1248,14 +1280,11 @@ const useGetWhyUs = (currentPage?: number, search?: string) => {
     `/user/why/us/get?page=${currentPage}&limit=10&search=${search}`,
     () =>
       axiosPrivate
-        .get(
-          `/user/why/us/get?page=${currentPage}&limit=10&search=${search}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        )
+        .get(`/user/why/us/get?page=${currentPage}&limit=10&search=${search}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
         .then((res) => res.data) // Ensure `res.data` contains the desired data
   );
 
@@ -1268,20 +1297,18 @@ const useGetWhyUsHome = () => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<WhyUsResponse>(
-    `/user/why/us/get`,
-    () =>
-      axiosPrivate
-        .get(
-          `/user/why/us/get`,
-          {
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<WhyUsResponse>(
+      `/user/why/us/get`,
+      () =>
+        axiosPrivate
+          .get(`/user/why/us/get`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          }
-        )
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
   return { data, error, mutate, isValidating, isLoading };
 };
@@ -1291,20 +1318,20 @@ const useGetSettingSertifkat = () => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<CertificateSettingResponse>(
-    `/user/detail/setting/sertifikat`,
-    () =>
-      axiosPrivate
-        .get(`/user/detail/setting/sertifikat`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<CertificateSettingResponse>(
+      `/user/detail/setting/sertifikat`,
+      () =>
+        axiosPrivate
+          .get(`/user/detail/setting/sertifikat`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
-  return { data, error, mutate, isValidating, isLoading,
-  };
+  return { data, error, mutate, isValidating, isLoading };
 };
 
 // Hook to fetch master data sosial media
@@ -1336,24 +1363,24 @@ const useGetMediaSosialId = (id?: string) => {
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
-  const { data, error, mutate, isValidating, isLoading } = useSWR<SocialMediaByIdResponse>(
-    `/user/social/media/get/${id}`,
-    () =>
-      axiosPrivate
-        .get(`/user/social/media/get/${id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((res) => res.data) // Ensure `res.data` contains the desired data
-  );
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<SocialMediaByIdResponse>(
+      `/user/social/media/get/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/user/social/media/get/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
 
-  return { data, error, mutate, isValidating, isLoading,
-  };
+  return { data, error, mutate, isValidating, isLoading };
 };
 
 // update sosial media
-const putSocialMedia = (id : string) => {
+const putSocialMedia = (id: string) => {
   const navigate = useRouter(); // Pindahkan ke dalam fungsi
   const axiosPrivate = useAxiosPrivate();
 
@@ -1369,7 +1396,9 @@ const putSocialMedia = (id : string) => {
       navigate.push("/data-master/social-media");
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.data?.[0]?.message || error.response?.data?.message  || "Gagal memperbarui data!";
+        error.response?.data?.data?.[0]?.message ||
+        error.response?.data?.message ||
+        "Gagal memperbarui data!";
       showAlert("error", errorMessage);
     } finally {
       setLoading(false);
@@ -1379,7 +1408,28 @@ const putSocialMedia = (id : string) => {
   return { handlePostSubmit };
 };
 
+// get sertifikat
+const useGetSertifikatId = (id?: string) => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<SertifikatResponse>(
+      `/user/pdf/${id}/sertifikat`,
+      () =>
+        axiosPrivate
+          .get(`/user/pdf/${id}/sertifikat`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
 export {
+  useGetSertifikatId,
   useGetWhyUsHome,
   putSocialMedia,
   useGetMediaSosialId,
@@ -1417,7 +1467,7 @@ export {
   useGetUserTryoutPackage,
   useGetQuestionPackageId,
   useGetBankQuestionType,
-  useGetTypePackageFilter, 
+  useGetTypePackageFilter,
   useGetTryoutPackage,
   useGetBankQuestion,
   useGetBannerHome,
@@ -1426,15 +1476,15 @@ export {
   useGetAboutCompany,
   putSubmitTnc,
   useGetTnc,
-  useGetTypePackage, 
+  useGetTypePackage,
   postSubmitTypePackage,
   useGetTypePackageId,
   putSubmitTypePackage,
-  useGetTypePayment, 
+  useGetTypePayment,
   postSubmitTypePayment,
   useGetTypePaymentId,
   putSubmitTypePayment,
-  useGetTypeQuestion, 
+  useGetTypeQuestion,
   postSubmitTypeQuestion,
   useGetTypeQuestionId,
   putSubmitTypeQuestion,

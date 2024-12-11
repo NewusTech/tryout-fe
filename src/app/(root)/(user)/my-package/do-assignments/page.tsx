@@ -13,16 +13,16 @@ import LoadingPage from '@/components/ui/LoadingPage';
 
 const DoAssignments = () => {
     const [loading, setLoading] = useState(false);
-    
+
     const id = Cookies.get("package");
     const { data: dataUser, isLoading } = useGetUserTryoutPackageId(id as string);
     const axiosPrivate = useAxiosPrivate();
     const navigate = useRouter();
-    
+
     const handleStart = async () => {
         try {
             setLoading(true);
-            await axiosPrivate.post(`/user/start/time/tryout/${id}`, );
+            await axiosPrivate.post(`/user/start/time/tryout/${id}`,);
         } catch (error: any) {
             const errorMessage =
                 error?.response?.data?.data?.[0]?.message ||
@@ -30,7 +30,7 @@ const DoAssignments = () => {
                 "Gagal memulai tryout!";
         } finally {
             setLoading(false);
-        } 
+        }
         navigate.push("/my-package/do-assignments/start");
     };
 
@@ -95,15 +95,15 @@ const DoAssignments = () => {
                                         </div>
                                         <div className="flex flex-col gap-2">
                                             <div className="flex gap-2">
-                                                110
+                                                65
                                                 <VerifIcon />
                                             </div>
                                             <div className="flex gap-2">
-                                                110
+                                                80
                                                 <VerifIcon />
                                             </div>
                                             <div className="flex gap-2">
-                                                110
+                                                166
                                                 <VerifIcon />
                                             </div>
                                         </div>

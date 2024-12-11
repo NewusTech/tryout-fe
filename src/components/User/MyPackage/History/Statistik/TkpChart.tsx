@@ -12,8 +12,8 @@ const TkpChart = () => {
             <h2 className="text-center font-bold text-lg mb-4">TWK</h2>
             {/* Statistik */}
             <div className="text-sm flex flex-col gap-1 mb-4">
-            <p>Skor Anda: <span className="font-bold">{dataUser?.data?.typeQuestionSummary[2].totalScore ?? "-"}</span></p>
-            <p>Jumlah Soal: <span className="font-bold">{dataUser?.data?.typeQuestionSummary[2].totalQuestions ?? "-"}</span></p>
+            <p>Skor Anda: <span className="font-bold">{dataUser?.data?.typeQuestionSummary[2]?.totalScore ?? "-"}</span></p>
+            <p>Jumlah Soal: <span className="font-bold">{dataUser?.data?.typeQuestionSummary[2]?.totalQuestions ?? "-"}</span></p>
                 <p className="text-primary">
                     5 Point : <span className="font-bold">30</span>
                 </p>

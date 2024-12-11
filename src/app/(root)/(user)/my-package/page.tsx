@@ -50,10 +50,12 @@ const MyPackage = () => {
 
     const handleStart = (id: string) => {
         setPackageStart(id);
+        Cookies.remove("history");
         router.push("/my-package/do-assignments");
     };
     const handleHistory = (id: string) => {
         setPackageHistory(id);
+        Cookies.remove("package");
         router.push("/my-package/history");
     };
 

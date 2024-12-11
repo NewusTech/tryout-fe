@@ -22,6 +22,7 @@ const PembahasanPage: React.FC = () => {
       kunciJawaban: string;
       namaTipe : string;
       tipePertanyaan: number;
+      isCorrect: boolean;
       nilai: number;
       pembahasan: string;
     }[]
@@ -34,6 +35,7 @@ const PembahasanPage: React.FC = () => {
         (question: any, index: number) => ({
           nomor: index + 1,
           pertanyaan: question.field, // Menghapus tag HTML dari soal
+          isCorrect: question.isCorrect, // Menghapus tag HTML dari soal
           pilihanJawaban: question.datajson.map((item: any) => item.key),
           jawabanKamu: question.answer,
           tipePertanyaan: question.type_question_id,
@@ -41,7 +43,7 @@ const PembahasanPage: React.FC = () => {
           kunciJawaban:
             question.type_question_id === 3 ? undefined : question.correct_answer.toString(), // Tidak menampilkan kunci untuk tipe ID 3
           nilai: question.isCorrect ? question.points : 0,
-          pembahasan: question.discussion.replace(/<\/?[^>]+(>|$)/g, ""), // Menghapus tag HTML dari pembahasan
+          pembahasan: question.discussion, // Menghapus tag HTML dari pembahasan
         })
       );
       setSoalData(formattedData);
@@ -148,7 +150,7 @@ const PembahasanPage: React.FC = () => {
 
           <div>
             <h2 className="font-medium md:text-2xl text-lg md:mb-4 mb-2">Pembahasan</h2>
-            <p className="text-justify md:text-base text-xs">{soal.pembahasan}</p>
+            <div className="text-justify md:text-base text-xs" dangerouslySetInnerHTML={{ __html: soal.pembahasan ?? "-" }} />
           </div>
           {/* Navigation */}
           <div className="flex md:gap-5 gap-3 justify-center mt-8">
@@ -195,7 +197,7 @@ const PembahasanPage: React.FC = () => {
                 key={item.nomor}
                 className={`w-8 h-8 text-xs md:text-base rounded shadow ${item.nomor === currentNomor
                   ? "bg-primary text-white"
-                  : item.jawabanKamu === item.kunciJawaban
+                  : item.isCorrect
                     ? "bg-succes text-white"
                     : item.jawabanKamu
                       ? "bg-red-500 text-white"

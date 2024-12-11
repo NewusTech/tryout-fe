@@ -1,19 +1,20 @@
 "use client";
 import Navbar from '@/components/User/Home/Navbar';
 import Link from 'next/link';
-import { useState } from 'react';
 import BarChart from '@/components/User/MyPackage/History/Statistik/chart';
 import TiuChart from '@/components/User/MyPackage/History/Statistik/TiuChart';
 import TwkChart from '@/components/User/MyPackage/History/Statistik/TwkChart';
 import TkpChart from '@/components/User/MyPackage/History/Statistik/TkpChart';
 import { useParams } from 'next/navigation';
-import { useGetHistoryUserId } from '@/services/api';
+import { useGetHistoryUserId, useGetSertifikatId } from '@/services/api';
 import ArrowBread from '../../../../../../../../public/assets/icons/ArrowBread';
+import DownloadIcon from '../../../../../../../../public/assets/icons/DownloadIcon';
 
 const Statistik = () => {
   // Integrasi API
   const { id } = useParams();
   const { data } = useGetHistoryUserId(id as string);
+  const { data: dataUser } = useGetSertifikatId(id as string);
 
   return (
     <div>
@@ -31,7 +32,17 @@ const Statistik = () => {
             </div>
             {/* Breadcrumb */}
             {/* Content */}
-            <div className="text-2xl font-semibold my-4">Statistik</div>
+            <div className="flex items-center justify-between">
+              <div className="text-2xl font-semibold my-4">Statistik</div>
+              <Link
+              target="_blank" 
+              href={dataUser?.data?.sertifikat ?? "-"}
+              className='px-6 py-2.5 rounded-full text-primary flex gap-3 items-center bg-white hover:bg-gray-50 border border-primary transition ease-in-out delay-150 hover:-translate-y-1'
+              >
+                <DownloadIcon />
+                Unduh Sertifikat
+              </Link>
+            </div>
             <div className="text-xl font-semibold my-2 text-primary">{data?.data?.title ?? "-"}</div>
             {/* card */}
             <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
@@ -50,15 +61,15 @@ const Statistik = () => {
               <div className="md:col-span-2 order-3 md:order-2 flex md:flex-col flex-row md:gap-4 gap-2">
                 <div className="flex flex-col md:h-[130px] h-[100px] w-full items-center shadow-md justify-center gap-1 bg-[#F4D9D04D]/30 rounded-2xl p-4 text-primary">
                   <div className="text-xl md:text-2xl font-medium">TWK</div>
-                  <div className="md:text-base text-xs">{data?.data?.typeQuestionSummary[0].totalScore ?? "-"} dari 65</div>
+                  <div className="md:text-base text-xs">{data?.data?.typeQuestionSummary[0]?.totalScore ?? "-"} dari 65</div>
                 </div>
                 <div className="flex flex-col md:h-[130px] h-[100px] w-full items-center shadow-md justify-center gap-1 bg-[#F4D9D04D]/30 rounded-2xl p-4 text-primary">
                   <div className="text-xl md:text-2xl font-medium">TIU</div>
-                  <div className="md:text-base text-xs">{data?.data?.typeQuestionSummary[1].totalScore ?? "-"} dari 80</div>
+                  <div className="md:text-base text-xs">{data?.data?.typeQuestionSummary[1]?.totalScore ?? "-"} dari 80</div>
                 </div>
                 <div className="flex flex-col md:h-[130px] h-[100px] w-full items-center shadow-md justify-center gap-1 bg-[#F4D9D04D]/30 rounded-2xl p-4 text-primary">
                   <div className="text-xl md:text-2xl font-medium">TKP</div>
-                  <div className="md:text-base text-xs">{data?.data?.typeQuestionSummary[2].totalScore ?? "-"} dari 166</div>
+                  <div className="md:text-base text-xs">{data?.data?.typeQuestionSummary[2]?.totalScore ?? "-"} dari 166</div>
                 </div>
               </div>
               {/*  */}

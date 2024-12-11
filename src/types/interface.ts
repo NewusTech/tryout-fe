@@ -858,3 +858,13 @@ interface SocialMediaItem {
   updatedAt: string; // ISO 8601 format
 }
 
+// sertifikat
+export interface SertifikatResponse {
+  status: number;
+  message: string;
+  data: {
+    id: number;
+    sertifikat: string;
+  };
+};
+
