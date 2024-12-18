@@ -9,12 +9,22 @@ import TabProgram from "@/components/Superadmin/User/User/tabProgram";
 import TabPerforma from "@/components/Superadmin/User/User/tabPerforma";
 import { useParams } from "next/navigation";
 import { useGetUserDetailId } from "@/services/api";
+import LoadingPage from "@/components/ui/LoadingPage";
 
 const DetailUser = () => {
     const [activeTab, setActiveTab] = useState<string>("data-diri");
     // Integrasi API
     const { slug } = useParams();
-    const { data } = useGetUserDetailId(slug as string);
+    const { data, isLoading } = useGetUserDetailId(slug as string);
+
+    // Show loading page while fetching data
+    if (isLoading) {
+        return (
+            <div>
+                <LoadingPage />
+            </div>
+        );
+    }
 
     return (
         <div className="">

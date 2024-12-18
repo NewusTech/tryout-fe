@@ -42,7 +42,7 @@ const Navbar = () => {
     // INTEGRASI
     const { data } = useGetAboutCompany();
     // Integrasi API
-    
+
     const [slug, setSlug] = useState<string | undefined>(undefined);
 
     useEffect(() => {
@@ -126,7 +126,23 @@ const Navbar = () => {
                             >
                                 Paket Saya
                             </Link>
+
                         </div>
+                        {/*  */}
+                        {accessToken ? (
+                            <Link
+                                href="/schedule"
+                                className={`text-[18px] ${pathname.startsWith("/schedule")
+                                    ? "font-bold text-secondary"
+                                    : "text-white hover:text-secondary"} 
+       ${scrolled ? 'text-secondary' : ''}`}
+                            >
+                                Event Tryout
+                            </Link>
+                        ) : (
+                            <div className=""></div>
+                        )}
+                        {/*  */}
                         {/*  */}
                         {!accessToken ? (
                             // Jika tidak ada accessToken, tampilkan Login dan Daftar
@@ -175,6 +191,14 @@ const Navbar = () => {
                                                 href="/profile/forgot-password"
                                             >
                                                 Ganti Kata Sandi
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            <Link
+                                                className={`w-full cursor-pointer ${pathname === "/student-report" ? "font-bold text-primary" : "text-black"}`}
+                                                href="/student-report"
+                                            >
+                                                Student Report
                                             </Link>
                                         </DropdownMenuItem>
                                         <DropdownMenuItem>

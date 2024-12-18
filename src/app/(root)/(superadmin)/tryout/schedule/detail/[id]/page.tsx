@@ -2,10 +2,12 @@
 
 import TitleBack from "@/components/Superadmin/TitleBack";
 import React, { useState } from "react";
-import EditIcon from "../../../../../../../public/assets/icons/EditIcon";
-import DeleteIcon from "../../../../../../../public/assets/icons/DeleteIcon";
+import EditIcon from "../../../../../../../../public/assets/icons/EditIcon";
+import DeleteIcon from "../../../../../../../../public/assets/icons/DeleteIcon";
 import Link from "next/link";
 import DeletePopupIcon from "@/components/Custom/DeleteIcon/Index";
+import { useParams } from "next/navigation";
+import { useGetScheduleId } from "@/services/api";
 
 const dummyData = [
     { value: 1, label: "Tryout Tryout Tryout Tryout Tryout Tryout Tryout 1" },
@@ -15,10 +17,11 @@ const dummyData = [
 ];
 
 const DetailSchedule = () => {
-    const [selectedValue, setSelectedValue] = useState<
-        { id: string | number; label: string } | undefined
-    >(undefined);
-    const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
+    // Integrasi API
+    const { id } = useParams();
+    const { data } = useGetScheduleId(id as string);
+
+    const dataUser = data?.data
 
 
     return (
@@ -31,39 +34,28 @@ const DetailSchedule = () => {
                         Nama Tryout
                     </div>
                     <div className="border-b pb-2 border-gray-900">
-                        Tryout 1
+                        {dataUser?.title ?? "-"}
                     </div>
                 </div>
                 {/*  */}
                 <div className="flex items-center justify-between">
                     <div className="font-medium">
-                        Pilih Paket Tryout
+                        Tanggal
                     </div>
                     <div className="w-1/2">
                         <div className="w-full px-5 text-primary border border-primary p-2.5 bg-[#FAFAFA] rounded-full">
-                            Premium
+                        {dataUser?.tanggal ?? "-"}
                         </div>
                     </div>
                 </div>
                 {/*  */}
                 <div className="flex items-center justify-between">
                     <div className="font-medium">
-                        Pilih Tanggal
+                        Jam
                     </div>
                     <div className="w-1/2">
                         <div className="w-full px-5 text-primary border border-primary p-2.5 bg-[#FAFAFA] rounded-full">
-                            12/10/2024
-                        </div>
-                    </div>
-                </div>
-                {/*  */}
-                <div className="flex items-center justify-between">
-                    <div className="font-medium">
-                        Pilih Jam
-                    </div>
-                    <div className="w-1/2">
-                        <div className="w-full px-5 text-primary border border-primary p-2.5 bg-[#FAFAFA] rounded-full">
-                            12.00
+                        {dataUser?.waktu ?? "-"}
                         </div>
                     </div>
                 </div>

@@ -644,7 +644,7 @@ export interface ScheduleTryoutResponse {
 
 interface ScheduleTryout {
   id: number;
-  title: string;
+  scheduleTitle: string;
   packagetryout_id: number;
   tanggal: string; // format: "YYYY-MM-DD"
   waktu: string; // format: "HH:mm:ss"
@@ -866,8 +866,7 @@ export interface SertifikatResponse {
     id: number;
     sertifikat: string;
   };
-};
-
+}
 
 // detail performa user
 interface TypeQuestionSummary {
@@ -933,3 +932,71 @@ interface MonthlyTryout {
   user_count: number;
 }
 
+export interface ScheduleOne {
+  status: number;
+  message: string;
+  data: Schedule;
+}
+
+interface Schedule {
+  id: number;
+  title: string;
+  packagetryout_id: number;
+  tanggal: string;
+  waktu: string;
+  deletedAt: any;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// schedule user
+export interface ScheduleUserResponse {
+  data: ScheduleUser[];
+  headers: string[];
+  currentPage: number;
+  search: string;
+  pagination?: Pagination;
+  status?: number;
+  message?: string;
+}
+
+export interface ScheduleUser {
+  id: number;
+  scheduleTitle: string;
+  packagetryout_id: number;
+  packageTryoutTitle: string;
+  tanggal: string;
+  waktu: string;
+  status: string;
+  timeLeftMinutes: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// monitoring
+export interface MonitoringResponse {
+  data: Monitoring[];
+  headers: string[];
+  currentPage: number;
+  search: string;
+  pagination?: Pagination;
+  status?: number;
+  message?: string;
+}
+
+interface Monitoring {
+  name: string;
+  timeRemaining: string;
+  passingGrade: PassingGrade[];
+  questionsAnswered: QuestionsAnswered[];
+}
+
+interface PassingGrade {
+  type: string;
+  passingGrade: string;
+}
+
+interface QuestionsAnswered {
+  type: string;
+  answered: string;
+}

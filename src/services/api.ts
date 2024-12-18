@@ -39,6 +39,9 @@ import {
   QuizData,
   ReportPaymentSlugResponse,
   ResponseQuestionPackage,
+  ScheduleOne,
+  ScheduleTryoutResponse,
+  ScheduleUserResponse,
   SertifikatResponse,
   SnkResponse,
   SocialMediaByIdResponse,
@@ -1473,7 +1476,106 @@ const useGetDashboard = () => {
   return { data, error, mutate, isValidating, isLoading };
 };
 
+// schedule by id
+const useGetScheduleId = (id?: string) => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR<ScheduleOne>(
+    `/user/tryout/schedule/get/${id}`,
+    () =>
+      axiosPrivate
+        .get(`/user/tryout/schedule/get/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// Hook to fetch schedule
+const useGetScheduleUser = (currentPage?: number, search?: string) => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<ScheduleUserResponse>(
+      `/user/event/tryout/get?page=${currentPage}&limit=10&search=${search}`,
+      () =>
+        axiosPrivate
+          .get(
+            `/user/event/tryout/get?page=${currentPage}&limit=10&search=${search}`,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          )
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// Hook to fetch master Live monitoring
+const useGetMonitoring = (currentPage?: number, search?: string, packageTryout?: string) => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/user/live/mentoring/tryout/get?page=${currentPage}&limit=10&search=${search}&schedule_id=${packageTryout}`,
+    () =>
+      axiosPrivate
+        .get(
+          `/user/live/mentoring/tryout/get?page=${currentPage}&limit=10&search=${search}&schedule_id=${packageTryout}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data), // Ensure `res.data` contains the desired data
+    {
+      refreshInterval: 3000, // Refresh data setiap 3 detik
+      revalidateOnFocus: true, // Revalidate saat pengguna kembali ke tab ini
+    }
+  );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// get jadwal tryot filter
+const useGetScheduleFilter = () => {
+  // const [accessToken] = useCookies("accessToken", "");
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<ScheduleTryoutResponse>(
+      `/user/tryout/schedule/get?limit=9999`,
+      () =>
+        axiosPrivate
+          .get(`/user/tryout/schedule/get?limit=9999`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
 export {
+  useGetScheduleFilter,
+  useGetMonitoring,
+  useGetScheduleUser,
+  useGetScheduleId,
   useGetDashboard,
   useGetPerformaUserId,
   useGetSertifikatId,
