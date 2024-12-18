@@ -10,15 +10,12 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import PaginationTable from "@/components/Custom/PaginationTable";
 import PriceCeklist from "../../../../../public/assets/icons/PriceCeklist";
-import PriceNonCek from "../../../../../public/assets/icons/PriceNonCek";
 import LoadingPage from "@/components/ui/LoadingPage";
 
 const MyPackage = () => {
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
-    const onPageChange = (page: number) => {
-        setCurrentPage(page);
-    };
+    const onPageChange = (page: number) => setCurrentPage(page);
 
     // Search state
     const [search, setSearch] = useState("");
@@ -29,37 +26,51 @@ const MyPackage = () => {
 
     // Access token state
     const [accessToken, setAccessToken] = useState<string | undefined>(undefined);
+    const [isCheckingToken, setIsCheckingToken] = useState(true);
 
     useEffect(() => {
-        setAccessToken(Cookies.get("accessToken"));
+        const token = Cookies.get("accessToken");
+        setAccessToken(token);
+        setIsCheckingToken(false); // Done checking
     }, []);
 
     // Conditionally fetch data only when accessToken is available
     const { data, isLoading } = useGetUserTryoutPackage(currentPage, search);
-
     const router = useRouter();
 
     // Set package in cookies
-    const setPackageStart = (packageId: string) => {
-        Cookies.set("package", packageId);
-    };
-
-    const setPackageHistory = (historyId: string) => {
-        Cookies.set("history", historyId);
-    };
+    const setPackageStart = (packageId: string) => Cookies.set("package", packageId);
+    const setPackageHistory = (historyId: string) => Cookies.set("history", historyId);
 
     const handleStart = (id: string) => {
         setPackageStart(id);
         Cookies.remove("history");
         router.push("/my-package/do-assignments");
     };
+
     const handleHistory = (id: string) => {
         setPackageHistory(id);
         Cookies.remove("package");
         router.push("/my-package/history");
     };
 
+    // Show loading page while checking token
+    if (isCheckingToken) {
+        return (
+            <div>
+                <LoadingPage />
+            </div>
+        );
+    }
 
+    // Show loading page while fetching data
+    if (isLoading) {
+        return (
+            <div>
+                <LoadingPage />
+            </div>
+        );
+    }
 
     return (
         <div className="text-srBlack overflow-x-hidden">
@@ -131,7 +142,7 @@ const MyPackage = () => {
                                                 >
                                                     Kerjakan
                                                 </Button>
-                                                <Button 
+                                                <Button
                                                     onClick={() => handleHistory(user.id.toString())}
                                                     variant="outlinePrimary"
                                                     className="px-10 text-sm w-full md:w-[160px]"

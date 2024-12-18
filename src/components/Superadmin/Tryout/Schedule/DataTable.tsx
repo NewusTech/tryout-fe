@@ -27,10 +27,24 @@ import { ScheduleTryoutResponse } from "@/types/interface";
 
 const DataTable: React.FC<ScheduleTryoutResponse> = ({ headers, data, currentPage, search, }) => {
 
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedUser, setSelectedUser] = useState<any | null>(null); // Store the currently selected user for status update
-    const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
-    const [isLoading, setIsLoading] = useState(false); // Loading state
+    //  const handleDelete = async (id: number) => {
+    //         try {
+    //             await axiosPrivate.delete(`/user/type/package/delete/${id}`, {
+    //                 headers: {
+    //                     Authorization: `Bearer ${accessToken}`,
+    //                 },
+    //             });
+    //             // alert
+    //             showAlert('success', 'Data berhasil dihapus!');
+    //             // alert
+    //             // Update the local data after successful deletion
+    //         } catch (error: any) {
+    //             // Extract error message from API response
+    //             const errorMessage = error.response?.data?.data?.[0]?.message || error.response?.data?.message || 'Gagal menghapus data!';
+    //             showAlert('error', errorMessage);
+    //             //   alert
+    //         } mutate(`/user/type/package/get?page=${currentPage}&limit=10&search=${search}`);;
+    //     };
 
     return (
         <div className="Table mt-3">
@@ -50,7 +64,7 @@ const DataTable: React.FC<ScheduleTryoutResponse> = ({ headers, data, currentPag
                                     <TableCell className="text-center">
                                         {(currentPage - 1) * 10 + (index + 1)}
                                     </TableCell>
-                                    <TableCell className="text-primary">{user?.title ?? "-"}</TableCell>
+                                    <TableCell className="text-primary">{user?.scheduleTitle ?? "-"}</TableCell>
                                     <TableCell className="text-center text-primary">{user?.tanggal ?? "-"}</TableCell>
                                     <TableCell className="text-center text-primary">{user?.waktu ?? "-"}</TableCell>
                                     {/*  */}
@@ -69,7 +83,7 @@ const DataTable: React.FC<ScheduleTryoutResponse> = ({ headers, data, currentPag
                                                     <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                                     <DropdownMenuGroup>
                                                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                            <Link className="w-full" href={`/tryout/schedule/detail`}>
+                                                            <Link className="w-full" href={`/tryout/schedule/detail/${user?.id}`}>
                                                                 <div className="flex items-center gap-2 text-primary">
                                                                     Detail
                                                                 </div>
@@ -82,9 +96,9 @@ const DataTable: React.FC<ScheduleTryoutResponse> = ({ headers, data, currentPag
                                                                 </div>
                                                             </Link>
                                                         </DropdownMenuItem>
-                                                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                                        {/* <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                                                             <DeletePopupTitik onDelete={async () => { }} />
-                                                        </DropdownMenuItem>
+                                                        </DropdownMenuItem> */}
                                                     </DropdownMenuGroup>
                                                 </DropdownMenuContent>
                                             </DropdownMenu>

@@ -1,39 +1,55 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Table,
     TableBody,
     TableCell,
+    TableHead,
     TableHeader,
     TableRow,
-    TableHead,
 } from "@/components/ui/table";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { mutate } from "swr";
-import Loading from "@/components/ui/Loading";
-import LinkCustom from "@/components/ui/LinkCustom";
+import { MonitoringResponse } from "@/types/interface";
 
-interface History {
-    no: number;
-    nama: string,
-    passingGrade: string,
-    waktuTersisa: string,
-    soal: string,
-}
-interface ApiResponse {
-    headers: string[];
-    data: History[];
-    currentPage: number;
-    search: string;
-}
+// Utility untuk mengonversi waktu dalam "HH:MM:SS" ke detik
+const timeStringToSeconds = (time: string): number => {
+    const [hours, minutes, seconds] = time.split(":").map(Number);
+    return hours * 3600 + minutes * 60 + seconds;
+};
 
+// Utility untuk mengonversi detik kembali ke "HH:MM:SS"
+const secondsToTimeString = (totalSeconds: number): string => {
+    const hours = Math.floor(totalSeconds / 3600).toString().padStart(2, "0");
+    const minutes = Math.floor((totalSeconds % 3600) / 60).toString().padStart(2, "0");
+    const seconds = (totalSeconds % 60).toString().padStart(2, "0");
+    return `${hours}:${minutes}:${seconds}`;
+};
 
-const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, }) => {
+const DataTable: React.FC<MonitoringResponse> = ({ headers, data, currentPage }) => {
+    // State untuk menyimpan waktu tersisa
+    const [timeRemaining, setTimeRemaining] = useState<Record<number, number>>({});
 
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedUser, setSelectedUser] = useState<any | null>(null); // Store the currently selected user for status update
-    const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
-    const [isLoading, setIsLoading] = useState(false); // Loading state
+    // Inisialisasi waktu tersisa saat data diterima
+    useEffect(() => {
+        if (data) {
+            const initialTime = data.reduce((acc, user, index) => {
+                acc[index] = timeStringToSeconds(user.timeRemaining ?? "00:00:00");
+                return acc;
+            }, {} as Record<number, number>);
+            setTimeRemaining(initialTime);
+        }
+    }, [data]);
+
+    // Update waktu tersisa secara real-time
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setTimeRemaining((prev) =>
+                Object.fromEntries(
+                    Object.entries(prev).map(([key, value]) => [key, Math.max(0, value - 1)])
+                )
+            );
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
 
     return (
         <div className="Table mt-3">
@@ -49,35 +65,37 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                     <TableBody>
                         {data?.length > 0 ? (
                             data.map((user, index) => (
-                                <TableRow key={user.no} index={index}>
+                                <TableRow key={index}>
                                     <TableCell className="text-center">
                                         {(currentPage - 1) * 10 + (index + 1)}
                                     </TableCell>
-                                    <TableCell className="text-primary">{user.nama ?? "-"}</TableCell>
+                                    <TableCell className="text-primary">{user.name ?? "-"}</TableCell>
                                     <TableCell className="text-center">
                                         <div className="wrap flex gap-2 justify-center">
                                             <div className="p-1 px-2 bg-[#EDDDB8] text-primary rounded-full">
-                                                TWK: 180/60
+                                                TWK: {user.passingGrade[1]?.passingGrade ?? "-"}
                                             </div>
                                             <div className="p-1 px-2 bg-[#EDDDB8] text-primary rounded-full">
-                                                TIU: 180/60
+                                                TIU: {user.passingGrade[0]?.passingGrade ?? "-"}
                                             </div>
                                             <div className="p-1 px-2 bg-[#EDDDB8] text-primary rounded-full">
-                                                TKP: 180/60
+                                                TKP: {user.passingGrade[2]?.passingGrade ?? "-"}
                                             </div>
                                         </div>
                                     </TableCell>
-                                    <TableCell className="text-center text-primary">{user.waktuTersisa ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">
+                                        {secondsToTimeString(timeRemaining[index] ?? 0)}
+                                    </TableCell>
                                     <TableCell className="text-center">
                                         <div className="wrap flex gap-2 justify-center">
                                             <div className="p-1 px-2 bg-primary text-[#EDDDB8] rounded-full">
-                                                TWK: 30/45
+                                                TWK: {user.questionsAnswered[1]?.answered ?? "-"}
                                             </div>
                                             <div className="p-1 px-2 bg-primary text-[#EDDDB8] rounded-full">
-                                                TIU: 12/45
+                                                TIU: {user.questionsAnswered[0]?.answered ?? "-"}
                                             </div>
                                             <div className="p-1 px-2 bg-primary text-[#EDDDB8] rounded-full">
-                                                TKP: 25/45
+                                                TKP: {user.questionsAnswered[2]?.answered ?? "-"}
                                             </div>
                                         </div>
                                     </TableCell>
@@ -85,7 +103,9 @@ const DataTable: React.FC<ApiResponse> = ({ headers, data, currentPage, search, 
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={8} className="text-center">Tidak ada data</TableCell>
+                                <TableCell colSpan={headers.length} className="text-center">
+                                    Tidak ada data
+                                </TableCell>
                             </TableRow>
                         )}
                     </TableBody>
