@@ -24,7 +24,7 @@ const History = () => {
   const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
 
   // Define table headers
-  const tableHeaders = ["No","Nama Tryout", "Nama", "Skor", "Aksi"];
+  const tableHeaders = ["No","Nama Tryout", "Nama", "Skor", "Status", "Aksi"];
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);

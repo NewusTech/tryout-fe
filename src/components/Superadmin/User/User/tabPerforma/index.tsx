@@ -8,6 +8,8 @@ import Swal from 'sweetalert2';
 import Cookies from "js-cookie";
 import Loading from '@/components/ui/Loading'
 import UnduhIcon from '../../../../../../public/assets/icons/UnduhIcon'
+import { showAlert } from '@/lib/swalAlert'
+import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 
 const TabPerforma = () => {
     const { slug } = useParams();
@@ -16,6 +18,7 @@ const TabPerforma = () => {
     // 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const accessToken = Cookies.get("accessToken");
+    const [loading, setLoading] = useState(false);
     const [fileUrl, setFileUrl] = useState<string | null>(null);
     const handleGenerate = async () => {
         setIsLoading(true);
@@ -62,6 +65,27 @@ const TabPerforma = () => {
         }
     };
     // 
+    // handlesetuju
+    const id = data?.data?.User?.id
+    const axiosPrivate = useAxiosPrivate();
+    const handleSetuju = async () => {
+    
+            setLoading(true);
+            // 
+            try {
+                setLoading(true);
+                await axiosPrivate.put(`/user/rapor/update/status/${id}`,);
+                showAlert("success", "Data berhasil disetujui!");
+            } catch (error: any) {
+                const errorMessage =
+                    error?.response?.data?.data?.[0]?.message ||
+                    error?.response?.data?.message ||
+                    "Gagal menyutujui rapor!";
+                showAlert("error", errorMessage);
+            } finally {
+                setLoading(false);
+            }
+        };
 
     return (
         <div>
@@ -85,11 +109,11 @@ const TabPerforma = () => {
                     </Button>
                     <Button
                         className='flex items-center gap-3 w-[220px]'
-                        onClick={handleGenerate}
+                        onClick={handleSetuju}
                         variant="outlinePrimary"
-                        disabled={isLoading}
+                        disabled={loading}
                     >
-                        {isLoading ? (
+                        {loading ? (
                             <Loading />
                         ) : (
                             <div className="flex items-center gap-3">

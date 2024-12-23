@@ -37,6 +37,7 @@ import {
   QuestionFormResponse,
   QuestionResponseOne,
   QuizData,
+  RaporResponse,
   ReportPaymentSlugResponse,
   ResponseQuestionPackage,
   ScheduleOne,
@@ -46,6 +47,7 @@ import {
   SnkResponse,
   SocialMediaByIdResponse,
   StatistikUser,
+  TryoutPackageResponseId,
   UserDetailResponse,
   UserInfoResponse,
   WhyUsByIdResponse,
@@ -1571,7 +1573,51 @@ const useGetScheduleFilter = () => {
   return { data, error, mutate, isValidating, isLoading };
 };
 
+// get by id detail paket tryout
+const useGetPackageId = (id: string) => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<TryoutPackageResponseId>(
+      `/user/package/tryout/get/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/user/package/tryout/get/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// get by id rapor user
+const useGetRaporId = (id: string) => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<RaporResponse>(
+      `/user/pdf/rapor/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/user/pdf/rapor/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
 export {
+  useGetRaporId,
+  useGetPackageId,
   useGetScheduleFilter,
   useGetMonitoring,
   useGetScheduleUser,

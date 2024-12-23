@@ -202,6 +202,14 @@ const Navbar = () => {
                                             </Link>
                                         </DropdownMenuItem>
                                         <DropdownMenuItem>
+                                            <Link
+                                                className={`w-full cursor-pointer ${pathname === "/note" ? "font-bold text-primary" : "text-black"}`}
+                                                href="/note"
+                                            >
+                                                Catatan
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem>
                                             <div className="w-full cursor-pointer" onClick={handleLogout}>
                                                 Keluar
                                             </div>
@@ -264,6 +272,22 @@ const Navbar = () => {
                                                     Ganti Kata Sandi
                                                 </Link>
                                             </DropdownMenuItem>
+                                            <DropdownMenuItem>
+                                            <Link
+                                                className={`w-full cursor-pointer ${pathname === "/student-report" ? "font-bold text-primary" : "text-black"}`}
+                                                href="/student-report"
+                                            >
+                                                Student Report
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            <Link
+                                                className={`w-full cursor-pointer ${pathname === "/note" ? "font-bold text-primary" : "text-black"}`}
+                                                href="/note"
+                                            >
+                                                Catatan
+                                            </Link>
+                                        </DropdownMenuItem>
                                             <DropdownMenuItem>
                                                 <div className="w-full cursor-pointer" onClick={handleLogout}>
                                                     Keluar

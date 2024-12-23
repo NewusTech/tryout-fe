@@ -53,10 +53,12 @@ const TiuChart = () => {
             {/* Statistik */}
             <div className="wrap flex justify-between items-center">
                 <div className="text-sm mb-4">
-                <p>Skor Anda: <span className="font-bold">{dataUser?.data?.typeQuestionSummary[1]?.totalScore ??  "-"}</span></p>
-                <p>Jumlah Soal: <span className="font-bold">{dataUser?.data?.typeQuestionSummary[1]?.totalQuestions ??  "-"}</span></p>
+                    <p>Skor Anda: <span className="font-bold">{dataUser?.data?.typeQuestionSummary[1]?.totalScore ?? "-"}</span></p>
+                    <p>Jumlah Soal: <span className="font-bold">{dataUser?.data?.typeQuestionSummary[1]?.totalQuestions ?? "-"}</span></p>
                     <p className="text-red-500">
-                        Soal Tidak Terjawab: <span className="font-bold">50</span>
+                        Soal Tidak Terjawab: <span className="font-bold">
+                            {dataUser?.data?.typeQuestionSummary[1]?.totalUnanswered ?? "-"}
+                        </span>
                     </p>
                 </div>
                 <div className="flex flex-col gap-1">

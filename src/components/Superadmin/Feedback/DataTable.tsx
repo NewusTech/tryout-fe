@@ -43,7 +43,7 @@ const DataTable: React.FC<FeedbackHistoryResponse> = ({ headers, data, currentPa
                                     </TableCell>
                                     <TableCell className="text-center text-primary">{user?.name ?? "-"}</TableCell>
                                     <TableCell className="text-center text-primary">{user?.package_name ?? "-"}</TableCell>
-                                    <TableCell className="text-center text-primary">{user?.nila_feedback ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.nilai_feedback ?? "-"}</TableCell>
                                     {/*  */}
                                     <TableCell className="text-center justify-center items-center flex gap-2">
                                         <div className="aksi flex-shrink-0">

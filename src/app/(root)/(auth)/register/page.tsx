@@ -140,9 +140,9 @@ const LoginPage = () => {
                     <div className="card w-full bg-white md:rounded-[40px] rounded-[20px] shadow dark:border md:mt-0 sm:max-w-2xl mx-3 xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                         <div className="p-6 sm:p-8">
                             <div className="head my-3 mb-5 flex flex-col gap-3">
-                                <div className="log flex justify-center md:mb-7">
+                                <div className="log flex justify-center md:mb-2">
                                     <Image
-                                        src="/assets/images/logo-login2.png"
+                                        src="https://newus-bucket.s3.ap-southeast-2.amazonaws.com/newus_lokal/company_profile/1734595392929-Image.png"
                                         alt="logo"
                                         width={400}
                                         height={400}

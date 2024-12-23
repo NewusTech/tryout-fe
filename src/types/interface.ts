@@ -364,7 +364,7 @@ interface FeedbackHistory {
   package_id: number;
   package_name: string;
   total_feedback: number;
-  nila_feedback: number;
+  nilai_feedback: number;
   created_at: string; // ISO date string
 }
 
@@ -999,4 +999,83 @@ interface PassingGrade {
 interface QuestionsAnswered {
   type: string;
   answered: string;
+}
+
+// get one detail tryout
+export interface TryoutPackageResponseId {
+  status: number;
+  message: string;
+  data: TryoutPackageData;
+}
+
+interface TryoutPackageData {
+  id: number;
+  user_id: number | null;
+  title: string;
+  slug: string;
+  description: string;
+  duration: string;
+  price: string;
+  typepackage_id: number;
+  total_question: string;
+  deletedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+  Bank_packages: BankPackage[];
+}
+
+interface BankPackage {
+  id: number;
+  packagetryout_id: number;
+  banksoal_id: number;
+  Bank_soal: BankSoal;
+}
+
+interface BankSoal {
+  id: number;
+  title: string;
+  typequestion_id: number;
+  Type_question: TypeQuestion;
+}
+
+interface TypeQuestion {
+  name: string;
+}
+
+// tryout history admin
+export interface TryoutHistoryResponse {
+  data: TryoutHistory[];
+  headers: string[];
+  currentPage: number;
+  search: string;
+  pagination?: Pagination;
+  status?: number;
+  message?: string;
+}
+
+interface TryoutHistory {
+  id: number;
+  title: string;
+  slug: string;
+  startTime: string;
+  endTime: string;
+  description: string;
+  duration: string;
+  price: string;
+  score: number | null;
+  statusTryout: string;
+}
+
+// rapor user id
+export interface RaporResponse {
+  status: number;
+  message: string;
+  data: RaporData;
+}
+
+interface RaporData {
+  id: number;
+  userinfo_id: number;
+  rapor: string;
+  status: number;
 }

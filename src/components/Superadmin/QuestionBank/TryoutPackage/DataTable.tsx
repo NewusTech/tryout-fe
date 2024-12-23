@@ -44,7 +44,7 @@ const DataTable: React.FC<PackageTryoutResponse> = ({ headers, data, currentPage
             const errorMessage = error.response?.data?.data?.[0]?.message || error.response?.data?.message || 'Gagal menghapus data!';
             showAlert('error', errorMessage);
             //   alert
-        } mutate(`/user/bank/question/get?page=${currentPage}&limit=10&search=${search}`);;
+        } mutate(`/user/package/tryout/get?page=${currentPage}&limit=10&search=${search}`);
     };
 
     return (

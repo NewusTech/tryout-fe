@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
     Table,
@@ -25,11 +24,57 @@ import { mutate } from "swr";
 import { showAlert } from "@/lib/swalAlert";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import Cookies from "js-cookie";
+import { Button } from "@/components/ui/button";
+import ExportIcon from "../../../../../public/assets/icons/ExportIcon";
+import Swal from 'sweetalert2';
+import Loading from "@/components/ui/Loading";
 
 
-const DataTable: React.FC<BankSoalResponse> = ({ headers, data, currentPage, search, }) => {
+export const ButtonExport = () => {
+    const [loading, setLoading] = useState(false);
+
+    // export
+    const axiosPrivate = useAxiosPrivate();
+
+    const handleExport = async () => {
+        setLoading(true);
+        // 
+        try {
+            setLoading(true);
+            await axiosPrivate.post(`/user/export/bank/question`, );
+            showAlert("success", "Data berhasil diexport!");
+        } catch (error: any) {
+            const errorMessage =
+                error?.response?.data?.data?.[0]?.message ||
+                error?.response?.data?.message ||
+                "Gagal export data!";
+            showAlert("error", errorMessage);
+        } finally {
+            setLoading(false);
+        }
+    };
+    return (
+        <Button
+            variant="outlinePrimary"
+            className="flex gap-3"
+            onClick={handleExport}
+        >
+            {loading ? <Loading /> : <div className="flex gap-3 items-center">
+                <ExportIcon />
+                Export
+            </div>}
+        </Button>
+    );
+};
+
+const DataTable: React.FC<BankSoalResponse> = ({ headers, data, currentPage, search }) => {
+    const [selectedIds, setSelectedIds] = useState<number[]>([]); // State untuk menyimpan ID yang dipilih
+    const [selectAll, setSelectAll] = useState(false); // State untuk checkbox all
+
     const accessToken = Cookies.get("accessToken"); // Ambil token langsung
     const axiosPrivate = useAxiosPrivate();
+
+    // Fungsi handleDelete
     const handleDelete = async (id: number) => {
         try {
             await axiosPrivate.delete(`/user/question/form/delete/${id}`, {
@@ -37,16 +82,39 @@ const DataTable: React.FC<BankSoalResponse> = ({ headers, data, currentPage, sea
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            // alert
             showAlert('success', 'Data berhasil dihapus!');
-            // alert
-            // Update the local data after successful deletion
         } catch (error: any) {
-            // Extract error message from API response
-            const errorMessage = error.response?.data?.data?.[0]?.message || error.response?.data?.message || 'Gagal menghapus data!';
+            const errorMessage = error.response?.data?.message || 'Gagal menghapus data!';
             showAlert('error', errorMessage);
-            //   alert
-        } mutate(`/user/bank/question/get?page=${currentPage}&limit=10&search=${search}`);;
+        }
+        mutate(`/user/bank/question/get?page=${currentPage}&limit=10&search=${search}`);
+    };
+
+    // Handle Checkbox Change
+    const handleCheckboxChange = (id: number) => {
+        setSelectedIds((prev) => {
+            const updatedIds = prev.includes(id)
+                ? prev.filter((item) => item !== id) // Hapus jika sudah ada
+                : [...prev, id]; // Tambah jika belum ada
+
+            console.log({ id: updatedIds }); // Log hasil terbaru
+            return updatedIds;
+        });
+    };
+
+    console.log("checkbox= ", selectedIds)
+
+    // Handle Checkbox All
+    const handleSelectAll = () => {
+        if (selectAll) {
+            setSelectedIds([]); // Unselect semua
+            console.log({ id: [] });
+        } else {
+            const allIds = data.map((item) => item.id); // Pilih semua ID
+            setSelectedIds(allIds);
+            console.log({ id: allIds });
+        }
+        setSelectAll(!selectAll); // Toggle checkbox all
     };
 
     return (
@@ -55,22 +123,30 @@ const DataTable: React.FC<BankSoalResponse> = ({ headers, data, currentPage, sea
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead >
-                                <Checkbox />
+                            <TableHead>
+                                {/* Checkbox All */}
+                                <Checkbox
+                                    checked={selectAll}
+                                    onCheckedChange={handleSelectAll}
+                                />
                             </TableHead>
-                            <TableHead >No</TableHead>
-                            <TableHead >Nama Bank Soal</TableHead>
-                            <TableHead >Kategori Soal</TableHead>
-                            <TableHead >Jumlah</TableHead>
-                            <TableHead >Aksi</TableHead>
+                            <TableHead>No</TableHead>
+                            <TableHead>Nama Bank Soal</TableHead>
+                            <TableHead>Kategori Soal</TableHead>
+                            <TableHead>Jumlah</TableHead>
+                            <TableHead>Aksi</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {data?.length > 0 ? (
                             data.map((user, index) => (
-                                <TableRow key={user.id} index={index}>
+                                <TableRow key={user.id}>
                                     <TableCell className="text-center">
-                                        <Checkbox />
+                                        {/* Checkbox Individual */}
+                                        <Checkbox
+                                            checked={selectedIds.includes(user.id)}
+                                            onCheckedChange={() => handleCheckboxChange(user.id)}
+                                        />
                                     </TableCell>
                                     <TableCell className="text-center">
                                         {(currentPage - 1) * 10 + (index + 1)}
@@ -78,7 +154,6 @@ const DataTable: React.FC<BankSoalResponse> = ({ headers, data, currentPage, sea
                                     <TableCell className="text-center text-primary">{user?.title ?? "-"}</TableCell>
                                     <TableCell className="text-center text-primary">{user?.Type_question_name ?? "-"}</TableCell>
                                     <TableCell className="text-center text-primary">{user?.Total_question ?? "-"}</TableCell>
-                                    {/*  */}
                                     <TableCell className="text-center justify-center items-center flex gap-2">
                                         <div className="aksi flex-shrink-0">
                                             <DropdownMenu>
@@ -100,13 +175,6 @@ const DataTable: React.FC<BankSoalResponse> = ({ headers, data, currentPage, sea
                                                                 </div>
                                                             </Link>
                                                         </DropdownMenuItem>
-                                                        {/* <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                            <Link className="w-full" href={`/question-bank/question-answer/edit`}>
-                                                                <div className="flex items-center gap-2 text-primary">
-                                                                    Edit
-                                                                </div>
-                                                            </Link>
-                                                        </DropdownMenuItem> */}
                                                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                                                             <DeletePopupTitik onDelete={() => handleDelete(user?.id)} />
                                                         </DropdownMenuItem>
