@@ -37,15 +37,15 @@ const DetailHistory = () => {
                     <div className="md:col-span-2 order-3 md:order-2 flex md:flex-col flex-row md:gap-4 gap-2">
                         <div className="flex flex-col md:h-[130px] h-[100px] w-full items-center shadow-md justify-center gap-1 bg-[#F4D9D04D]/30 rounded-2xl p-4 text-primary">
                             <div className="text-xl md:text-2xl font-medium">TWK</div>
-                            <div className="md:text-base text-xs">{data?.data?.typeQuestionSummary[0].totalScore ?? "-"} dari 65</div>
+                            <div className="md:text-base text-xs">{data?.data?.typeQuestionSummary[0]?.totalScore ?? "-"} dari 65</div>
                         </div>
                         <div className="flex flex-col md:h-[130px] h-[100px] w-full items-center shadow-md justify-center gap-1 bg-[#F4D9D04D]/30 rounded-2xl p-4 text-primary">
                             <div className="text-xl md:text-2xl font-medium">TIU</div>
-                            <div className="md:text-base text-xs">{data?.data?.typeQuestionSummary[1].totalScore ?? "-"} dari 80</div>
+                            <div className="md:text-base text-xs">{data?.data?.typeQuestionSummary[1]?.totalScore ?? "-"} dari 80</div>
                         </div>
                         <div className="flex flex-col md:h-[130px] h-[100px] w-full items-center shadow-md justify-center gap-1 bg-[#F4D9D04D]/30 rounded-2xl p-4 text-primary">
                             <div className="text-xl md:text-2xl font-medium">TKP</div>
-                            <div className="md:text-base text-xs">{data?.data?.typeQuestionSummary[2].totalScore ?? "-"} dari 166</div>
+                            <div className="md:text-base text-xs">{data?.data?.typeQuestionSummary[2]?.totalScore ?? "-"} dari 166</div>
                         </div>
                     </div>
                     {/*  */}

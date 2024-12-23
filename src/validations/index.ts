@@ -220,3 +220,13 @@ export const adminTryout = z
   })
   .required();
 export type adminTryoutFormData = z.infer<typeof adminTryout>;
+
+// import
+export const importBank = z
+  .object({
+    file: z
+      .instanceof(File)
+      .refine((file) => file.size > 0, { message: "File wajib diisi" }),
+  })
+  .required();
+export type importBankFormData = z.infer<typeof importBank>;

@@ -7,6 +7,7 @@ import useAxiosPrivate from '@/hooks/useAxiosPrivate';
 import { Button } from '@/components/ui/button';
 import Loading from '@/components/ui/Loading';
 import PrintIcon from '../../../../../public/assets/icons/PrintIcon';
+import { useGetRaporId, useGetUserProfileId } from '@/services/api';
 
 const Report = () => {
     const [slug, setSlug] = useState<string | undefined>(undefined);
@@ -17,6 +18,8 @@ const Report = () => {
         setSlug(Cookies.get("slug"));
         // setReportUrl(Cookies.get("reportUrl"));
     }, []);
+
+    const { data: dataUserId } = useGetUserProfileId(slug as string);
 
     // const setReport = (reportUrl: string) => {
     //     Cookies.set("reportUrl", reportUrl,);
@@ -42,6 +45,10 @@ const Report = () => {
         }
     };
 
+    const id = dataUserId?.data?.id.toString()
+    const { data } = useGetRaporId(id as string);
+
+    const dataUser = data?.data
 
     return (
         <div >
@@ -53,36 +60,20 @@ const Report = () => {
                     </div>
                 </div>
                 <div className="wrap flex container mx-auto flex-col gap-4">
-                    <div className="">
-                    <Button
-                        className='flex items-center gap-3 w-[250px]'
-                        onClick={handleGenerate}
-                        disabled={loading}
-                    >
-                        {loading ? (
-                            <Loading />
-                        ) : (
-                            <div className="flex items-center gap-3">
-                                Generate Report
-                                <PrintIcon color='white'/>
-                            </div>
-                        )}
-                    </Button>
-                    </div>
                     {/*  */}
                     <div className="konten flex flex-col gap-4">
                         <div className="wrap flex gap-1 px-1">
                             <div className={`w-full h-[600px] items-center border border-line-stroke rounded-lg overflow-hidden flex justify-center text-center text-sm md:text-base p-5`}>
-                                {reportUrlUser ? (
+                                {dataUser?.rapor ? (
                                     <iframe
                                         allowFullScreen
-                                        src={reportUrlUser}
+                                        src={dataUser?.rapor}
                                         title="File"
                                         className="rounded-xl w-full h-full"
                                     ></iframe>
                                 ) : (
                                     <div className="flex items-center justify-center w-full h-full">
-                                        <span>Generate Report</span>
+                                        <span>Rapor Belum Tersedia</span>
                                     </div>
                                 )}
                             </div>

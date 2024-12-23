@@ -10,6 +10,7 @@ import TabPerforma from "@/components/Superadmin/User/User/tabPerforma";
 import { useParams } from "next/navigation";
 import { useGetUserDetailId } from "@/services/api";
 import LoadingPage from "@/components/ui/LoadingPage";
+import TabNote from "@/components/Superadmin/User/User/tabNote";
 
 const DetailUser = () => {
     const [activeTab, setActiveTab] = useState<string>("data-diri");
@@ -78,6 +79,15 @@ const DetailUser = () => {
                     >
                         Performa
                     </button>
+                    <button
+                        onClick={() => setActiveTab("catatan")}
+                        className={`p-3 border-b-2 text-lg font-medium px-6 ${activeTab === "catatan"
+                                ? "text-primary border-primary bg-[#FAFAFA]"
+                                : "text-[#656565] border-[#CFD4DA] bg-white"
+                            }`}
+                    >
+                        Catatan
+                    </button>
                 </div>
 
                 {/* Tab Content */}
@@ -90,6 +100,9 @@ const DetailUser = () => {
                     )}
                     {activeTab === "performa" && (
                         <TabPerforma />
+                    )}
+                    {activeTab === "catatan" && (
+                        <TabNote />
                     )}
                 </div>
             </div>

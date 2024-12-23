@@ -17,9 +17,9 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import TitikIcon from "../../../../../public/assets/icons/TitikIcon";
-import { TryoutResponseHistory } from "@/types/interface";
+import { TryoutHistoryResponse } from "@/types/interface";
 
-const DataTable: React.FC<TryoutResponseHistory> = ({ headers, data, currentPage, search, }) => {
+const DataTable: React.FC<TryoutHistoryResponse> = ({ headers, data, currentPage, search, }) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState<any | null>(null); // Store the currently selected user for status update
@@ -44,9 +44,10 @@ const DataTable: React.FC<TryoutResponseHistory> = ({ headers, data, currentPage
                                     <TableCell className="text-center">
                                         {(currentPage - 1) * 10 + (index + 1)}
                                     </TableCell>
-                                    <TableCell className="text-center text-primary">{user?.package_name ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.title ?? "-"}</TableCell>
                                     <TableCell className="text-center text-primary">{user?.name ?? "-"}</TableCell>
-                                    <TableCell className="text-center text-primary">{user?.skor ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.score ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.statusTryout ?? "-"}</TableCell>
                                     {/*  */}
                                     <TableCell className="text-center justify-center items-center flex gap-2">
                                         <div className="aksi flex-shrink-0">

@@ -56,7 +56,9 @@ const TwkChart = () => {
                     <p>Skor Anda: <span className="font-bold">{dataUser?.data?.typeQuestionSummary[0]?.totalScore ?? "-"}</span></p>
                     <p>Jumlah Soal: <span className="font-bold">{dataUser?.data?.typeQuestionSummary[0]?.totalQuestions ?? "-"}</span></p>
                     <p className="text-red-500">
-                        Soal Tidak Terjawab: <span className="font-bold">50</span>
+                        Soal Tidak Terjawab: <span className="font-bold">
+                            {dataUser?.data?.typeQuestionSummary[0]?.totalUnanswered ?? "-"}
+                        </span>
                     </p>
                 </div>
                 <div className="flex flex-col gap-1">

@@ -14,21 +14,6 @@ const TkpChart = () => {
             <div className="text-sm flex flex-col gap-1 mb-4">
             <p>Skor Anda: <span className="font-bold">{dataUser?.data?.typeQuestionSummary[2]?.totalScore ?? "-"}</span></p>
             <p>Jumlah Soal: <span className="font-bold">{dataUser?.data?.typeQuestionSummary[2]?.totalQuestions ?? "-"}</span></p>
-                <p className="text-primary">
-                    5 Point : <span className="font-bold">30</span>
-                </p>
-                <p className="text-primary">
-                    4 Point : <span className="font-bold">30</span>
-                </p>
-                <p className="text-primary">
-                    3 Point : <span className="font-bold">30</span>
-                </p>
-                <p className="text-primary">
-                    2 Point : <span className="font-bold">30</span>
-                </p>
-                <p className="text-primary">
-                    1 Point : <span className="font-bold">30</span>
-                </p>
             </div>
         </div>
     )

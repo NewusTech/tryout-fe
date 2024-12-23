@@ -2,8 +2,15 @@
 
 import React from "react";
 import TitleBack from "@/components/Superadmin/TitleBack";
+import { useParams, useSearchParams } from "next/navigation";
+import { useGetPackageId } from "@/services/api";
 
 const DetailTryoutPackage = () => {
+    // Integrasi API
+    const { id } = useParams();
+    const { data } = useGetPackageId(id as string);
+
+    const dataUser = data?.data
     return (
         <div className="">
             <TitleBack href="/question-bank/tryout-package" title="Detail Paket Tryout" />
@@ -16,7 +23,7 @@ const DetailTryoutPackage = () => {
                         Nama Paket Tryout
                     </div>
                     <div className="border-b border-primary text-primary pb-2">
-                        Tryout 1
+                        {dataUser?.title ?? "-"}
                     </div>
                 </div>
                 <div className="flex flex-col gap-5">
@@ -24,25 +31,26 @@ const DetailTryoutPackage = () => {
                         <div className="text-lg font-medium mb-2 text-primary">
                             Deskripsi
                         </div>
-                        <div className="border rounded-lg p-5 text-justify border-primary text-primary pb-2">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit maiores officia laborum, repellat recusandae sed, eveniet, ea voluptates necessitatibus ad rem? Nemo asperiores accusamus nisi perferendis excepturi esse? Tempore, necessitatibus. Quis, animi! Veniam corrupti odio beatae. Cum doloribus non quibusdam iste, quo possimus. Harum, id est corporis aut laudantium aliquid deserunt repellendus nostrum in explicabo perspiciatis animi dolorem earum ipsa vero, voluptate dolor? Suscipit, velit atque. Voluptatem culpa perferendis nisi?
+                        <div className="border rounded-lg p-3 text-justify border-primary text-primary"
+                            dangerouslySetInnerHTML={{ __html: dataUser?.description ?? "-" }}
+                        >
                         </div>
                     </div>
                     {/*  */}
-                    <div className="flex items-center justify-between">
+                    {/* <div className="flex items-center justify-between">
                         <div className="font-medium text-primary">Tipe Paket</div>
                         <div className="w-1/2">
                             <div className="w-full px-5 text-primary border border-primary p-2.5 bg-[#FAFAFA] rounded-full">
-                                Premium
+                                {dataUser?.typepackage_id ?? "-"}
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     {/*  */}
                     <div className="flex items-center justify-between">
                         <div className="font-medium text-primary">TIU</div>
                         <div className="w-1/2">
                             <div className="w-full px-5 text-primary border border-primary p-2.5 bg-[#FAFAFA] rounded-full">
-                                TIU 1
+                                {dataUser?.Bank_packages[0]?.Bank_soal?.title ?? "-"}
                             </div>
                         </div>
                     </div>
@@ -51,7 +59,16 @@ const DetailTryoutPackage = () => {
                         <div className="font-medium text-primary">TWK</div>
                         <div className="w-1/2">
                             <div className="w-full px-5 text-primary border border-primary p-2.5 bg-[#FAFAFA] rounded-full">
-                                TWK 1
+                                {dataUser?.Bank_packages[1]?.Bank_soal?.title ?? "-"}
+                            </div>
+                        </div>
+                    </div>
+                    {/*  */}
+                    <div className="flex items-center justify-between">
+                        <div className="font-medium text-primary">TKP</div>
+                        <div className="w-1/2">
+                            <div className="w-full px-5 text-primary border border-primary p-2.5 bg-[#FAFAFA] rounded-full">
+                                {dataUser?.Bank_packages[2]?.Bank_soal?.title ?? "-"}
                             </div>
                         </div>
                     </div>
@@ -60,7 +77,7 @@ const DetailTryoutPackage = () => {
                         <div className="font-medium text-primary">Waktu Pengerjaan</div>
                         <div className="w-1/2">
                             <div className="w-full px-5 text-primary border border-primary p-2.5 bg-[#FAFAFA] rounded-full">
-                                1 Jam 30 Menit
+                                {dataUser?.duration ?? "-"}
                             </div>
                         </div>
                     </div>
@@ -69,7 +86,7 @@ const DetailTryoutPackage = () => {
                         <div className="font-medium text-primary">Jumlah Soal</div>
                         <div className="w-1/2">
                             <div className="w-full px-5 text-primary border border-primary p-2.5 bg-[#FAFAFA] rounded-full">
-                                90 Soal
+                                {dataUser?.total_question ?? "-"} Soal
                             </div>
                         </div>
                     </div>
@@ -78,7 +95,7 @@ const DetailTryoutPackage = () => {
                         <div className="font-medium text-primary">Harga</div>
                         <div className="w-1/2">
                             <div className="w-full px-5 text-primary border border-primary p-2.5 bg-[#FAFAFA] rounded-full">
-                                Rp. 400.000
+                                Rp. {dataUser?.price ?? "-"}
                             </div>
                         </div>
                     </div>
