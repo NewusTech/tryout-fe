@@ -1079,3 +1079,21 @@ interface RaporData {
   rapor: string;
   status: number;
 }
+
+
+// note
+export interface EvaluationResponse {
+  code?: number;
+  message?: string;
+  headers: string[];
+  data: Evaluation[];
+}
+
+interface Evaluation {
+  id: number;
+  note: string;
+  userinfo_id: number;
+  tanggal: string; // ISO date string
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+}

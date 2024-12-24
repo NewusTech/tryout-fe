@@ -24,6 +24,7 @@ import {
   CompanyProfileResponse,
   DashboardResponse,
   DiscussionUser,
+  EvaluationResponse,
   FeedbackDetailResponse,
   PackageResponse,
   PackageResponseOne,
@@ -1594,6 +1595,48 @@ const useGetPackageId = (id: string) => {
   return { data, error, mutate, isValidating, isLoading };
 };
 
+// get by id note admin
+const useGetNoteAdminId = (id: string) => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<EvaluationResponse>(
+      `/user/evaluation/get/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/user/evaluation/get/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// get by id note usuer
+const useGetNoteUser = () => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<EvaluationResponse>(
+      `/user/get/evaluation/mentor`,
+      () =>
+        axiosPrivate
+          .get(`/user/get/evaluation/mentor`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
 // get by id rapor user
 const useGetRaporId = (id: string) => {
   const accessToken = Cookies.get("accessToken");
@@ -1616,6 +1659,8 @@ const useGetRaporId = (id: string) => {
 };
 
 export {
+  useGetNoteUser,
+  useGetNoteAdminId,
   useGetRaporId,
   useGetPackageId,
   useGetScheduleFilter,

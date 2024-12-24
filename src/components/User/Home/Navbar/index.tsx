@@ -206,7 +206,7 @@ const Navbar = () => {
                                                 className={`w-full cursor-pointer ${pathname === "/note" ? "font-bold text-primary" : "text-black"}`}
                                                 href="/note"
                                             >
-                                                Catatan
+                                                Catatan Mentor
                                             </Link>
                                         </DropdownMenuItem>
                                         <DropdownMenuItem>
@@ -285,7 +285,7 @@ const Navbar = () => {
                                                 className={`w-full cursor-pointer ${pathname === "/note" ? "font-bold text-primary" : "text-black"}`}
                                                 href="/note"
                                             >
-                                                Catatan
+                                                Catatan Mentor
                                             </Link>
                                         </DropdownMenuItem>
                                             <DropdownMenuItem>

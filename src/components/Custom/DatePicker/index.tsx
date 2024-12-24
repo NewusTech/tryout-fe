@@ -49,7 +49,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
           )}
         >
           <p className="text-primary">
-            {selectedDate ? format(selectedDate, "dd/MM/yyyy") : <span className="text-xs">{placeholder}</span>}
+            {selectedDate ? format(selectedDate, "dd-MM-yyyy") : <span className="text-xs">{placeholder}</span>}
           </p>
           <CalendarIcon className="mr-2 text-primary h-4 w-4" />
         </Button>

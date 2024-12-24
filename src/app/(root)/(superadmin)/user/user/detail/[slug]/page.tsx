@@ -86,7 +86,7 @@ const DetailUser = () => {
                                 : "text-[#656565] border-[#CFD4DA] bg-white"
                             }`}
                     >
-                        Catatan
+                        Catatan Mentor
                     </button>
                 </div>
 
