@@ -129,10 +129,13 @@ const Schedule = () => {
                                         </div>
                                         <div className="button flex gap-3 justify-end w-full mt-5">
                                             <Button
+                                                disabled={user?.status !== "Tryout sedang berlangsung"} // Disable if status is not "Tryout sedang berlangsung"
                                                 onClick={() => handleStart(user.packagetryout_id.toString())}
-                                                className="px-10 text-white text-sm w-full md:w-[160px]"
+                                                className="px-10 text-white text-sm w-full md:w-fit"
                                             >
-                                                Kerjakan
+                                                {user?.status === "Tryout sedang berlangsung" ? "Kerjakan" :
+                                                    user?.status === "Tryout sudah selesai" ? "Tryout Sudah Selesai" :
+                                                        "Tryout Belum Dimulai"}
                                             </Button>
                                         </div>
                                     </div>

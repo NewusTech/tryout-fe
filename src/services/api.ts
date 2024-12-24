@@ -1255,17 +1255,21 @@ const useGetDiscussionUserId = (id?: string) => {
 };
 
 // get history user all
-const useGetUserHistoryAll = (currentPage: number, search: string) => {
+const useGetUserHistoryAll = (
+  currentPage: number,
+  search: string,
+  packageTryout?: string
+) => {
   // const [accessToken] = useCookies("accessToken", "");
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
   const { data, error, mutate, isValidating, isLoading } = useSWR(
-    `/user/history/tryout?page=${currentPage}&limit=10&search=${search}`,
+    `/user/tryout/history/${packageTryout}?page=${currentPage}&limit=10&search=${search}`,
     () =>
       axiosPrivate
         .get(
-          `/user/history/tryout?page=${currentPage}&limit=10&search=${search}`,
+          `/user/tryout/history/${packageTryout}?page=${currentPage}&limit=10&search=${search}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -1525,7 +1529,11 @@ const useGetScheduleUser = (currentPage?: number, search?: string) => {
 };
 
 // Hook to fetch master Live monitoring
-const useGetMonitoring = (currentPage?: number, search?: string, packageTryout?: string) => {
+const useGetMonitoring = (
+  currentPage?: number,
+  search?: string,
+  packageTryout?: string
+) => {
   // const [accessToken] = useCookies("accessToken", "");
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
