@@ -7,21 +7,12 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { EvaluationResponse } from "@/types/interface";
 import React from "react";
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
 
-interface Response {
-    headers: string[];
-    data: Data[];
-    currentPage: number;
-    search: string;
-}
-
-interface Data {
-    id: number;
-    tanggal: string;
-    catatan: string;
-}
-const DataTable: React.FC<Response> = ({ headers, data, currentPage, search }) => {
+const DataTable: React.FC<EvaluationResponse> = ({ headers, data, }) => {
 
     return (
         <div className="Table mt-3">
@@ -29,9 +20,9 @@ const DataTable: React.FC<Response> = ({ headers, data, currentPage, search }) =
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            {headers.map((header, index) => (
-                                <TableHead key={index}>{header}</TableHead>
-                            ))}
+                            <TableHead >No</TableHead>
+                            <TableHead className="text-start">Tanggal</TableHead>
+                            <TableHead className="text-start">Catatan</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -39,13 +30,15 @@ const DataTable: React.FC<Response> = ({ headers, data, currentPage, search }) =
                             data.map((item, index) => (
                                 <TableRow key={item.id} index={index}>
                                     <TableCell className="text-center">
-                                        {(currentPage - 1) * 10 + (index + 1)}
-                                    </TableCell>
-                                    <TableCell className="text-center text-primary">
-                                        {item?.tanggal ?? "-"}
+                                        {index + 1}
                                     </TableCell>
                                     <TableCell className="text-primary">
-                                        {item?.catatan ?? "-"}
+                                        {item?.tanggal
+                                            ? format(new Date(item.tanggal), "EEEE, dd-MM-yyyy", { locale: id })
+                                            : "-"}
+                                    </TableCell>
+                                    <TableCell className="text-primary">
+                                        {item?.note ?? "-"}
                                     </TableCell>
                                 </TableRow>
                             ))

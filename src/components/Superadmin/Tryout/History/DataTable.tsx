@@ -17,14 +17,26 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import TitikIcon from "../../../../../public/assets/icons/TitikIcon";
-import { TryoutHistoryResponse } from "@/types/interface";
+// import { TryoutHistoryResponse } from "@/types/interface";
 
-const DataTable: React.FC<TryoutHistoryResponse> = ({ headers, data, currentPage, search, }) => {
+interface Response {
+    data: History[];
+    headers: string[];
+    currentPage: number;
+    search: string;
+    status?: number;
+    message?: string;
+}
 
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedUser, setSelectedUser] = useState<any | null>(null); // Store the currently selected user for status update
-    const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
-    const [isLoading, setIsLoading] = useState(false); // Loading state
+interface History {
+    id: number;
+    name: string;
+    package_name: string;
+    status: string;
+    skor: number;
+}
+
+const DataTable: React.FC<Response> = ({ headers, data, currentPage, search, }) => {
 
     return (
         <div className="Table mt-3">
@@ -44,10 +56,10 @@ const DataTable: React.FC<TryoutHistoryResponse> = ({ headers, data, currentPage
                                     <TableCell className="text-center">
                                         {(currentPage - 1) * 10 + (index + 1)}
                                     </TableCell>
-                                    <TableCell className="text-center text-primary">{user?.title ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.package_name ?? "-"}</TableCell>
                                     <TableCell className="text-center text-primary">{user?.name ?? "-"}</TableCell>
-                                    <TableCell className="text-center text-primary">{user?.score ?? "-"}</TableCell>
-                                    <TableCell className="text-center text-primary">{user?.statusTryout ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.skor ?? "-"}</TableCell>
+                                    <TableCell className="text-center text-primary">{user?.status ?? "-"}</TableCell>
                                     {/*  */}
                                     <TableCell className="text-center justify-center items-center flex gap-2">
                                         <div className="aksi flex-shrink-0">

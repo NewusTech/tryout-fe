@@ -24,6 +24,7 @@ import {
   CompanyProfileResponse,
   DashboardResponse,
   DiscussionUser,
+  EvaluationResponse,
   FeedbackDetailResponse,
   PackageResponse,
   PackageResponseOne,
@@ -1254,17 +1255,21 @@ const useGetDiscussionUserId = (id?: string) => {
 };
 
 // get history user all
-const useGetUserHistoryAll = (currentPage: number, search: string) => {
+const useGetUserHistoryAll = (
+  currentPage: number,
+  search: string,
+  packageTryout?: string
+) => {
   // const [accessToken] = useCookies("accessToken", "");
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
 
   const { data, error, mutate, isValidating, isLoading } = useSWR(
-    `/user/history/tryout?page=${currentPage}&limit=10&search=${search}`,
+    `/user/tryout/history/${packageTryout}?page=${currentPage}&limit=10&search=${search}`,
     () =>
       axiosPrivate
         .get(
-          `/user/history/tryout?page=${currentPage}&limit=10&search=${search}`,
+          `/user/tryout/history/${packageTryout}?page=${currentPage}&limit=10&search=${search}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -1524,7 +1529,11 @@ const useGetScheduleUser = (currentPage?: number, search?: string) => {
 };
 
 // Hook to fetch master Live monitoring
-const useGetMonitoring = (currentPage?: number, search?: string, packageTryout?: string) => {
+const useGetMonitoring = (
+  currentPage?: number,
+  search?: string,
+  packageTryout?: string
+) => {
   // const [accessToken] = useCookies("accessToken", "");
   const accessToken = Cookies.get("accessToken");
   const axiosPrivate = useAxiosPrivate();
@@ -1594,6 +1603,48 @@ const useGetPackageId = (id: string) => {
   return { data, error, mutate, isValidating, isLoading };
 };
 
+// get by id note admin
+const useGetNoteAdminId = (id: string) => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<EvaluationResponse>(
+      `/user/evaluation/get/${id}`,
+      () =>
+        axiosPrivate
+          .get(`/user/evaluation/get/${id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
+// get by id note usuer
+const useGetNoteUser = () => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
+
+  const { data, error, mutate, isValidating, isLoading } =
+    useSWR<EvaluationResponse>(
+      `/user/get/evaluation/mentor`,
+      () =>
+        axiosPrivate
+          .get(`/user/get/evaluation/mentor`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => res.data) // Ensure `res.data` contains the desired data
+    );
+
+  return { data, error, mutate, isValidating, isLoading };
+};
+
 // get by id rapor user
 const useGetRaporId = (id: string) => {
   const accessToken = Cookies.get("accessToken");
@@ -1616,6 +1667,8 @@ const useGetRaporId = (id: string) => {
 };
 
 export {
+  useGetNoteUser,
+  useGetNoteAdminId,
   useGetRaporId,
   useGetPackageId,
   useGetScheduleFilter,

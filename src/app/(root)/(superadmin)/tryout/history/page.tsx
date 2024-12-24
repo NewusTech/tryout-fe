@@ -1,30 +1,27 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import SelectSearch from "@/components/Custom/SelectSearch";
+import SelectSearch from "@/components/Custom/SelectSearch3";
 import TitleAdmin from "@/components/Superadmin/Title";
 import { Input } from "@/components/ui/input";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchIcon from "../../../../../../public/assets/icons/SearchIcon";
 import PaginationTable from "@/components/Custom/PaginationTable";
 import { DatePicker } from "@/components/Custom/DatePicker";
 import DataTable from "@/components/Superadmin/Tryout/History/DataTable";
-import { useGetUserHistoryAll } from "@/services/api";
+import { useGetTryoutPackageFilter, useGetUserHistoryAll } from "@/services/api";
 
-const dummyData = [
-  { value: 1, label: "Tryout 1" },
-  { value: 2, label: "Tryout 2" },
-  { value: 3, label: "Tryout 3" },
-  { value: 4, label: "Tryout 4" },
-];
+type SelectOption = {
+  value: string;
+  label: string;
+};
 
 const History = () => {
-  const [selectedValue, setSelectedValue] = useState<
-    { id: string | number; label: string } | undefined
-  >(undefined);
   const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
+  const [selectedValue, setSelectedValue] = useState<SelectOption | undefined>(undefined);
 
   // Define table headers
-  const tableHeaders = ["No","Nama Tryout", "Nama", "Skor", "Status", "Aksi"];
+  const tableHeaders = ["No", "Nama Tryout", "Nama", "Skor", "Status", "Aksi"];
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,10 +36,28 @@ const History = () => {
     setCurrentPage(1); // Reset to page 1
   };
   // serach
+  // Transform selectedValue to match API expectations
+  const packageTryout = selectedValue?.value || "";
+  // INTEGRASI
+  const { data } = useGetUserHistoryAll(currentPage, search, packageTryout);
+  // INTEGRASI
 
-  // INTEGRASI
-  const { data } = useGetUserHistoryAll(currentPage, search,);
-  // INTEGRASI
+  // Fetch tryout package filter data
+  const { data: dataPaket } = useGetTryoutPackageFilter();
+  const transformedItems =
+    dataPaket?.data.map((item) => ({
+      value: item.id.toString(), // Ensure id is a string
+      label: item.title, // Use title for label
+    })) || [];
+
+  // Set default selected value from the first item
+  useEffect(() => {
+    if (transformedItems.length > 0 && !selectedValue) {
+      setSelectedValue(transformedItems[0]);
+    }
+  }, [transformedItems]);
+
+  console.log("selected= ", packageTryout)
 
   return (
     <div className="">
@@ -50,10 +65,14 @@ const History = () => {
       <div className="flex flex-col gap-3">
         <div className="head flex gap-3">
           <SelectSearch
-            data={dummyData}
-            placeholder="Tryout"
-            valueId={selectedValue}
-            setValueId={setSelectedValue}
+            items={transformedItems}
+            label="Tryout"
+            placeholder="Pilih Tryout"
+            value={selectedValue?.value || ""} // Provide a default empty string if undefined
+            onChange={(value: string) => {
+              const selectedOption = transformedItems.find((item) => item.value === value);
+              setSelectedValue(selectedOption); // Set the selected option
+            }}
           />
           <Input
             placeholder='Cari Paket'
